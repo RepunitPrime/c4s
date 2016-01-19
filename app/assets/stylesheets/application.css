@@ -12,6 +12,9 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap-glyphicons
+ *= require selectize
+ *= require selectize.default
  */
 
 .Signup_Errors{
@@ -75,4 +78,19 @@
 #p_modified
 {
     margin-top: 20px;
+}
+
+#td_centered
+{
+    text-align: center;
+    padding: 2.5px;
+}
+#a_centered
+{
+    text-align: center;
+    font-size: medium;
+    margin-left: 10px;
+}
+.input-append .btn.dropdown-toggle {
+    float: none;
 }

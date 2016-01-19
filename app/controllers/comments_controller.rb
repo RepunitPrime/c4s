@@ -10,7 +10,9 @@ class CommentsController < ApplicationController
   # post action to create a new comment
   def create
     @article = Article.find(params[:article_id])
-    @comment = @article.comments.create(comment_params)
+    @comment = @article.comment.create(comment_params)
+    @article.count_comments += 1;
+    @article.save;
     redirect_to article_path(@article)
   end
 

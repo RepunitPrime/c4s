@@ -19,6 +19,7 @@ class SessionsController < ApplicationController
       log_in authorized_user
       redirect_to articles_path
     else
+      @current_user= nil;
       #show error message that user is invalid
       flash.now[:notice] = "Invalid username/password"
       flash.now[:color]= "invalid"

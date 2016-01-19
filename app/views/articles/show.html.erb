@@ -19,7 +19,7 @@
 
   <!--Add a Comment Section -->
   <h3 class="page-header">Add a comment</h3>
-  <%= form_for([@article, @article.comments.build]) do |f| %>
+  <%= form_for([@article, @article.comment.build]) do |f| %>
       <p>
         <%= f.hidden_field :username, value: @current_user.username %>
       </p>
@@ -34,7 +34,7 @@
   <!-- Show Comments For an Article Section -->
   <h3 class="page-header">Comments</h3>
   <div class="list-group">
-    <% @article.comments.each do |comment| %>
+    <% @article.comment.each do |comment| %>
          <a class="list-group-item">
               <h4 class="list-group-item-heading"><%=comment.username %> </h4>
               <p class="list-group-item-text"><%=comment.comment_body%></p>

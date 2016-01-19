@@ -7,10 +7,18 @@
       <imported>true</imported>
       <remarks>$PROJECT_DIR$/config/database.yml</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:D:\MS RWTH\1st Sem\c4s\db\development.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Jean Jack\Documents\RubyOnRailsProjects\c4s\db\development.sqlite3</jdbc-url>
       <explain-plan-config>
         <provider>com.intellij.database.plan.ExplainPlanProvider.NullExplainPlanProvider</provider>
       </explain-plan-config>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/xerial-sqlite-license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/sqlite-jdbc-3.8.9.jar</url>
+        </library>
+      </libraries>
     </data-source>
     <data-source source="LOCAL" name="Rails blog: test" uuid="db647b82-814b-417e-aad2-880f8613cd7e">
       <driver-ref>sqlite.xerial</driver-ref>

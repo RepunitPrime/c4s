@@ -28,6 +28,8 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 # Used to manage adding pictures
 gem "paperclip"
 
+gem "selectize-rails"
+
 # Use Tzinfo-Data (Fix issue when using Windows PC to get local time)
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 

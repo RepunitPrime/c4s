@@ -19,8 +19,44 @@
 		<br>
 		<%= f.text_area :text, placeholder: "Enter your text here", cols: '30', rows:'10', class:'form-control' %>
 	</div>
+  <div class="form-group">
+    <label for="select_topic">Topic*</label>
+        <select  id="select_topic" name="article[topic_name]" class="demo-default" placeholder="Select a topic...">
+          <option value="">Select a topic...</option>
+          <% @topics.each do |topic| %>
+            <option value="<%= topic.topic_name%>"><%= topic.topic_name %></option>
+          <% end %>
+        </select>
+  </div>
+  <div class="form-group">
+        <label for="input_tags">Tags</label>
+        <input type="text" id="input_tags" name="article[tags]" class="demo-default">
+  </div>
+
 	<div class="form-group">
 		<%= f.submit "Save", class: 'btn btn-primary' %>
 	</div>
 	<% end %>
 </div>
+
+<script>
+  $('#input_tags').selectize({
+    delimiter: ',',
+    persist: false,
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    }
+  });
+
+  $('#select_topic').selectize({
+    create: true,
+    sortField: {
+      field: 'text',
+      direction: 'asc'
+    },
+    dropdownParent: 'body'
+  });
+</script>
