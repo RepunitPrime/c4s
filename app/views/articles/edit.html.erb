@@ -1,0 +1,28 @@
+<div class="container">
+	<h3 class="page-header">Edit Article</h3>
+	<% if @article && @article.errors.any? %>
+	<div class="alert alert-danger">
+		<% @article.errors.full_messages.each do |error| %>
+		<span><%= error %></span>
+		<% end %>
+	</div>
+	<% end %>
+	<%= form_for :article, class:"form form-horizontal",  url:article_path(@article), method: :patch do |f| %>
+	<div class="form-group">
+		<%= f.label :title %>
+		<br>
+		<%= f.text_field :title, class:'form-control', value: @article.title %>
+	</div>
+	<div class="form-group">
+		<%= f.label :text %>
+		<br>
+		<%= f.text_area :text, class:'form-control', value: @article.text %>
+	</div>
+	<div class="form-group">
+		<%= f.submit "Save", class: "btn btn-primary" %>
+	</div>
+	<% end %>
+	<p>
+		<span>&laquo;</span><%= link_to "Back to Articles", articles_path %>
+	</p>
+</div>

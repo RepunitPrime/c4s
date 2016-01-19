@@ -1,0 +1,63 @@
+<% provide(:title, "My Profile") %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">My Profile</h3>
+  </div>
+  <div class="panel-body">
+    <!-- Display Errors in Form if Any-->
+    <% if flash[:color]== "valid" %>
+        <div class="valid_notice">
+          <p><%= flash[:notice]%></p>
+        </div>
+    <% elsif flash[:color]== "invalid"%>
+        <div class="invalid_notice ">
+          <p><%=flash[:notice]%></p>
+        </div>
+    <%else%>
+        <div class="notice">
+          <p><%=flash[:notice]%></p>
+        </div>
+    <%end%>
+
+    <!-- Display Current Profile in a Table Format using Bootstrap-->
+    <div class="col-xs-4">
+      <% if current_user.profile_pic_file_name.nil? %>
+          <p id="profile_pic">
+             <%= image_tag('/default_profile_pic.png',:id =>"Image_Tag", :alt => "No Image") %>
+          </p>
+      <%else%>
+          <p id="profile_pic">
+             <%= image_tag(current_user.profile_pic,:id =>"Image_Tag", :alt => "No Image") %>
+          </p>
+      <%end%>
+    </div>
+    <div class="col-xs-8">
+      <table>
+        <tr>
+            <td><p><b>Full Name: </b></p></td>
+            <td><p id="p_text_input"><%= current_user.name %></p></td>
+            <td rowspan="4">
+            </td>
+        </tr>
+        <tr>
+          <td><p><b>Username: </b></p></td>
+          <td><p id="p_text_input"><%= current_user.username %></p></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><p><b>Email Address: </b></p></td>
+          <td><p id="p_text_input"><%= current_user.email %></p></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><p><b>Address: </b></p></td>
+          <td><p id="p_text_input"><%= current_user.address %></p></td>
+          <td></td>
+        </tr>
+      </table>
+      <p id="p_modified"><%= link_to "Edit Profile", profile_edit_path,class: "btn btn-primary",id:"p_text_input" %>
+        <%= link_to "Change Password", profile_change_password_path,class: "btn btn-primary",id:"p_text_input" %>
+      </p>
+    </div>
+  </div>
+</div>

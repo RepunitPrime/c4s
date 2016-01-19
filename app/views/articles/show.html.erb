@@ -1,0 +1,44 @@
+<div class="container">
+	<h3 class="page-header">View Article</h3>
+
+  <div class="btn-group">
+    <span>&laquo;</span><%= link_to "Back to Articles", articles_path %>
+  </div>
+
+  <!-- Show Article Section -->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><%= @article.title %></h3>
+		</div>
+		<div class="panel-body">
+			<p>
+				<%= @article.text %>
+			</p>
+		</div>
+	</div>
+
+  <!--Add a Comment Section -->
+  <h3 class="page-header">Add a comment</h3>
+  <%= form_for([@article, @article.comments.build]) do |f| %>
+      <p>
+        <%= f.hidden_field :username, value: @current_user.username %>
+      </p>
+      <p>
+        <%= f.text_area :comment_body, class:'form-control' %>
+      </p>
+      <p>
+        <%= f.submit "add a comment", class: 'btn btn-primary' %>
+      </p>
+  <% end %>
+
+  <!-- Show Comments For an Article Section -->
+  <h3 class="page-header">Comments</h3>
+  <div class="list-group">
+    <% @article.comments.each do |comment| %>
+         <a class="list-group-item">
+              <h4 class="list-group-item-heading"><%=comment.username %> </h4>
+              <p class="list-group-item-text"><%=comment.comment_body%></p>
+         </a>
+    <% end %>
+  </div>
+</div>

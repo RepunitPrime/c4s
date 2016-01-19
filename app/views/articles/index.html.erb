@@ -1,0 +1,29 @@
+<div class="container">
+	<h3 class="page-header">Listing Articles</h3>
+
+	<p>
+		<%= link_to "New Article", new_article_path %>
+	</p>
+	<table class="table table-striped table-hover table-bordered">
+		<tr>
+			<th>Title</th>
+			<th>Text</th>
+			<th>Actions</th>
+		</tr>
+		<% @articles.each do |article| %>
+		<tr>
+			<td><%= article.title %></td>
+			<td class="oneliner"><%= article.text %></td>
+			<td>
+			<div class="btn-group btn-group-sm">
+				<%= link_to "View", article_path(article.id), class: "btn btn-default" %>
+				<%= link_to "Edit", edit_article_path(article.id), class: "btn btn-primary" %>
+				<%= link_to "Delete", article_path(article),
+				method: :delete,
+				data: { confirm: "Are you sure?"},
+				class: "btn btn-danger" %>
+			</div></td>
+		</tr>
+		<% end %>
+	</table>
+</div>
