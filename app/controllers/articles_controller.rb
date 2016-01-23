@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
       @articles = Article.search(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
       @srch = params[:search]
     else
-      @articles = Article.paginate(:page => params[:page], :per_page => 5)
+      @articles = Article.paginate(:page => params[:page], :per_page => 5).order("created_at DESC")
     end
   end
 
