@@ -89,10 +89,13 @@
     width: 20px;
     padding: 2.5px;
 }
-#a_centered
+#a_medium
 {
-    text-align: center;
     font-size: medium;
+    margin-left: 10px;
+}
+#a_small
+{
     margin-left: 10px;
 }
 #buttonWithMarginBtm

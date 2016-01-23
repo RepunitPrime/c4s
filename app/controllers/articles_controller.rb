@@ -6,13 +6,16 @@ class ArticlesController < ApplicationController
 
   # show all articles
   def index
-    @articles = Article
     if params[:search]
       @articles = Article.search(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
       @srch = params[:search]
+    elsif !params[:popular_tag].nil?
+      @articles = Article.searchByTag(params[:popular_tag]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+      @selected_tag = params[:popular_tag].to_s.remove('[',']');
     else
       @articles = Article.paginate(:page => params[:page], :per_page => 5).order("created_at DESC")
     end
+    @tags = Tag.order("count DESC").limit(10);
   end
 
   # get form page for creating
@@ -26,11 +29,31 @@ class ArticlesController < ApplicationController
     @article.user = @current_user;
     @topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
 
+    #Add Topic to the Topic table if new
     if(@topic.nil?)
       @topic = Topic.new(topic_params)
       @topic.save
     else
       @article.topic = @topic;
+    end
+
+    @TagsSearch = '';
+    #Add count of tags for statistic purposes
+    if(!article_params[:Tags].nil?)
+      split_tags = article_params[:Tags].to_s.split(',');
+      split_tags.each do |tag|
+        @tag = Tag.find_by_name(tag)
+        @TagsSearch += '['+tag+']'
+        if(@tag.nil?)
+          @tag = Tag.new();
+          @tag.name = tag;
+          @tag.count = 1;
+        else
+          @tag.count += 1;
+        end
+        @tag.save
+      end
+      @article.tags_search= @TagsSearch;
     end
 
     if @article.save

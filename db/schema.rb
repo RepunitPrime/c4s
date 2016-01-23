@@ -15,15 +15,16 @@ ActiveRecord::Schema.define(version: 201601197051563) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
-    t.text     "text"
+    t.text     "text",           default: ""
     t.integer  "vote",           default: 0
     t.integer  "views",          default: 0
     t.integer  "count_comments", default: 0
     t.integer  "topic_id"
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "Tags"
+    t.string   "tags_search"
   end
 
   add_index "articles", ["topic_id"], name: "index_articles_on_topic_id"
@@ -38,6 +39,13 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   end
 
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "topics", force: :cascade do |t|
     t.string   "topic_name"

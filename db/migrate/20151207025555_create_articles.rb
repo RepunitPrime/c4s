@@ -3,7 +3,7 @@ class CreateArticles < ActiveRecord::Migration
   def change
     create_table :articles do |t|
       t.string :title
-      t.text :text, default ''
+      t.text :text, default: ''
       t.integer :vote, default: 0
       t.integer :views, default: 0
       t.integer :count_comments, default: 0
