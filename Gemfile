@@ -28,7 +28,17 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 # Used to manage adding pictures
 gem "paperclip"
 
+# Used for Dropdown menus
 gem "selectize-rails"
+
+# Used for a Text Editor
+gem 'bootstrap-wysihtml5-rails'
+
+# Used for Pagination
+gem 'will_paginate-bootstrap'
+
+# Used for front-end Integration
+gem 'semantic-ui-rails'
 
 # Use Tzinfo-Data (Fix issue when using Windows PC to get local time)
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

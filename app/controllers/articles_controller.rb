@@ -6,7 +6,13 @@ class ArticlesController < ApplicationController
 
   # show all articles
   def index
-    @articles = Article.all
+    @articles = Article
+    if params[:search]
+      @articles = Article.search(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+      @srch = params[:search]
+    else
+      @articles = Article.paginate(:page => params[:page], :per_page => 5)
+    end
   end
 
   # get form page for creating
@@ -18,8 +24,6 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     @article.user = @current_user;
-    topic_name = topic_params[:topic_name].to_s;
-
     @topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
 
     if(@topic.nil?)
@@ -69,11 +73,15 @@ class ArticlesController < ApplicationController
 
   # get article object from http params
   def article_params
-    params.require(:article).permit(:title, :text)
+    params.require(:article).permit(:title, :text,:Tags)
   end
 
   def topic_params
     params.require(:article).permit(:topic_name)
+  end
+
+  def article1_params
+    params.require(:article).permit(:search)
   end
 
 end

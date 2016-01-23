@@ -1,40 +1,63 @@
 <div class="container">
-	<h3 class="page-header">Popular Topics</h3>
-	<p>
-		<%= link_to "New Post", new_article_path %>
-	</p>
+  <h3 class="page-header">Popular Topics</h3>
+
+  <form id="buttonWithMarginBtm" method="get" action="/articles/new">
+    <button class="ui labeled icon button" type="submit">
+       <i class="add circle icon"></i>New Post
+    </button>
+  </form>
+
   <div class="row">
       <div class="col-lg-8 col-xs-8">
         <!-- Display Posts By popularity -->
         <% @articles.each do |article| %>
-          <table>
+          <table width="100%" >
             <tr>
-                 <td id="td_centered"><span class="badge badge-notify"><%= article.vote %></span></td>
-                 <td id="td_centered"><span class="badge badge-notify"><%= article.count_comments %></span></td>
-                 <td id="td_centered"><span class="badge badge-notify"><%= article.views %></span></td>
-                 <td rowspan="2"><a id="a_centered" href="<%= article_path(article.id)%>"><%= article.title %></a></td>
-               </tr>
-               <tr>
-                 <td id="td_centered"><div>votes</div></td>
-                 <td id="td_centered"><div>comments</div></td>
-                 <td id="td_centered"><div>views</div></td>
+                 <div class = "ui circular labels">
+                   <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.vote) %></a></td>
+                   <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.count_comments) %></a></td>
+                   <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.views) %></a></td>
+                 </div>
+                 <td rowspan="2">
+                   <div>
+                     <a id="a_centered" href="<%= article_path(article.id)%>"><%= article.title %></a>
+                     <br/>
+                     <% if !article.Tags.nil?%>
+                         <% tags = article.Tags.split(',')  %>
+                           <% tags.each do |tag| %>
+                             <a class="ui teal label"><%= tag %></a>
+                           <% end %>
+                     <% end %>
+                     <h6 class="pull-right">Posted <%= time_ago_in_words(article.created_at)%> ago by <a><%= User.find_by(id: article.user_id).name  %></a>.</h6>
+                   </div>
+                 </td>
             </tr>
+            <tr>
+                 <td id="td_centered"><h6>votes</h6></td>
+                 <td id="td_centered"><h6>comments</h6></td>
+                 <td id="td_centered"><h6>views</h6></td>
+            </tr>
+            <div class="ui fitted divider"></div>
           </table>
         <% end %>
+        <div class="ui fitted divider"></div>
+        <%= will_paginate @article, renderer: BootstrapPagination::Rails %>
       </div>
       <!-- Blog Sidebar Widgets Column -->
       <div class="col-lg-4 col-xs-4">
         <!-- Blog Search Well -->
         <div class="well">
           <h4>Blog Search</h4>
-          <div class="input-group">
-            <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                              <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-          </div>
+          <form id="search-form" action="/articles" accept-charset="UTF-8" method="get">
+            <div class="input-group">
+              <input type="text" class="form-control" name="search" id="search" value="<%= @srch%>" placeholder="Search Posts" />
+              <span class="input-group-btn">
+                              <button class="btn btn-default" type="submit" name="commit">
+                                <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                          </span>
+              </div>
+          </form>
           <!-- /.input-group -->
         </div>
         <!-- Blog Categories Well -->

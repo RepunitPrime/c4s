@@ -1,5 +1,5 @@
 <div class="container">
-	<h3 class="page-header">New Article</h3>
+	<h3 class="page-header">New Post</h3>
 
 	<% if @article && @article.errors.any? %>
 	<div class="alert alert-danger">
@@ -15,12 +15,13 @@
 		<%= f.text_field :title, placeholder: "Enter your title...",  class:'form-control' %>
 	</div>
 	<div class="form-group">
-		<%= f.label :text %>
-		<br>
-		<%= f.text_area :text, placeholder: "Enter your text here", cols: '30', rows:'10', class:'form-control' %>
-	</div>
+    <%= f.label :text %>
+    <br>
+    <textarea id="text" name="article[text]" class='wysihtml5 form-control' rows="10" placeholder="Enter text ..."></textarea>
+
+  </div>
   <div class="form-group">
-    <label for="select_topic">Topic*</label>
+        <label for="select_topic">Topic*</label>
         <select  id="select_topic" name="article[topic_name]" class="demo-default" placeholder="Select a topic...">
           <option value="">Select a topic...</option>
           <% @topics.each do |topic| %>
@@ -30,7 +31,7 @@
   </div>
   <div class="form-group">
         <label for="input_tags">Tags</label>
-        <input type="text" id="input_tags" name="article[tags]" class="demo-default">
+        <input type="text" id="input_tags" name="article[Tags]" class="demo-default">
   </div>
 
 	<div class="form-group">
@@ -40,6 +41,14 @@
 </div>
 
 <script>
+
+  $(document).ready(function(){
+
+    $('.wysihtml5').each(function(i, elem) {
+      $(elem).wysihtml5();
+    });
+  })
+
   $('#input_tags').selectize({
     delimiter: ',',
     persist: false,

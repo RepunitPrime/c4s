@@ -1,8 +1,8 @@
 <div class="container">
-	<h3 class="page-header">View Article</h3>
+	<h3 class="page-header">View Post</h3>
 
   <div class="btn-group">
-    <span>&laquo;</span><%= link_to "Back to Articles", articles_path %>
+    <span>&laquo;</span><%= link_to "Back to Topics", articles_path %>
   </div>
 
   <!-- Show Article Section -->
@@ -11,9 +11,7 @@
 			<h3 class="panel-title"><%= @article.title %></h3>
 		</div>
 		<div class="panel-body">
-			<p>
-				<%= @article.text %>
-			</p>
+      <p> <%= @article.text.html_safe %> </p>
 		</div>
 	</div>
 
@@ -42,3 +40,12 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+
+    $('.wysihtml5').each(function(i, elem) {
+      $(elem).wysihtml5({'toolbar': {'font-styles': false, 'color': false,'emphasis': {'small': false}, 'blockquote': false, 'lists': false,'html': false, 'link': false,'image': false, 'smallmodals': false}});
+    });
+  })
+</script>

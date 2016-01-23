@@ -13,8 +13,11 @@
  *= require_tree .
  *= require_self
  *= require bootstrap-glyphicons
+ *= require icon
  *= require selectize
  *= require selectize.default
+ *= require bootstrap-wysihtml5
+ *= require semantic-ui
  */
 
 .Signup_Errors{
@@ -83,6 +86,7 @@
 #td_centered
 {
     text-align: center;
+    width: 20px;
     padding: 2.5px;
 }
 #a_centered
@@ -91,6 +95,11 @@
     font-size: medium;
     margin-left: 10px;
 }
+#buttonWithMarginBtm
+{
+    margin-bottom:10px;
+}
+
 .input-append .btn.dropdown-toggle {
     float: none;
 }
