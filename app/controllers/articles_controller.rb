@@ -27,6 +27,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     @article.user = @current_user;
+
     @topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
 
     #Add Topic to the Topic table if new
@@ -57,9 +58,18 @@ class ArticlesController < ApplicationController
     end
 
     if @article.save
+      #Add File Attachments
+      if !article2_params[:attach_file].nil?
+        @article_attahments = ArticleAttachment.new();
+        @article_attahments.attach_file = article2_params[:attach_file].tempfile;
+        @article_attahments.article = @article;
+        @article_attahments.save
+      end
+
       redirect_to articles_path
     else
-      render 'new'
+      @topics = Topic.all
+      render 'articles/new'
     end
   end
 
@@ -105,6 +115,9 @@ class ArticlesController < ApplicationController
 
   def article1_params
     params.require(:article).permit(:search)
+  end
+  def article2_params
+    params.require(:article).permit(:attach_file)
   end
 
 end

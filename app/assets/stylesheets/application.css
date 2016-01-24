@@ -16,7 +16,6 @@
  *= require icon
  *= require selectize
  *= require selectize.default
- *= require bootstrap-wysihtml5
  *= require semantic-ui
  *= require redactor-rails
  */
@@ -83,6 +82,10 @@
 {
     margin-top: 20px;
 }
+#mrg_btm
+{
+    margin-bottom: 10px;
+}
 
 #td_centered
 {
@@ -103,7 +106,15 @@
 {
     margin-bottom:10px;
 }
+#lbl_red
+{
+    color: red;
+}
 
 .input-append .btn.dropdown-toggle {
     float: none;
+}
+#paginator
+{
+    margin: 0 auto;
 }

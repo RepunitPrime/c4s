@@ -14,7 +14,6 @@ class ProfileController < ApplicationController
   # post action for editing user
   def update
     @user = User.find(current_user.id)
-
     if @user.update(user_params)
       redirect_to profile_index_path
     else

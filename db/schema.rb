@@ -13,6 +13,18 @@
 
 ActiveRecord::Schema.define(version: 201601197051563) do
 
+  create_table "article_attachments", force: :cascade do |t|
+    t.integer  "article_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "attach_file_file_name"
+    t.string   "attach_file_content_type"
+    t.integer  "attach_file_file_size"
+    t.datetime "attach_file_updated_at"
+  end
+
+  add_index "article_attachments", ["article_id"], name: "index_article_attachments_on_article_id"
+
   create_table "articles", force: :cascade do |t|
     t.string   "title"
     t.text     "text",           default: ""
