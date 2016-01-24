@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :posts
   #Add routing to the profile page
   get 'profile/index'
   get 'profile/edit'
@@ -10,6 +11,10 @@ Rails.application.routes.draw do
   put 'profile/update_password'
 
   resources :articles do
+    resources :comments
+  end
+
+  resources :posts do
     resources :comments
   end
 

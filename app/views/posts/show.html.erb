@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="page-header">
+    <span style="font-size: large; font-weight: bold">Post Details
+
+    </span>
+    <span class="btn btn-link" style="float:right"><%= link_to 'Back', posts_path %></span>
+  </div>
+<p id="notice"><%= notice %></p>
+
+<table>
+  <tr style="">
+
+    <!--along with td image is also responsive now-->
+    <td style="width: 250px">
+      <% if @post.image_file_name.nil? %>
+        <span style="margin-right: 20px">  <%= image_tag('/no_image.jpg', width: '92%', class: "img-rounded") %> </span>
+      <%else%>
+      <span style="margin-right: 20px"><%= image_tag(@post.image, :alt => "No Image", width: '92%' , class: "img-rounded") %></span>
+      <%end%>
+    </td>
+    <td style="vertical-align: text-top;">
+      <p style="font-size: 24px">
+      <%= @post.title %>
+      </p> <br>
+      <p>
+        <strong>Address:</strong>
+        <%= @post.user.address %>
+      </p>
+
+      <span><strong>Posted by: </strong>
+        <% if current_user.id == @post.user_id %>
+        <span style="font-size: medium;">You</span>
+            <!--If added by current user -->
+            <% if(current_user.id ==  @post.user_id) %>
+       <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-default' %>
+  <% end %>
+      <%else%>
+        <span style="font-size: medium;"><%= current_user.name %></span>
+      <%end %>
+    </span>
+
+      <br><br>
+      <p style="font-size: 20px;
+    font-stretch: normal;
+    color: #d58512;
+    letter-spacing: 0.7px;">
+      <spanp>&#8364;  </spanp>
+      <% if @post.cost.nil? %>
+          0
+      <%else%>
+          <%= @post.cost %>
+      <%end %>
+      </p>
+
+    </td>
+    <td >
+    </td>
+  </tr>
+</table>
+
+<p>
+
+</p>
+
+<p>
+  <strong>Detail:</strong>
+  <%= @post.detail %>
+</p>
+
+
+  <!--Add a Comment -->
+  <h3 class="page-header">Add a comment</h3>
+  <%= form_for([@post, @post.comments.build]) do |f| %>
+      <p>
+
+        <%= f.hidden_field :username, value: @current_user.username %>
+      </p>
+      <p>
+        <%= f.text_area :comment_body, class:'form-control' %>
+      </p>
+      <p>
+        <%= f.submit "add a comment", class: 'btn btn-primary' %>
+      </p>
+  <% end %>
+
+  <!-- Comments For Viewing post -->
+  <h3 class="page-header">Comments</h3>
+  <div class="list-group">
+    <% @post.comments.each do |comment| %>
+        <a class="list-group-item">
+          <h4 class="list-group-item-heading"><%=comment.username %> </h4>
+          <p class="list-group-item-text"><%=comment.comment_body%></p>
+        </a>
+    <% end %>
+  </div>
+
+</div>

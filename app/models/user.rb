@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :post
 
   #Handle Password (Encryption, Decryption)
   attr_accessor :password

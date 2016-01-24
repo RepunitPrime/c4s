@@ -1,75 +1,84 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Blog</title>
-		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-		<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-		<%= csrf_meta_tags %>
+<head>
+  <title>Blog</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
 
-		<style>
-			/* to limit text to one line in table cells */
-			.table {
-				table-layout:fixed;
-			}
-			.oneliner {
-				overflow:hidden;
-				white-space:nowrap;
-				text-overflow:ellipsis;
-			}
-		</style>
-	</head>
-	<body>
+  <style>
+    html *
+    {
+      /*font-family: Arial,sans-serif !important;*/
 
-		<nav class="navbar navbar-inverse navbar-static-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" data-toggle="collapse" data-target="#navMenu" class="collapsed navbar-toggle">
-						<span class="sr-only">Toggle Navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<span class="navbar-brand"><%= link_to "Blog", root_url, class: "navbar-link" %></span>
-				</div>
-				<div class="collapse navbar-collapse" id="navMenu">
-					<ul class="nav navbar-nav navbar-right">
-						<% if logged_in %>
-						<li>
-							<%= link_to "Articles", articles_path %>
-						</li>
-						<li class="dropdown">
-							<a href="#" data-toggle="dropdown" role="button" class="dropdown-toggle"><%= current_user.username %> <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li>
+    }
+    /* to limit text to one line in table cells */
+    .table {
+      table-layout:fixed;
+    }
+    .oneliner {
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#navMenu" class="collapsed navbar-toggle">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <span class="navbar-brand"><%= link_to "Blog", root_url, class: "navbar-link" %></span>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="nav navbar-nav navbar-right">
+        <% if logged_in %>
+            <li>
+              <%= link_to "Articles", articles_path %>
+            </li>
+            <li>
+              <%= link_to "Post", posts_path %>
+
+            </li>
+            <li class="dropdown">
+              <a href="#" data-toggle="dropdown" role="button" class="dropdown-toggle"><%= current_user.username %> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
                   <%= link_to "My Profile", profile_index_path %>
-								</li>
-								<li>
-									<%= link_to "Sign Out", logout_path, method: "delete" %>
-								</li>
-							</ul>
-						</li>
-						<% else %>
-						<% if login_path && !logged_in %>
-						<li>
-							<%= link_to "Sign In", login_path %>
-						</li>
-						<% end %>
-						<li>
-							<%= link_to "Sign Up", signup_signup_path %>
-						</li>
-						<% end %>
+                </li>
+                <li>
+                  <%= link_to "Sign Out", logout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+        <% else %>
+            <% if login_path && !logged_in %>
+                <li>
+                  <%= link_to "Sign In", login_path %>
+                </li>
+            <% end %>
+            <li>
+              <%= link_to "Sign Up", signup_signup_path %>
+            </li>
+        <% end %>
 
-					</ul>
-				</div>
-			</div>
-		</nav>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-		<%= yield %>
+<%= yield %>
 
-		<!-- JS -->
-		<!-- <script>
-		$('.dropdown-toggle').dropdown();
-		</script> -->
+<!-- JS -->
+<!-- <script>
+$('.dropdown-toggle').dropdown();
+</script> -->
 
-	</body>
+</body>
 </html>

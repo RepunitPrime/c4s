@@ -19,9 +19,8 @@ class ArticlesController < ApplicationController
     if @article.save
       redirect_to articles_path
     else
-        render 'new'
+      render 'new'
     end
-      
   end
 
   # show specific article

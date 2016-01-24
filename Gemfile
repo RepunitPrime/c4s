@@ -26,7 +26,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # Used to manage adding pictures
-gem "paperclip"
+#gem "paperclip", "~> 4.3"
+
+gem 'paperclip', github: 'thoughtbot/paperclip'
+
+#Used for Pagination
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 # Use Tzinfo-Data (Fix issue when using Windows PC to get local time)
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
