@@ -21,6 +21,7 @@ class ArticlesController < ApplicationController
     else
         render 'new'
     end
+      
   end
 
   # show specific article
