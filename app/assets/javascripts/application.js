@@ -17,3 +17,4 @@
 //= require selectize
 //= require bootstrap-wysihtml5
 //= require bootstrap-wysihtml5/locales
+//= require redactor-rails

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  mount RedactorRails::Engine => '/redactor_rails'
   #Add routing to the profile page
   get 'profile/index'
   get 'profile/edit'

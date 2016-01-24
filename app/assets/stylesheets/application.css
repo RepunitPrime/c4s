@@ -18,6 +18,7 @@
  *= require selectize.default
  *= require bootstrap-wysihtml5
  *= require semantic-ui
+ *= require redactor-rails
  */
 
 .Signup_Errors{

@@ -28,6 +28,11 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 # Used to manage adding pictures
 gem "paperclip"
 
+gem 'redactor-rails'
+gem "carrierwave"
+gem "mini_magick"
+
+
 # Used for Dropdown menus
 gem "selectize-rails"
 
