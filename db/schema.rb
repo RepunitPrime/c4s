@@ -91,6 +91,11 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "address"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "activation_digest"
+    t.boolean  "activated"
+    t.datetime "activated_at"
+    t.string   "reset_digest"
+    t.datetime "reset_sent_at"
     t.string   "profile_pic_file_name"
     t.string   "profile_pic_content_type"
     t.integer  "profile_pic_file_size"

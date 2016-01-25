@@ -1,0 +1,5 @@
+Hi <%= @user.name %>,
+
+Welcome to the c4s Forum! Click on the link below to activate your account:
+
+<%= account_activations_url %>?email=<%= @user.email %>&activation=<%= @user.activation_token %>

@@ -9,6 +9,11 @@ class CreateUsers < ActiveRecord::Migration
       t.string   :salt
       t.string   :address
       t.timestamps null: false
+      t.string   :activation_digest
+      t.boolean  :activated
+      t.datetime :activated_at
+      t.string   :reset_digest
+      t.datetime :reset_sent_at
     end
   end
 

@@ -11,9 +11,10 @@ class SignupController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:notice] = "You signed up successfully"
+      UserMailer.account_activation(@user).deliver_now
       flash[:color]= "valid"
-      redirect_to articles_path
+      flash[:notice] = "An activation email has been sent your email address"
+      redirect_to login_url
     else
       render 'signup'
     end

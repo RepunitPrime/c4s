@@ -30,6 +30,21 @@ Rails.application.routes.draw do
   get ':controller(/:action)'
   get ':controller(/:action(/:id))(.:format)'
 
+  get 'password_resets/index'
+  get 'password_resets/new'
+  get 'password_resets/index'
+  post 'password_resets/index'
+  get 'password_resets/create'
+  post 'password_resets/create'
+  post 'password_resets/edit'
+  get 'password_resets/update'
+  post 'password_resets/update'
+
+  get 'account_activations/show'
+  post 'account_activations/show'
+
+  resources :account_activations, only: [:index]
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".

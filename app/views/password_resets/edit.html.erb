@@ -1,0 +1,31 @@
+<div class="container">
+  <h2 class="page-header">Reset Password</h2>
+  <div class="col-sm-push-4 col-sm-4">
+    <% if flash[:color]== "valid" %>
+        <div class="valid_notice">
+          <p><%= flash[:notice]%></p>
+        </div>
+    <% elsif flash[:color]== "invalid"%>
+        <div class="invalid_notice">
+          <p><%=flash[:notice]%></p>
+        </div>
+    <%else%>
+        <div class="notice">
+          <p><%=flash[:notice]%></p>
+        </div>
+    <%end%>
+    <%= form_for :user, class:"form form-horizontal",  url:password_resets_update_url(), method: :post  do |f| %>
+        <div class="form-group">
+          <%= f.label :Password, class: 'control-label' %>
+          <%= f.password_field :password,id:"password", class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :Password_Confirmation, class: 'control-label' %>
+          <%= f.password_field :password_confirmation,id:"password_confirmation", class: 'form-control' %>
+        </div>
+        <div>
+          <%= f.submit 'Change Password', class: "btn btn-primary" %>
+        </div>
+    <% end %>
+  </div>
+</div>

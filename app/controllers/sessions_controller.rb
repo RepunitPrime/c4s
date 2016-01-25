@@ -15,7 +15,11 @@ class SessionsController < ApplicationController
   # Login Action
   def login
     authorized_user = User.authenticate(sessions_params[:username_or_email],sessions_params[:login_password])
-    if authorized_user
+    if authorized_user && !authorized_user.activated?
+      flash.now[:notice] = "Email address has not been verfied"
+      flash.now[:color]= "invalid"
+      render 'index'
+    elsif authorized_user
       log_in authorized_user
       redirect_to articles_path
     else
