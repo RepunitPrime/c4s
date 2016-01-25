@@ -28,37 +28,39 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     @article.user = @current_user;
 
-    @topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
-
-    #Add Topic to the Topic table if new
-    if(@topic.nil?)
-      @topic = Topic.new(topic_params)
-      @topic.save
-      @article.topic = @topic;
-    else
-      @article.topic = @topic
-    end
-
-    @TagsSearch = '';
-    #Add count of tags for statistic purposes
-    if(!article_params[:Tags].nil?)
-      split_tags = article_params[:Tags].to_s.split(',');
-      split_tags.each do |tag|
-        @tag = Tag.find_by_name(tag)
-        @TagsSearch += '['+tag+']'
-        if(@tag.nil?)
-          @tag = Tag.new();
-          @tag.name = tag;
-          @tag.count = 1;
-        else
-          @tag.count += 1;
-        end
-        @tag.save
-      end
-      @article.tags_search= @TagsSearch;
-    end
-
     if @article.save
+
+      @topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
+
+      #Add Topic to the Topic table if new
+      if(@topic.nil?)
+        @topic = Topic.new(topic_params)
+        @topic.save
+        @article.topic = @topic;
+      else
+        @article.topic = @topic
+      end
+
+      @TagsSearch = '';
+      #Add count of tags for statistic purposes
+      if(!article_params[:Tags].nil?)
+        split_tags = article_params[:Tags].to_s.split(',');
+        split_tags.each do |tag|
+          @tag = Tag.find_by_name(tag)
+          @TagsSearch += '['+tag+']'
+          if(@tag.nil?)
+            @tag = Tag.new();
+            @tag.name = tag;
+            @tag.count = 1;
+          else
+            @tag.count += 1;
+          end
+          @tag.save
+        end
+        @article.tags_search= @TagsSearch;
+      end
+
+
       #Add File Attachments
       if !article2_params[:attach_file].nil?
         @article_attahments = ArticleAttachment.new();
