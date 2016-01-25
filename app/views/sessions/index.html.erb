@@ -2,42 +2,63 @@
 
 <div class="container">
 	<div class="col-sm-push-4 col-sm-4">
-    <% if flash[:color]== "valid" %>
-        <div class="valid_notice">
-          <p><%= flash[:notice]%></p>
-        </div>
-    <% elsif flash[:color]== "invalid"%>
-        <div class="invalid_notice">
-          <p><%=flash[:notice]%></p>
-        </div>
-    <%else%>
-        <div class="notice">
-          <p><%=flash[:notice]%></p>
-        </div>
-  		<%end%>
-		<h2 class="page-header text-center">Login</h2>
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h1 class="ui teal image header">
+          <img src="assets/favicon.png" class="image">
+          <div class="content">
+            Log-in to your account
+          </div>
+        </h1>
+      </div>
+    </div>
+
 		<%= form_for(:session, url: login_path, class:'form-horizontal') do |f| %>
+      <% if flash[:color]== "valid" %>
+          <div class="valid_notice">
+            <p><%= flash[:notice]%></p>
+          </div>
+      <% elsif flash[:color]== "invalid"%>
+          <div class="invalid_notice">
+            <p><%=flash[:notice]%></p>
+          </div>
+      <%else%>
+          <div class="notice">
+            <p><%=flash[:notice]%></p>
+          </div>
+      <%end%>
+      <div class="form-group">
+        <br/><br/>
+        <%= f.text_field :username_or_email,id:"username_or_email", class: 'form-control', placeholder: 'Username or Email Address' %>
+      </div>
 
-		<div class="form-group">
-			<%= f.label :name, class: 'control-label' %>
-			<%= f.text_field :username_or_email,id:"username_or_email", class: 'form-control' %>
-		</div>
+      <div class="form-group">
+        <%= f.password_field :login_password,id:'login_password', class: 'form-control', placeholder: 'Password' %>
+      </div>
 
-		<div class="form-group">
-			<%= f.label :password, class: ' control-label' %>
-			<%= f.password_field :login_password,id:'login_password', class: 'form-control' %>
-		</div>
-
-     <div class="form-group">
-       <a href="<%= password_resets_new_path %>">Forgot Password?</a>
-     </div>
-		<div>
-			<%= f.submit "Log in", class: "btn btn-primary" %>
-		</div>
-		<% end %>
+       <div class="form-group">
+         <a href="<%= password_resets_new_path %>">Forgot Password?</a>
+       </div>
+      <div>
+        <%= f.submit "Login", class: "btn btn-custom btn-lg btn-block" %>
+      </div>
+      <% end %>
 		<br>
 		<p>
-			New user? <%= link_to "Sign up now!", signup_signup_path %>
+			New to us? <%= link_to "Sign up", signup_signup_path %>
 		</p>
 	</div>
+
+  <style type="text/css">
+    .btn-custom {
+      color: #fff;
+      background-color: #1fa67b;
+    }
+    .btn-custom:hover,
+    .btn-custom:focus {
+      color: #fff;
+    }
+
+
+  </style>
 </div>

@@ -1,6 +1,6 @@
 class Article < ActiveRecord::Base
   #Articles can have many comments
-  has_many :comment
+  has_many :comment, :dependent => :destroy
   has_many :article_attachments, :dependent => :destroy
   belongs_to :user
   belongs_to :topic

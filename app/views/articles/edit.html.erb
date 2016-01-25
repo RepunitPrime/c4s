@@ -1,28 +1,85 @@
 <div class="container">
-	<h3 class="page-header">Edit Article</h3>
-	<% if @article && @article.errors.any? %>
-	<div class="alert alert-danger">
-		<% @article.errors.full_messages.each do |error| %>
-		<span><%= error %></span>
-		<% end %>
-	</div>
-	<% end %>
+  <h2 class="page-header">Edit Article</h2>
+
+  <!-- Blog Post Content Column -->
+  <div class="ui buttons">
+    <button class="big ui button" onclick="RedirectToArticles()">
+      <i class="arrow circle outline left icon"></i>Back</button>
+  </div>
+
+  <hr>
+
 	<%= form_for :article, class:"form form-horizontal",  url:article_path(@article), method: :patch do |f| %>
 	<div class="form-group">
-		<%= f.label :title %>
+    <label>Title <label id="lbl_red">*</label></label>
 		<br>
-		<%= f.text_field :title, class:'form-control', value: @article.title %>
+    <%= f.text_field :title, placeholder: "Enter your title...",  class:'form-control',onkeydown:'hideError()',onpaste:'hideError()',value: @article.title %>
+    <% if @article != nil && @article.errors.any? %>
+        <div class="ui pointing red basic label">
+          <% for message_error in @article.errors.full_messages %>
+              <%= message_error %>
+          <% end %>
+        </div>
+    <% end %>
 	</div>
 	<div class="form-group">
 		<%= f.label :text %>
 		<br>
-		<%= f.text_area :text, class:'form-control', value: @article.text %>
-	</div>
-	<div class="form-group">
-		<%= f.submit "Save", class: "btn btn-primary" %>
-	</div>
+		<%= f.text_area :text, class:'redactor form-control', value: @article.text.html_safe, placeholder: "Enter text...." %>
+ 	</div>
+  <div class="form-group">
+    <label for="select_topic">Topic</label>
+    <select  id="select_topic" name="article[topic_name]" class="demo-default" placeholder="Select a topic...">
+      <option value="">Select a topic...</option>
+      <% Topic.all.each do |topic| %>
+          <option value="<%= topic.topic_name%>" <%= if @article.topic
+                                                       if @article.topic.topic_name == topic.topic_name
+                                                         "selected"
+                                                       end
+                                                     end %>   ><%= topic.topic_name %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="input_tags">Tags</label>
+    <input type="text" id="input_tags" name="article[Tags]" value="<%= @article.tags_search.to_s.remove('[').to_s.gsub(']',',') %>" class="demo-default">
+  </div>
+
+  <div class="form-group">
+    <button type="submit" name="commit"  class="huge ui teal icon button">
+      <i class="save icon"></i>Save</button>
+  </div>
 	<% end %>
-	<p>
-		<span>&laquo;</span><%= link_to "Back to Articles", articles_path %>
-	</p>
+
+  <script>
+
+    function hideError() {
+      document.getElementsByClassName('ui pointing red basic label')[0].style.visibility='hidden';
+      document.getElementsByClassName('ui pointing red basic label')[0].style.margin='0';
+    }
+
+    function RedirectToArticles() {
+      window.location = "<%= articles_url %>/<%= @article.id %>"
+    }
+
+    $('#input_tags').selectize({
+      delimiter: ',',
+      persist: false,
+      create: function(input) {
+        return {
+          value: input,
+          text: input
+        }
+      }
+    });
+
+    $('#select_topic').selectize({
+      create: true,
+      sortField: {
+        field: 'text',
+        direction: 'asc'
+      },
+      dropdownParent: 'body'
+    });
+  </script>
 </div>

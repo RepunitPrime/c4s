@@ -39,7 +39,6 @@
 
 .notice, .valid_notice, .invalid_notice{
     height:35px;
-    width: 400px;
     margin:auto;
     margin-top:20px;
 }
@@ -53,8 +52,9 @@
 }
 
 .invalid_notice{
-    background-color: #FFCCCC;
-    border:1px solid red;
+    background-color: #FFF6F6;
+    border:1px solid #E0B4B4;
+    color: firebrick;
 }
 .valid_notice{
     background-color: #CCFFCC;

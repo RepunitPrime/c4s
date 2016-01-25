@@ -1,12 +1,44 @@
 <div class="container">
   <div class="row">
     <!-- Title -->
-    <h1 class="page-header"><%= @article.title %></h1>
+    <h2 class="page-header"><%= @article.title %></h2>
 
     <!-- Blog Post Content Column -->
+    <div class="ui buttons">
     <button class="big ui button" onclick="RedirectToArticles()">
     <i class="arrow circle outline left icon"></i>Back</button>
+    <% if @article.user == current_user %>
+        <div class="or"></div>
+        <button class="big ui button" onclick="RedirectToEdit()">
+          <i class="edit left icon"></i>Edit</button>
+        <div class="or"></div>
+        <button class="big ui button" data-toggle="modal" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+    <% end %>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete Article</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete the article?</p>
+          </div>
+          <div class="modal-footer">
+            <a rel="nofollow" data-method="delete" href="<%= articles_path %>/ <%= @article.id %>">
+              <button class="big ui button"><i class="checkmark icon" ></i>Yes</button>
+            </a>
+            <button type="button" class="big ui button" data-dismiss="modal"><i class="remove icon"></i>No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <hr>
+
     <!-- Date/Time and posted by who-->
     <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="#"><%= @article.user.username %></a></p>
     <hr>
@@ -59,10 +91,14 @@
           <%end%>
 
   </div>
-  <script>
 
+
+  <script>
     function RedirectToArticles() {
       window.location = "<%= articles_url %>"
+    }
+    function RedirectToEdit() {
+      window.location = "<%= edit_article_url %>"
     }
   </script>
 

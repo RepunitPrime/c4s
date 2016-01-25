@@ -34,8 +34,9 @@ class ArticlesController < ApplicationController
     if(@topic.nil?)
       @topic = Topic.new(topic_params)
       @topic.save
-    else
       @article.topic = @topic;
+    else
+      @article.topic = @topic
     end
 
     @TagsSearch = '';
@@ -93,8 +94,59 @@ class ArticlesController < ApplicationController
   # post action for editing article
   def update
     @article = Article.find(params[:id])
+    @prevTags = @article.Tags
     if @article.update(article_params)
-      redirect_to articles_path
+
+      @topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
+
+      #Add Topic to the Topic table if new
+      if(@topic.nil?)
+        @topic = Topic.new(topic_params)
+        @topic.save
+        @article.topic = @topic
+      else
+        @article.topic = @topic
+      end
+
+      if @prevTags != article_params[:Tags]
+          split_tags = @prevTags.to_s.split(',');
+          split_tags.each do |tag|
+            @tag = Tag.find_by_name(tag)
+            if(!@tag.nil?)
+              @tag.count -= 1;
+              if(@tag.count == 0)
+                @tag.destroy
+              else
+                @tag.save
+              end
+            end
+          end
+
+          @TagsSearch = '';
+          #Add count of tags for statistic purposes
+          if(!article_params[:Tags].nil?)
+            split_tags = article_params[:Tags].to_s.split(',');
+            split_tags.each do |tag|
+              @tag = Tag.find_by_name(tag)
+              @TagsSearch += '['+tag+']'
+              if(@tag.nil?)
+                @tag = Tag.new();
+                @tag.name = tag;
+                @tag.count = 1;
+              else
+                @tag.count += 1;
+              end
+              @tag.save
+            end
+            @article.tags_search= @TagsSearch;
+          end
+      end
+
+      if @article.save
+        redirect_to articles_path
+      else
+        render 'edit'
+      end
     else
       render 'edit'
     end
@@ -103,6 +155,22 @@ class ArticlesController < ApplicationController
   # delete specific article
   def destroy
     @article = Article.find(params[:id])
+
+    if @article.tags_search
+      split_tags = @article.tags_search.to_s.remove('[').to_s.split(']');
+      split_tags.each do |tag|
+        @tag = Tag.find_by_name(tag)
+        if(!@tag.nil?)
+          @tag.count -= 1;
+          if(@tag.count == 0)
+            @tag.destroy
+          else
+            @tag.save
+          end
+        end
+      end
+    end
+
     @article.destroy
     redirect_to articles_path
   end
