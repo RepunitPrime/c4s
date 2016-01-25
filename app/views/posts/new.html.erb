@@ -21,10 +21,17 @@
         <%= f.label :title %>
         <%= f.text_field :title, class:'form-control' %>
       </div>
-      <div class=" form-group">
-        <%= f.label :detail %>
-        <%= f.text_area :detail, placeholder: "Details here", cols: '30', class:'form-control' %>
+
+
+
+      <div class="form-group">
+        <%= f.label :Description %>
+        <br>
+        <textarea id="desc" name="post[desc]" class='redactor form-control' rows="10" placeholder="Enter Description (Min 20 words)"></textarea>
       </div>
+
+
+
       <div class=" form-group">
         <%= f.label :image %>
         <%= f.file_field :image, class:'' %>
