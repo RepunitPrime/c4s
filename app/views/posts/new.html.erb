@@ -1,13 +1,13 @@
 <div class="container">
 <div class="page-header">
-  <span style="font-size: large; font-weight: bold">Adding New Post</span>
-  <span class="btn btn-link" style="float:right"><%= link_to 'Back', posts_path %></span>
+  <span style="font-size: large; font-weight: bold">New Ad</span>
+  <span class="btn btn-link" style="float:right"><%= link_to 'Back to Ads', posts_path %></span>
 </div>
 
   <%= form_for @post ,html: { multipart: true } do |f|%>
       <% if @post.errors.any? %>
           <div class="alert alert-danger" id="error_explanation">
-            <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+            <h2><%= pluralize(@post.errors.count, "error") %> prohibit this post from being saved:</h2>
 
             <ul>
               <% @post.errors.full_messages.each do |message| %>
@@ -44,7 +44,7 @@
         <%= f.hidden_field :user_id, :value => current_user.id %>
       </div>
       <div class="actions">
-        <%= f.submit "Create Post", class: 'btn btn-primary'  %>
+        <%= f.submit "Create Ad", class: 'btn btn-primary'  %>
       </div>
   <% end %>
 

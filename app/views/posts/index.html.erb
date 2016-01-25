@@ -1,55 +1,80 @@
-<p id="notice"><%= notice %></p>
 <div class="container">
-<div class="page-header">
-  <span style="font-size: large; font-weight: bold">Posts</span>
-  <span class="btn btn-link" style="float:right"><%= link_to 'New Post', new_post_path%></span>
-</div>
-<table class="table table-striped table-hover table-bordered">
-
-    <tr>
-      <th></th>
-      <th>Title</th>
-      <th>Topic</th>
-      <th>Posted By</th>
-      <th>Costs</th>
-
-      <th colspan="1"></th>
-    </tr>
+  <div class="page-header">
+    <span style="font-size: large; font-weight: bold">Buy/Exchange</span>
+    <button class="ui labeled icon button" id="buttonWithMarginBtm" style="float: right" onclick="RedirectToPostsNew()">
+      <i class="add circle icon"></i>Post New Ad
+    </button>
+  </div>
 
 
-    <% @posts.each do |post| %>
-      <tr>
-        <td style="text-align: center; ">
+  <div class="row">
+    <div class="col-lg-8 col-xs-8">
 
-          <% if post.image_file_name.nil? %>
-              <%= link_to(image_tag('/no_image.jpg', size: "200x200", class: "img-thumbnail"), post) %>
-          <%else%>
-              <%= link_to(image_tag(post.image, :alt => "No Image", class: "img-thumbnail"),post) %>
-          <%end%>
+      <% @posts.each do |post| %>
+          <table width="100%">
 
-        </td>
-        <td style="vertical-align: middle"><%= post.title %></td>
+            <br><br>
+
+            <tr>
+              <td style="width: 220px">
+                  <% if post.image_file_name.nil? %>
+                      <%= link_to(image_tag('/no_image.jpg', size: "200x200", class: "img-thumbnail"), post) %>
+                  <% else %>
+                      <%= link_to(image_tag(post.image, size: "200x200", :alt => "No Image", class: "img-thumbnail"), post) %>
+                  <% end %>
+                </td>
+
+              <td style="vertical-align: text-top;">
+
+                <br>
+
+                <p>
+                  <strong><%=link_to(post.title,post) %></strong>
+                </p>
 
 
 
-        <td style="vertical-align: middle"><%= post.topic %></td>
+                <p style="font-size: 20px;
+                    font-stretch: normal;
+                    color: #d58512;
+                    letter-spacing: 0.7px;">
+                  <spanp>&#8364;  </spanp>
+                  <% if post.cost.nil? %>
+                      0
+                  <% else %>
+                      <%= post.cost %>
+                  <% end %>
+                </p>
 
-        <td style="vertical-align: middle"><%= post.user.name %></td>
 
-        <td style="vertical-align: middle"><%= post.cost %></td>
+                <br><br>
 
-        <td style="vertical-align: middle">
-         <!-- <%= link_to 'View', post, class: "btn btn-default" %>-->
-          <% if(current_user.id ==  post.user.id) %>
-            <%= link_to 'Edit', edit_post_path(post) %> |
-            <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
+                <% if (current_user.id == post.user.id) %>
 
-</table>
-  <!--  pagination links like-->
-  <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+                    <%= link_to 'Edit', edit_post_path(post) %> |
+                    <%= link_to 'Delete', post, method: :delete, data: {confirm: 'Are you sure?'} %>
 
-</div>
+                <% end %>
+
+
+                  <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
+                    <a><%= User.find_by(id: post.user_id).name %></a>.</h6>
+
+                  </td>
+                  </tr>
+
+                  </table>
+              <% end %>
+      <!--  pagination links like-->
+      <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+
+      </div>
+    </div>
+
+
+  <script type="text/javascript">
+
+    function RedirectToPostsNew() {
+      window.location = "<%= new_post_url %>";
+    }
+  </script>
