@@ -9,17 +9,29 @@ class CommentsController < ApplicationController
 
   # post action to create a new comment
   def create
-    @article = Article.find(params[:article_id])
 
-    @comment = @article.comment.create(comment_params)
-    @comment.user = @current_user;
-    @comment.save
+    if params[:article_id].present?
+	    @article = Article.find(params[:article_id])
 
-    @article.count_comments += 1;
-    @article.save;
+	    @comment = @article.comment.create(comment_params)
+	    @comment.user = @current_user;
+	    @comment.save
 
-    $foo = true
-    redirect_to article_path(@article)
+	    @article.count_comments += 1;
+	    @article.save;
+
+	    $foo = true
+	    redirect_to article_path(@article)
+
+    elsif params[:post_id].present?
+      @post = Post.find(params[:post_id])
+      @comment = @post.comments.create(comment_params)
+      UserMailer.user_notify(@post).deliver
+      redirect_to post_path(@post)
+    else
+      redirect_to login_url()
+    end
+
   end
 
 

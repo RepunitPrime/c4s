@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
+  has_many :post
 
 
   has_many :comments
 
   #Handle Password (Encryption, Decryption)
+
   attr_accessor :password, :activation_token, :reset_token
   before_save :encrypt_password
   after_save :clear_password
