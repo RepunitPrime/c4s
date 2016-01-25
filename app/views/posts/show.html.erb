@@ -66,10 +66,6 @@
   <h3 class="page-header">Add a comment</h3>
   <%= form_for([@post, @post.comments.build]) do |f| %>
       <p>
-
-        <%= f.hidden_field :username, value: @current_user.username %>
-      </p>
-      <p>
         <%= f.text_area :comment_body, class: 'form-control' %>
       </p>
       <p>
@@ -82,7 +78,7 @@
   <div class="list-group">
     <% @post.comments.each do |comment| %>
         <a class="list-group-item">
-          <h4 class="list-group-item-heading"><%= comment.username %> </h4>
+          <h4 class="list-group-item-heading"> </h4>
           <p class="list-group-item-text"><%= comment.comment_body %></p>
         </a>
     <% end %>

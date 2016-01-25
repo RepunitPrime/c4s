@@ -26,6 +26,8 @@ class CommentsController < ApplicationController
     elsif params[:post_id].present?
       @post = Post.find(params[:post_id])
       @comment = @post.comments.create(comment_params)
+      @comment.user = @current_user;
+      @comment.save
       UserMailer.user_notify(@post).deliver
       redirect_to post_path(@post)
     else
