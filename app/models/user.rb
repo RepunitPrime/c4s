@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+
+  has_many :comments
+
   #Handle Password (Encryption, Decryption)
   attr_accessor :password
   before_save :encrypt_password

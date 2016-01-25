@@ -4,8 +4,7 @@ class WelcomeController < ApplicationController
   end
   
   def about_us
-  	@names = ["bilal","muctadir","chen","manpriya","rasmus"]
-    @updatedByNames = ["John Jack","Neetha","Sharath","Atezaz","Salman"]
+    @Names = ["John Jack","Neetha","Sharath","Atezaz","Salman"]
   end
 
 end

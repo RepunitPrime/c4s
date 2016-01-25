@@ -74,6 +74,16 @@
     max-height: 200px;
     border:1px solid darkgray;
 }
+#Image_Tag_Thumbnail
+{
+    text-align: center;
+    width: 64px;
+    height: 64px;
+    border:1px solid darkgray;
+}
+
+
+
 #p_text_input
 {
     margin-left:10px;

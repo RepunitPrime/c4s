@@ -43,14 +43,15 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   add_index "articles", ["user_id"], name: "index_articles_on_user_id"
 
   create_table "comments", force: :cascade do |t|
-    t.string   "username"
     t.text     "comment_body"
+    t.integer  "user_id"
     t.integer  "article_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "redactor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false
