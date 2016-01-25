@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_many :comments
 
   #Handle Password (Encryption, Decryption)
-  attr_accessor :password,:remember_token, :activation_token, :reset_token
+  attr_accessor :password, :activation_token, :reset_token
   before_save :encrypt_password
   after_save :clear_password
   before_create :create_activation_digest
@@ -80,11 +80,6 @@ class User < ActiveRecord::Base
     SecureRandom.urlsafe_base64
   end
 
-  # Remembers a user in the database for use in persistent sessions.
-  def remember
-    self.remember_token = User.new_token
-    update_attribute(:remember_digest, User.digest(remember_token))
-  end
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)

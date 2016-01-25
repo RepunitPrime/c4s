@@ -15,7 +15,7 @@
           <p><%=flash[:notice]%></p>
         </div>
   		<%end%>
-		<h3 class="text-center">Log in</h3>
+		<h2 class="page-header text-center">Login</h2>
 		<%= form_for(:session, url: login_path, class:'form-horizontal') do |f| %>
 
 		<div class="form-group">
@@ -26,13 +26,6 @@
 		<div class="form-group">
 			<%= f.label :password, class: ' control-label' %>
 			<%= f.password_field :login_password,id:'login_password', class: 'form-control' %>
-		</div>
-
-		<div class="form-group">
-			<div class="checkbox">
-				<input type="checkbox" name="rememberme" id="rememberme">
-				Remember Me
-			</div>
 		</div>
 
      <div class="form-group">
