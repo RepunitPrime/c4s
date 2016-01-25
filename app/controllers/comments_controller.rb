@@ -10,9 +10,15 @@ class CommentsController < ApplicationController
   # post action to create a new comment
   def create
     @article = Article.find(params[:article_id])
+
     @comment = @article.comment.create(comment_params)
+    @comment.user = @current_user;
+    @comment.save
+
     @article.count_comments += 1;
     @article.save;
+
+    $foo = true
     redirect_to article_path(@article)
   end
 
@@ -20,6 +26,6 @@ class CommentsController < ApplicationController
   # get comments object from http params
   private
   def comment_params
-    params.require(:comment).permit(:username, :comment_body)
+    params.require(:comment).permit(:comment_body)
   end
 end

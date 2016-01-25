@@ -23,10 +23,13 @@
                      <br/>
                      <% if !article.Tags.nil?%>
                          <% tags = article.Tags.split(',')  %>
-                           <% tags.each do |tag| %>
+                           <% tags.take(5).each do |tag| %>
                              <a id="a_small" class="ui teal label"><%= tag %></a>
                            <% end %>
                      <% end %>
+                     <% if tags.count > 5 %>
+                         <a id="a_small" class="ui teal label">. . . </a>
+                     <%end%>
                      <h6 class="pull-right">Posted <%= time_ago_in_words(article.created_at)%> ago by <a><%= User.find_by(id: article.user_id).name  %></a>.</h6>
                    </div>
                  </td>

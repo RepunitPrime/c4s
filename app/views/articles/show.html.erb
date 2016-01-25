@@ -1,42 +1,71 @@
 <div class="container">
-	<h3 class="page-header">View Post</h3>
+  <div class="row">
+    <!-- Title -->
+    <h1 class="page-header"><%= @article.title %></h1>
 
-  <div class="btn-group">
-    <span>&laquo;</span><%= link_to "Back to Topics", articles_path %>
-  </div>
+    <!-- Blog Post Content Column -->
+    <button class="big ui button" onclick="RedirectToArticles()">
+    <i class="arrow circle outline left icon"></i>Back</button>
+    <hr>
+    <!-- Date/Time and posted by who-->
+    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="#"><%= @article.user.username %></a></p>
+    <hr>
 
-  <!-- Show Article Section -->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title"><%= @article.title %></h3>
-		</div>
-		<div class="panel-body">
-      <p> <%= @article.text.html_safe %> </p>
-		</div>
-	</div>
-
-  <!--Add a Comment Section -->
-  <h3 class="page-header">Add a comment</h3>
-  <%= form_for([@article, @article.comment.build]) do |f| %>
-      <p>
-        <%= f.hidden_field :username, value: @current_user.username %>
-      </p>
-      <p>
-        <%= f.text_area :comment_body, class:'form-control' %>
-      </p>
-      <p>
-        <%= f.submit "add a comment", class: 'btn btn-primary' %>
-      </p>
-  <% end %>
-
-  <!-- Show Comments For an Article Section -->
-  <h3 class="page-header">Comments</h3>
-  <div class="list-group">
-    <% @article.comment.each do |comment| %>
-         <a class="list-group-item">
-              <h4 class="list-group-item-heading"><%=comment.username %> </h4>
-              <p class="list-group-item-text"><%=comment.comment_body%></p>
-         </a>
+    <% if !@article.topic.nil? %>
+      <p><i class="comment outline icon"></i> <%= @article.topic.topic_name %></p>
     <% end %>
+    <p> <%= @article.text.html_safe %> </p>
+    
+    <% if !@article.article_attachments.first.nil? %>
+        <p><i class="attach icon"></i> <a href="../files/<%= @article.article_attachments.first.id.to_s %>/<%=@article.article_attachments.first.attach_file_file_name%>" >Attached File</a> </p>
+    <% end %>
+
+    <!-- Comments Form -->
+    <div class="well">
+      <h3>Leave a Comment:</h3>
+      <%= form_for([@article, @article.comment.build]) do |f| %>
+          <p>
+            <%= f.text_area :comment_body, class:'form-control' %>
+          </p>
+          <p>
+            <button type="submit" name="commit"  class="huge ui positive icon button">
+              <i class="save icon"></i>Add Comment</button>
+          </p>
+      <% end %>
+    </div>
+
+    <h3 class="page-header">Comments</h3>
+    <!-- Comment -->
+      <% @article.comment.each do |comment| %>
+          <% if !comment.user_id.nil? %>
+              <div class="media">
+                <% if User.find(comment.user_id).profile_pic_file_name.nil? %>
+                    <a class="pull-left" href="#">
+                      <%= image_tag('Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
+                    </a>
+                <%else%>
+                    <a class="pull-left" href="#">
+                      <%= image_tag(User.find(comment.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
+                    </a>
+                <%end%>
+                <div class="media-body">
+                  <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
+                    <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
+                  </h2>
+                  <%= comment.comment_body  %>
+                </div>
+              </div>
+            <%end%>
+          <%end%>
+
   </div>
+  <script>
+
+    function RedirectToArticles() {
+      window.location = "<%= articles_url %>"
+    }
+  </script>
+
 </div>
+
+
