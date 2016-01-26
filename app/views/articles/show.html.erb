@@ -40,7 +40,7 @@
     <hr>
 
     <!-- Date/Time and posted by who-->
-    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <%= link_to @article.user.username, profile_index_path %></p>
+    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="#"><%= @article.user.username %></a></p>
     <hr>
 
     <% if !@article.topic.nil? %>
