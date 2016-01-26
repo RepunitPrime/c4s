@@ -30,7 +30,7 @@
                      <% if tags.count > 5 %>
                          <a id="a_small" class="ui teal label">. . . </a>
                      <%end%>
-                     <h6 class="pull-right">Posted <%= time_ago_in_words(article.created_at)%> ago by <a><%= User.find_by(id: article.user_id).name  %></a>.</h6>
+                     <h6 class="pull-right">Posted <%= time_ago_in_words(article.created_at)%> ago by <%= link_to User.find_by(id: article.user_id).name, profile_index_path %>.</h6>
                    </div>
                  </td>
             </tr>
