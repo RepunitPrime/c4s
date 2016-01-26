@@ -3,7 +3,7 @@
   <div class="container">
     <!-- Display Flash Errors in Form if Any-->
     <h2 class="page-header">Sign Up</h2>
-    <div class="col-xs-4">
+    <div class="col-xs-5">
       <div class="ui form">
         <h3>
       <% if flash[:color]== "valid" %>
@@ -21,7 +21,6 @@
       <%end%>
 
       <!-- Display Sign Up Form-->
-
       <%= form_for(:user, :url => {:controller => 'signup', :action => 'create'}) do |f| %>
           <div class="field">
             <%= f.label :Full_Name, class: 'control-label' %>
@@ -53,13 +52,24 @@
     </div>
 
     <!-- Display Errors in Validating Form if Any-->
-    <div class="col-sm-push-4 col-sm-4">
+    <div class="col-xs-5 centered element ">
       <% if @user != nil && @user.errors.any? %>
-          <ul class="Signup_Errors">
-            <% for message_error in @user.errors.full_messages %>
-                <li>* <%= message_error %></li>
-            <% end %>
-          </ul>
+          <br/><br/><br/><br/>
+          <div class="ui icon negative message">
+            <i class="remove circle icon"></i>
+            <div class="content">
+              <div class="header">
+                Please check the issues below:
+              </div>
+              <p>
+                  <ul>
+                    <% for message_error in @user.errors.full_messages %>
+                        <li> <%= message_error %></li>
+                    <% end %>
+                  </ul>
+              </p>
+            </div>
+          </div>
       <% end %>
     </div>
   </div>
