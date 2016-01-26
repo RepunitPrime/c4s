@@ -6,9 +6,6 @@ class SessionsController < ApplicationController
 
   # get login form
   def index
-    if logged_in
-      redirect_to articles_path
-    end
     @user = User.new
   end
 
@@ -16,12 +13,12 @@ class SessionsController < ApplicationController
   def login
     authorized_user = User.authenticate(sessions_params[:username_or_email],sessions_params[:login_password])
     if authorized_user && !authorized_user.activated?
-      flash.now[:notice] = "Email address is not been verfied yet"
+      flash.now[:notice] = "Email address has not been verfied yet"
       flash.now[:color]= "invalid"
       render 'index'
     elsif authorized_user
       log_in authorized_user
-      redirect_to articles_path
+      redirect_to welcome_index_path
     else
       @current_user= nil;
       #show error message that user is invalid

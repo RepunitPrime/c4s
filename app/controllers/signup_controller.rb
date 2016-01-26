@@ -13,7 +13,7 @@ class SignupController < ApplicationController
     if @user.save
       UserMailer.account_activation(@user).deliver_now
       flash[:color]= "valid"
-      flash[:notice] = "An activation email has been sent your email address"
+      flash[:notice] = "An activation email has been sent."
       redirect_to login_url
     else
       render 'signup'

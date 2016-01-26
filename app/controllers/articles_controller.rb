@@ -58,6 +58,7 @@ class ArticlesController < ApplicationController
           @tag.save
         end
         @article.tags_search= @TagsSearch;
+        @article.save;
       end
 
 

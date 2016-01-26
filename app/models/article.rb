@@ -5,7 +5,7 @@ class Article < ActiveRecord::Base
   belongs_to :user
   belongs_to :topic
 
-  validates :title, :presence => true, :uniqueness => false, :length => { :in => 0..50 }
+  validates :title, :presence => true, :uniqueness => false, :length => { :in => 0..60 }
 
   def self.search(search)
     # Title is for the above case, the OP incorrectly had 'name'
