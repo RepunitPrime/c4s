@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
   def login
     authorized_user = User.authenticate(sessions_params[:username_or_email],sessions_params[:login_password])
     if authorized_user && !authorized_user.activated?
-      flash.now[:notice] = "Email address has not been verfied"
+      flash.now[:notice] = "Email address is not been verfied yet"
       flash.now[:color]= "invalid"
       render 'index'
     elsif authorized_user

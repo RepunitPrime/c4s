@@ -1,27 +1,47 @@
 <div class="container">
 <% provide(:title, "Forgot password") %>
-<h2>Forgot password</h2>
-  <% if flash[:color]== "valid" %>
-      <div class="valid_notice">
-        <p><%= flash[:notice]%></p>
-      </div>
-  <% elsif flash[:color]== "invalid"%>
-      <div class="invalid_notice">
-        <p><%=flash[:notice]%></p>
-      </div>
-  <%else%>
-      <div class="notice">
-        <p><%=flash[:notice]%></p>
-      </div>
-  <%end%>
+<h2 class="page-header">Forgot password</h2>
 <div class="row">
-   <div class="col-md-6 col-md-offset-3">
+  <div class="ui icon message">
+    <i class="inbox icon"></i>
+    <div class="content">
+      <div class="header">
+        Please enter your email address.
+      </div>
+      <p>You will receive an email with the instructions to reset your password.<br/>If you didn't get an email, make sure you check your junk or spam folder.</p>
+    </div>
+  </div>
+  <div class="col-sm-push-4 col-sm-4">
+      <% if flash[:color]== "valid" %>
+          <div class="valid_notice">
+            <p><%= flash[:notice]%></p>
+          </div>
+      <% elsif flash[:color]== "invalid"%>
+          <div class="invalid_notice">
+            <p><%=flash[:notice]%></p>
+          </div>
+      <%else%>
+          <div class="notice">
+            <p><%=flash[:notice]%></p>
+          </div>
+      <%end%>
+      <br/>
       <%= form_for(:user, url: password_resets_create_path) do |f| %>
-        <%= f.label :email %>
-        <%= f.email_field :email, class: 'form-control' %>
-
-        <%= f.submit "Submit", class: "btn btn-primary" %>
+        <%= f.email_field :email, class: 'form-control',placeholder: 'email address' %>
+        <br/>
+        <%= f.submit "Submit", class: "btn btn-custom btn-lg btn-block" %>
       <% end %>
     </div>
   </div>
+
+  <style type="text/css">
+    .btn-custom {
+      color: #fff;
+      background-color: #1fa67b;
+    }
+    .btn-custom:hover,
+    .btn-custom:focus {
+      color: #fff;
+    }
+  </style>
 </div>

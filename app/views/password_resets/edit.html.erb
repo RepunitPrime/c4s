@@ -24,8 +24,19 @@
           <%= f.password_field :password_confirmation,id:"password_confirmation", class: 'form-control' %>
         </div>
         <div>
-          <%= f.submit 'Change Password', class: "btn btn-primary" %>
+          <%= f.submit 'Change Password', class: "btn btn-custom btn-lg btn-block" %>
         </div>
     <% end %>
   </div>
+
+  <style type="text/css">
+    .btn-custom {
+      color: #fff;
+      background-color: #1fa67b;
+    }
+    .btn-custom:hover,
+    .btn-custom:focus {
+      color: #fff;
+    }
+  </style>
 </div>
