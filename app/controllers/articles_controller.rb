@@ -1,11 +1,8 @@
 class ArticlesController < ApplicationController
 
-  # add authentication for all actions
-  before_filter :authorize
-  #before_filter :authorize, only: [:create,:edit,:update,:destroy]
-
   # show all articles
   def index
+
     if params[:search]
       @articles = Article.search(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
       @srch = params[:search]
@@ -20,11 +17,15 @@ class ArticlesController < ApplicationController
 
   # get form page for creating
   def new
+    validate_if_user_logged_in
+
     @topics = Topic.all
   end
 
   # post action to create a new article
   def create
+    validate_if_user_logged_in
+
     @article = Article.new(article_params)
     @article.user = @current_user;
 
@@ -91,11 +92,15 @@ class ArticlesController < ApplicationController
 
   # get article for edit
   def edit
+    validate_if_user_logged_in
+
     @article = Article.find(params[:id])
   end
 
   # post action for editing article
   def update
+    validate_if_user_logged_in
+
     @article = Article.find(params[:id])
     @prevTags = @article.Tags
     if @article.update(article_params)
@@ -157,6 +162,9 @@ class ArticlesController < ApplicationController
 
   # delete specific article
   def destroy
+
+    validate_if_user_logged_in
+
     @article = Article.find(params[:id])
 
     if @article.tags_search
@@ -179,6 +187,11 @@ class ArticlesController < ApplicationController
   end
 
   private
+  def validate_if_user_logged_in
+    if !check_login_state
+      redirect_to (login_path + '?From='+ request.fullpath)
+    end
+  end
 
   # get article object from http params
   def article_params

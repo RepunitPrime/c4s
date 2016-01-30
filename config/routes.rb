@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   resources :posts do
-    resources :comments
+    resources :ad_comments
   end
 
   get 'welcome/index'
@@ -24,9 +24,8 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   #Add routing to the sign up page
-  get 'signup/signup'
-  get "signup", :to => "signup#signup"
-  post 'signup/create'
+  get 'signup' => 'signup#index'
+  post 'signup' => 'signup#create'
 
   get 'login' => 'sessions#index'
   post 'login' => 'sessions#login'

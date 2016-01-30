@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
+
   has_many :post
-
-
   has_many :comments
+  has_many :ad_comments
 
   #Handle Password (Encryption, Decryption)
 
@@ -21,8 +21,10 @@ class User < ActiveRecord::Base
 
   #Validate Username, email, password
   EMAIL_REGEX = /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/
+
+  validates :name, :length => { :in => 0..100 }
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
-  validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
+  validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX, :length => { :in => 3..100 }
   validates :password, :confirmation => true
   #Only on Create so other actions like update password attribute can be nil
   validates_length_of :password, :in => 6..20, :on => :create

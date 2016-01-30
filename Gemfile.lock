@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/doabit/semantic-ui-sass.git
+  revision: c8561a1e20255af12863209d926211a913256fbb
+  specs:
+    semantic-ui-sass (2.1.8.0)
+      sass (>= 3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,9 +44,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
-    autoprefixer-rails (6.3.1)
-      execjs
-      json
     bcrypt (3.1.10)
     bcrypt (3.1.10-x64-mingw32)
     bcrypt-ruby (3.1.1.rc1)
@@ -65,7 +69,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    commonjs (0.2.7)
     concurrent-ruby (1.0.0)
     debug_inspector (0.0.2)
     devise (3.5.5)
@@ -88,13 +91,6 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
-    less (2.6.0)
-      commonjs (~> 0.2.7)
-    less-rails (2.7.1)
-      actionpack (>= 4.0)
-      less (~> 2.6.0)
-      sprockets (> 2, < 4)
-      tilt
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -160,9 +156,6 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     selectize-rails (0.12.1)
-    semantic-ui-rails (0.18.0)
-      autoprefixer-rails
-      less-rails
     spring (1.5.0)
     sprockets (3.5.1)
       concurrent-ruby (~> 1.0)
@@ -215,7 +208,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   selectize-rails
-  semantic-ui-rails
+  semantic-ui-sass!
   spring
   sqlite3
   turbolinks

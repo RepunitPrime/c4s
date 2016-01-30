@@ -15,13 +15,10 @@ class PasswordResetsController < ApplicationController
       flash[:notice] = "Email sent with password reset instructions"
       redirect_to login_path
     else
-      flash[:color]= "invalid"
+      flash.now[:color]= "invalid"
       flash.now[:notice] = "Email address not found"
       render 'new'
     end
-  end
-
-  def edit
   end
 
   def update
@@ -68,8 +65,7 @@ class PasswordResetsController < ApplicationController
   # Confirms a valid user.
   def valid_user
 
-    if (@user && @user.activated? &&
-        !@user.authenticated?('reset', params[:reset]))
+    if (@user && @user.activated? && !@user.authenticated?('reset', params[:reset]))
       flash[:color]= "invalid"
       flash[:notice] = "Password Token is incorrect. Please try again."
       redirect_to password_resets_new_url

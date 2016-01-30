@@ -1,6 +1,6 @@
 <% provide(:title, "Log in") %>
 
-<div class="container">
+<div class="container vertical-center">
 	<div class="col-sm-push-4 col-sm-4">
     <div class="ui middle aligned center aligned grid">
       <div class="column">
@@ -13,22 +13,23 @@
       </div>
     </div>
 
-		<%= form_for(:session, url: login_path, class:'form-horizontal') do |f| %>
-      <% if flash[:color]== "valid" %>
-          <div class="valid_notice">
-            <p><%= flash[:notice]%></p>
-          </div>
-      <% elsif flash[:color]== "invalid"%>
-          <div class="invalid_notice">
-            <p><%=flash[:notice]%></p>
-          </div>
-      <%else%>
-          <div class="notice">
-            <p><%=flash[:notice]%></p>
-          </div>
+		<%= form_for(:session, url: login_path, data: {toggle: "validator"} ) do |f| %>
+      <br/><br/>
+      <% if flash[:color]== "invalid"%>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> <%=flash[:notice]%>
+            </div>
+      <%elsif flash[:color]== "valid" %>
+            <div class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> <%=flash[:notice]%>
+            </div>
       <%end%>
+
       <div class="form-group">
-        <br/><br/>
         <%= f.text_field :username_or_email,id:"username_or_email", class: 'form-control', placeholder: 'Username or Email Address' %>
       </div>
 
@@ -40,23 +41,13 @@
          <a href="<%= password_resets_new_path %>">Forgot Password?</a>
        </div>
       <div>
-        <%= f.submit "Login", class: "btn btn-custom btn-lg btn-block" %>
+        <%= f.submit "Login", class: "huge ui teal icon button btn-block" %>
       </div>
       <% end %>
 		<br>
 		<p>
-			New to us? <%= link_to "Sign up", signup_signup_path %>
+			New to us? <%= link_to "Sign up", signup_path %>
 		</p>
 	</div>
 
-  <style type="text/css">
-    .btn-custom {
-      color: #fff;
-      background-color: #1fa67b;
-    }
-    .btn-custom:hover,
-    .btn-custom:focus {
-      color: #fff;
-    }
-  </style>
 </div>

@@ -44,7 +44,7 @@ gem 'bootstrap-wysihtml5-rails'
 gem 'will_paginate-bootstrap'
 
 # Used for front-end Integration
-gem 'semantic-ui-rails'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 # Use Tzinfo-Data (Fix issue when using Windows PC to get local time)
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

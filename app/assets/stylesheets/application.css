@@ -16,9 +16,11 @@
  *= require icon
  *= require selectize
  *= require selectize.default
- *= require semantic-ui
  *= require redactor-rails
+
+
  */
+
 
 .Signup_Errors{
     list-style-type: none;

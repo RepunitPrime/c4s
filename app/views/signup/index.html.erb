@@ -1,0 +1,68 @@
+<% @page_title = "UserAuth | Signup" %>
+<div class="Sign_Form">
+  <div class="container">
+    <!-- Display Flash Errors in Form if Any-->
+    <h2 class="page-header">Sign Up</h2>
+
+    <!-- Display Errors in Validating Form if Any-->
+    <div>
+      <% if @user != nil && @user.errors.any? %>
+          <div class="ui icon negative message">
+            <i class="remove circle icon"></i>
+            <div class="content">
+              <div class="header">
+                Please check the issues below:
+              </div>
+              <p>
+              <ul>
+                <% for message_error in @user.errors.full_messages %>
+                    <li> <%= message_error %></li>
+                <% end %>
+              </ul>
+              </p>
+            </div>
+          </div>
+      <%else %>
+          <div class="ui icon message">
+            <i class="inbox icon"></i>
+            <div class="content">
+              <div class="header">Join our c4s community!</div>
+              <p>Please fill all the necessary information to sign up to our website.</p>
+            </div>
+          </div>
+      <% end %>
+      <hr>
+    </div>
+
+
+    <!-- Display Sign Up Form-->
+    <%= form_for(:user, :url => {:controller => 'signup', :action => 'create'}) do |f| %>
+        <div class="form-group">
+          <%= f.label :Full_Name, class: 'control-label' %>
+          <%= f.text_field :name,id:"name", class: 'form-control',maxlength: '60' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :Username, class: 'control-label' %>
+          <%= f.text_field :username,id:"username", class: 'form-control',maxlength: '20' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :Email, class: 'control-label' %>
+          <%= f.text_field :email,id:"email", class: 'form-control',maxlength: '60' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :Password, class: 'control-label' %>
+          <%= f.password_field :password,id:"password", class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :Password_Confirmation, class: 'control-label' %>
+          <%= f.password_field :password_confirmation,id:"password_confirmation", class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <button type="submit" name="commit"  class="huge ui teal right labeled icon button">
+            <i class="arrow right icon"></i>Sign Up</button>
+        </div>
+
+
+    <% end %>
+  </div>
+</div>

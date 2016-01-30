@@ -1,38 +1,38 @@
-<div class="container">
 <% provide(:title, "Forgot password") %>
-<h2 class="page-header">Forgot password</h2>
-<div class="row">
-  <div class="ui icon message">
-    <i class="inbox icon"></i>
-    <div class="content">
-      <div class="header">
-        Please enter your email address.
+
+<div class="container">
+  <h2 class="page-header">Forgot password</h2>
+  <div class="row">
+    <div class="ui icon message">
+      <i class="inbox icon"></i>
+      <div class="content">
+        <div class="header">Please enter your email address.</div>
+        <p>You will receive an email with the instructions to reset your password.
+           <br/>If you didn't get an email, make sure you check your junk or spam folder.</p>
       </div>
-      <p>You will receive an email with the instructions to reset your password.<br/>If you didn't get an email, make sure you check your junk or spam folder.</p>
     </div>
-  </div>
-  <div class="col-sm-push-4 col-sm-4">
-      <% if flash[:color]== "valid" %>
-          <div class="valid_notice">
-            <p><%= flash[:notice]%></p>
+    <div class="col-sm-push-4 col-sm-4">
+      <br/>
+      <% if flash[:color]== "invalid"%>
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> <%=flash[:notice]%>
           </div>
-      <% elsif flash[:color]== "invalid"%>
-          <div class="invalid_notice">
-            <p><%=flash[:notice]%></p>
-          </div>
-      <%else%>
-          <div class="notice">
-            <p><%=flash[:notice]%></p>
+      <%elsif flash[:color]== "valid" %>
+          <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> <%=flash[:notice]%>
           </div>
       <%end%>
-      <br/>
       <%= form_for(:user, url: password_resets_create_path) do |f| %>
-        <%= f.email_field :email, class: 'form-control',placeholder: 'email address' %>
+        <%= f.email_field :email, class: 'form-control',placeholder: 'Email Address',maxlength: '60' %>
         <br/>
-        <%= f.submit "Submit", class: "btn btn-custom btn-lg btn-block" %>
+        <%= f.submit "Submit", class: "huge ui teal icon button btn-block" %>
       <% end %>
+      </div>
     </div>
-  </div>
 
   <style type="text/css">
     .btn-custom {

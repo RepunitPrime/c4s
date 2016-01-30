@@ -2,11 +2,6 @@ class SignupController < ApplicationController
 
   before_filter :save_login_state, :only => [:new, :create]
 
-  #create new user
-  def new
-    @user = User.new
-  end
-
   # post action to create a new user (sign up)
   def create
     @user = User.new(user_params)
@@ -16,7 +11,7 @@ class SignupController < ApplicationController
       flash[:notice] = "An activation email has been sent."
       redirect_to login_url
     else
-      render 'signup'
+      render 'index'
     end
   end
 

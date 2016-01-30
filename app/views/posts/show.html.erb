@@ -61,27 +61,45 @@
     </tr>
   </table>
 
-
+  <hr>
   <!--Add a Comment -->
-  <h3 class="page-header">Add a comment</h3>
-  <%= form_for([@post, @post.comments.build]) do |f| %>
-      <p>
-        <%= f.text_area :comment_body, class: 'form-control' %>
-      </p>
-      <p>
-        <%= f.submit "Buy", class: 'btn btn-primary' %>
-      </p>
-  <% end %>
-
-  <!-- Comments For Viewing post -->
-  <h3 class="page-header">Comments</h3>
-  <div class="list-group">
-    <% @post.comments.each do |comment| %>
-        <a class="list-group-item">
-          <h4 class="list-group-item-heading"> </h4>
-          <p class="list-group-item-text"><%= comment.comment_body %></p>
-        </a>
+  <div class="well">
+    <h3>Leave a Comment:</h3>
+    <%= form_for([@post, @post.ad_comments.build]) do |f| %>
+        <p>
+          <%= f.text_area :comment_body, class:'form-control' %>
+        </p>
+        <p>
+          <button type="submit" name="commit"  class="huge ui positive icon button">
+            <i class="save icon"></i>Add Comment</button>
+        </p>
     <% end %>
   </div>
+
+  <h3 class="page-header">Comments</h3>
+  <!-- Comment -->
+  <% @post.ad_comments.each do |comment| %>
+      <% if !comment.user_id.nil? %>
+          <div class="media">
+            <% if User.find(comment.user_id).profile_pic_file_name.nil? %>
+                <a class="pull-left" href="#">
+                  <%= image_tag('/Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
+                </a>
+            <%else%>
+                <a class="pull-left" href="#">
+                  <%= image_tag(User.find(comment.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
+                </a>
+            <%end%>
+            <div class="media-body">
+              <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
+                <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
+              </h2>
+              <%= comment.comment_body  %>
+            </div>
+          </div>
+          <br/>
+      <%end%>
+  <%end%>
+
 
 </div>

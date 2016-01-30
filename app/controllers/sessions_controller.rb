@@ -1,24 +1,32 @@
 class SessionsController < ApplicationController
 
   #Add authentication
-  before_filter :authenticate_user, :except => [:index, :login, :logout]
   before_filter :save_login_state, :only => [:index, :login]
+
+  #Class Variable used to redirect to the right page in case user is not logged in.
+  @@From;
 
   # get login form
   def index
-    @user = User.new
+    @user = User.new;
+    @@From = params[:From];
   end
 
   # Login Action
   def login
     authorized_user = User.authenticate(sessions_params[:username_or_email],sessions_params[:login_password])
+
     if authorized_user && !authorized_user.activated?
       flash.now[:notice] = "Email address has not been verfied yet"
       flash.now[:color]= "invalid"
       render 'index'
     elsif authorized_user
       log_in authorized_user
-      redirect_to welcome_index_path
+      if(@@From.nil?)
+        redirect_to welcome_index_path
+      else
+        redirect_to root_url + @@From.to_s[1..-1]
+      end
     else
       @current_user= nil;
       #show error message that user is invalid
