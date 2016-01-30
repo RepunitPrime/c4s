@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "attachment"
     t.string   "topic"
     t.boolean  "isDeleted"
+    t.string   "forSale"
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
@@ -69,6 +70,7 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "cost"
+    t.string   "bookexpected"
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
