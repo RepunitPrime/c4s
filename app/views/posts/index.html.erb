@@ -1,151 +1,167 @@
 <div class="container">
-  <div class="page-header">
-
-    <button class="ui labeled icon button" id="buttonWithMarginBtm" style="float: right" onclick="RedirectToPostsNew()">
-      <i class="add circle icon"></i>Post New Ad
+  <h2 class="page-header">Offers</h2>
+    <button class="ui labeled icon button" id="buttonWithMarginBtm"  onclick="RedirectToPostsNew()">
+      <i class="add circle icon"></i>New Offer
     </button>
-  </div>
 
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="tabs">
+    <li class="active"><a href="#Repository" data-toggle="tab">For Sale</a></li>
+    <li><a href="#User" data-toggle="tab">For Exchange</a></li>
+  </ul>
+  <!-- Tabs -->
 
-  <div class="row">
-    <div class="col-lg-8 col-xs-8">
-      
-      <span style="font-size: large; font-weight: bold">Books For Sale</span>
+  <!-- Tab Content -->
+  <div class="tab-content">
 
+    <!-- Repo -->
+    <div class="tab-pane active" id="Repository">
 
-      <% @posts.each do |post| %>
+      <h2 id="h1_margin_modified" >List of offers for sale</h2>
 
-          <% if post.forSale == "sell"%>
-          <table width="100%">
+      <div class="row">
+        <div class="col-lg-8 col-xs-8">
+          <% @Offers.each do |post| %>
+                  <table width="100%">
+                    <tr>
+                      <td width="110px">
+                        <% if post.image_file_name.nil? %>
+                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), post) %>
+                        <% else %>
+                            <%= link_to(image_tag(post.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), post) %>
+                        <% end %>
+                      </td>
+                      <td style="vertical-align: text-top;">
+                        <p style="margin-top: 5px">
+                          <strong><%=link_to(post.title,post) %></strong>
+                        </p>
+                        <p id="p_Modified_Teal">
+                          <spanp>&#8364;  </spanp>
+                          <% if post.cost.nil? %>
+                              0
+                          <% else %>
+                              <%= post.cost %>
+                          <% end %>
+                        </p>
 
-            <br><br>
+                        <% if !current_user.nil? && current_user.id == post.user.id %>
+                            <div class="ui buttons">
+                              <a href="<%= edit_post_path(post)%>"><button class="big ui button">
+                                <i class="edit left icon"></i>Edit</button>
+                              </a>
+                              <div class="or"></div>
+                              <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+                            </div>
+                        <% end %>
 
-            <tr>
-              <td style="width: 220px">
-                  <% if post.image_file_name.nil? %>
-                      <%= link_to(image_tag('/no_image.jpg', size: "200x200", class: "img-thumbnail"), post) %>
-                  <% else %>
-                      <%= link_to(image_tag(post.image, size: "200x200", :alt => "No Image", class: "img-thumbnail"), post) %>
-                  <% end %>
-                </td>
+                        <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
+                          <a><%= User.find_by(id: post.user_id).name %></a></h6>
 
-              <td style="vertical-align: text-top;">
-
-                <br>
-
-                <p>
-                  <strong><%=link_to(post.title,post) %></strong>
-                </p>
-
-
-                <p style="font-size: 20px;
-                    font-stretch: normal;
-                    color: #d58512;
-                    letter-spacing: 0.7px;">
-                  <spanp>&#8364;  </spanp>
-                  <% if post.cost.nil? %>
-                      0
-                  <% else %>
-                      <%= post.cost %>
-                  <% end %>
-                </p>
-
-
-                <br><br>
-
-                <% if (current_user.id == post.user.id) %>
-
-                    <%= link_to 'Edit', edit_post_path(post) %> |
-                    <%= link_to 'Delete', post, method: :delete, data: {confirm: 'Are you sure?'} %>
-
-                <% end %>
-
-
-                  <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                    <a><%= User.find_by(id: post.user_id).name %></a>.</h6>
-
-                  </td>
-                  </tr>
-
+                      </td>
+                    </tr>
+                    <hr>
                   </table>
-              <%end%>
-              <%end%>
-
-
-      <!--  pagination links like-->
-      <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
-
+          <%end%>
+          <!--  pagination links like-->
+          <%= will_paginate @Offers, renderer: BootstrapPagination::Rails %>
+        </div>
       </div>
     </div>
+    <div class="tab-pane" id="User">
 
+      <h2 id="h1_margin_modified" >List of offers for exchange</h2>
 
+      <div class="row">
+        <div class="col-lg-8 col-xs-8">
 
+          <% @OfferExchanges.each do |post| %>
 
-  <div class="row" style="margin-top: 100px ; position: relative">
-    <div class="col-lg-8 col-xs-8">
+                  <table width="100%">
+                    <tr>
+                      <td width="110px">
+                        <% if post.image_file_name.nil? %>
+                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), post) %>
+                        <% else %>
+                            <%= link_to(image_tag(post.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), post) %>
+                        <% end %>
+                      </td>
+                      <td style="vertical-align: text-top;">
+                        <p style="margin-top: 5px">
+                          <strong><%=link_to(post.title,post) %></strong>
+                        </p>
+                        <p id="p_Modified_Teal">
+                          <spanp>&#8364;  </spanp>
+                          <% if post.cost.nil? %>
+                              0
+                          <% else %>
+                              <%= post.cost %>
+                          <% end %>
+                        </p>
 
-      <span style="font-size: large; font-weight: bold">Books for Exchange</span>
+                        <% if !current_user.nil? && current_user.id == post.user.id %>
+                            <div class="ui buttons">
+                              <a href="<%= edit_post_path(post)%>"><button class="big ui button">
+                                <i class="edit left icon"></i>Edit</button>
+                              </a>
+                              <div class="or"></div>
+                              <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+                            </div>
+                        <% end %>
 
+                        <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
+                          <a><%= User.find_by(id: post.user_id).name %></a></h6>
 
-      <% @posts.each do |post| %>
-
-          <% if post.forSale == "exchange" %>
-              <table width="100%">
-
-                <br><br>
-
-                <tr>
-                  <td style="width: 220px">
-                    <% if post.image_file_name.nil? %>
-                        <%= link_to(image_tag('/no_image.jpg', size: "200x200", class: "img-thumbnail"), post) %>
-                    <% else %>
-                        <%= link_to(image_tag(post.image, size: "200x200", :alt => "No Image", class: "img-thumbnail"), post) %>
-                    <% end %>
-                  </td>
-
-                  <td style="vertical-align: text-top;">
-
-                    <br>
-
-                    <p>
-                      <strong><%=link_to(post.title,post) %></strong>
-                    </p>
-
-
-                    <br><br>
-
-                    <% if (current_user.id == post.user.id) %>
-
-                        <%= link_to 'Edit', edit_post_path(post) %> |
-                        <%= link_to 'Delete', post, method: :delete, data: {confirm: 'Are you sure?'} %>
-
-                    <% end %>
-
-
-                    <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                      <a><%= User.find_by(id: post.user_id).name %></a>.</h6>
-
-                  </td>
-                </tr>
-
-              </table>
-          <%end%>
-      <%end%>
-
-
-      <!--  pagination links like-->
-      <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
-
-
+                      </td>
+                    </tr>
+                    <hr>
+                  </table>
+              <%end%>
+          <!--  pagination links like-->
+          <%= will_paginate @OfferExchanges, renderer: BootstrapPagination::Rails %>
+        </div>
     </div>
   </div>
 
+    </div>
+</div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Article</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the article?</p>
+        </div>
+        <div class="modal-footer">
+          <a rel="nofollow" data-method="delete" href="<%= posts_path %>/ 0">
+            <button class="big ui button"><i class="checkmark icon" ></i>Yes</button>
+          </a>
+          <button type="button" class="big ui button" data-dismiss="modal"><i class="remove icon"></i>No</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="text/javascript">
 
     function RedirectToPostsNew() {
       window.location = "<%= new_post_url %>";
     }
+
+    $('#myModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var postId = button.data('post-id') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-footer a').attr("href", "<%=posts_path %>/"+postId);
+    });
+
   </script>
 
   </div>

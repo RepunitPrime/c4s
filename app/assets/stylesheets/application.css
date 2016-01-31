@@ -93,6 +93,10 @@
 {
     margin-top: 20px;
 }
+#h1_margin_modified
+{
+    margin-top: 10px;
+}
 #mrg_btm
 {
     margin-bottom: 10px;
@@ -120,6 +124,14 @@
 #lbl_red
 {
     color: red;
+}
+
+#p_Modified_Teal
+{
+    font-size: 20px;
+    font-stretch: normal;
+    color: teal;
+    letter-spacing: 0.7px;
 }
 
 .input-append .btn.dropdown-toggle {

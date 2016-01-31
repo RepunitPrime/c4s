@@ -12,7 +12,7 @@
       <!--along with td image is also responsive now-->
       <td style="width: 250px">
         <% if @post.image_file_name.nil? %>
-            <span style="margin-right: 20px">  <%= image_tag('/no_image.jpg', width: '92%', class: "img-rounded") %> </span>
+            <span style="margin-right: 20px">  <%= image_tag('/No_Image.png', width: '92%', class: "img-rounded") %> </span>
         <% else %>
             <span style="margin-right: 20px"><%= image_tag(@post.image, :alt => "No Image", width: '92%', class: "img-rounded") %></span>
         <% end %>
@@ -34,10 +34,7 @@
 
         <br><br>
 
-        <p style="font-size: 20px;
-            font-stretch: normal;
-            color: #d58512;
-            letter-spacing: 0.7px;">
+        <p id="p_Modified_Teal">
           <spanp>&#8364;  </spanp>
           <% if @post.cost.nil? %>
               0
