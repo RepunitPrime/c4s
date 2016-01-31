@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   has_many :post
   has_many :comments
   has_many :ad_comments
-  has_many :addresses
 
   acts_as_voter
 

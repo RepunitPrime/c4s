@@ -10,7 +10,7 @@
   <hr>
 <div class="col-sm-12">
   <br/><br/>
-  <%= form_for :user, class:"form form-horizontal", url:profile_update_path(current_user), method: :patch do |f| %>
+  <%= form_for :user, class:"form form-horizontal", url:profile_update_path(current_user),html: { multipart: true }, method: :patch do |f| %>
   <div class="text-center">
     <% if flash[:color]== "invalid"%>
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -37,7 +37,7 @@
       <div class="form-group">
         <%= f.label :Profile_Picture %>
         <br>
-        <%= f.file_field 'profile_pic', value:current_user.profile_pic, class:'form-control' %>
+        <%= f.file_field 'profile_pic', class:'filestyle form-control',data: {buttonBefore: "true"} %>
       </div>
           <div class="form-group">
             <%= f.label :Full_Name %>
@@ -55,13 +55,11 @@
             <%= f.text_field :email, class:'form-control', value: current_user.email,maxlength: '30' %>
           </div>
       <br/>
-
-      <%end%>
       <div class="form-group">
         <button type="submit" name="commit"  class="huge ui teal icon button">
           <i class="save icon"></i>Save</button>
       </div>
-
+  <%end%>
     </div>
   </div>
 </div>
