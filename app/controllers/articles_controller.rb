@@ -94,12 +94,8 @@ class ArticlesController < ApplicationController
   # show specific article
   def show
     @article = Article.find(params[:id]);
-    if($foo.nil?)
-      @article.views = @article.views + 1;
-      @article.save;
-    else
-      $foo = nil;
-    end
+    @article.views = @article.views + 1;
+    @article.save;
   end
 
   # get article for edit

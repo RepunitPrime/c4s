@@ -95,7 +95,7 @@
                   <div class="media-body">
                     <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
                       <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
-                      <% if current_user.id == comment.user_id  %>
+                      <% if !current_user.nil? && current_user.id == comment.user_id  %>
                           <button class="big ui button pull-right" id="test" data-toggle="modal" data-comment-id="<%= comment.id  %>" data-target="#myCommentDeleteModal" ><i class="remove icon"></i>Delete</button>
                       <%end%>
                     </h2>
