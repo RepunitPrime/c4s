@@ -1,5 +1,6 @@
 <% provide(:title, "Edit Profile") %>
 <div class="container">
+  <div class="panel-body">
   <!-- Title -->
   <h1 class="page-header">My Profile</h1>
   <div class="ui buttons">
@@ -8,7 +9,26 @@
 
 </div>
   <hr>
+
 <div class="col-sm-12">
+  <br/><br/>
+  <% if @user != nil && @user.errors.any? %>
+      <div class="ui icon negative message">
+        <i class="remove circle icon"></i>
+        <div class="content">
+          <div class="header">
+            Please check the issues below:
+          </div>
+          <p>
+          <ul>
+            <% for message_error in @user.errors.full_messages %>
+                <li> <%= message_error %></li>
+            <% end %>
+          </ul>
+          </p>
+        </div>
+      </div>
+  <% end %>
   <br/><br/>
   <%= form_for :user, class:"form form-horizontal", url:profile_update_path(current_user),html: { multipart: true }, method: :patch do |f| %>
   <div class="text-center">
@@ -54,7 +74,21 @@
             <br>
             <%= f.text_field :email, class:'form-control', value: current_user.email,maxlength: '30' %>
           </div>
-      <br/>
+      <div class="form-group">
+        <%= f.label :Phone_number %>
+        <br>
+        <div class="col-sm-2">
+          <input type="text" id="code" disabled="disabled" value="+49" class="form-control"/>
+        </div>
+        <div class="col-sm-6">
+          <%if current_user.phone.nil?%>
+              <%= f.text_field :phone,id:"phone", class: 'form-control', maxlength: '11'%>
+          <%else%>
+              <%= f.text_field :phone,id:"phone", class: 'form-control', value: current_user.phone, maxlength: '11'%>
+          <%end%>
+        </div>
+      </div>
+      <br/> <br/>
       <div class="form-group">
         <button type="submit" name="commit"  class="huge ui teal icon button">
           <i class="save icon"></i>Save</button>
@@ -62,6 +96,7 @@
   <%end%>
     </div>
   </div>
+</div>
 </div>
 
 </div>

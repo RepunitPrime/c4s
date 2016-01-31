@@ -49,7 +49,7 @@ class ProfileController < ApplicationController
 
   # get user object from http params
   def user_params
-      params.require(:user).permit(:name,:username,:email,:address,:profile_pic)
+      params.require(:user).permit(:name,:username,:email,:address,:profile_pic, :phone)
   end
 
   # get password objects from http params

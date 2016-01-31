@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :activated_at
       t.string   :reset_digest
       t.datetime :reset_sent_at
+      t.string  :phone
     end
   end
 
