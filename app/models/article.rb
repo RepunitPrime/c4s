@@ -1,9 +1,11 @@
 class Article < ActiveRecord::Base
   #Articles can have many comments
+  acts_as_votable
   has_many :comment, :dependent => :destroy
   has_many :article_attachments, :dependent => :destroy
   belongs_to :user
   belongs_to :topic
+
 
   validates :title, :presence => true, :uniqueness => false, :length => { :in => 0..60 }
 

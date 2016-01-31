@@ -26,13 +26,16 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bcrypt-ruby','3.1.1.rc1', :require => 'bcrypt'
 
+# Used for voting system
+gem 'acts_as_votable', '~> 0.10.0'
+
 # Used to manage adding pictures
 gem "paperclip"
 
+# Used for Text Editor
 gem 'redactor-rails'
 gem "carrierwave"
 gem "mini_magick"
-
 
 # Used for Dropdown menus
 gem "selectize-rails"

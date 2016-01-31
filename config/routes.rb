@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   patch 'profile/update_password'
   put 'profile/update_password'
 
+  post 'comments/delete'
+
   resources :articles do
     resources :comments
   end
@@ -26,6 +28,9 @@ Rails.application.routes.draw do
   #Add routing to the sign up page
   get 'signup' => 'signup#index'
   post 'signup' => 'signup#create'
+
+  get 'articles/new' => 'articles#index'
+  post 'articles/new' => 'articles#create'
 
   get 'login' => 'sessions#index'
   post 'login' => 'sessions#login'

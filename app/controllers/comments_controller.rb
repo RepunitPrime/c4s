@@ -24,9 +24,29 @@ class CommentsController < ApplicationController
 	    redirect_to article_path(@article)
 
     else
-      redirect_to login_url()
+      redirect_to login_path
     end
 
+  end
+
+  def destroy
+    @article = Article.find(params[:article_id]);
+    if !@article.nil?
+        @comment = Comment.find(params[:id]);
+        if !@comment.nil?
+          if current_user == @comment.user
+            @comment.destroy;
+            @article.count_comments -= 1;
+            @article.views -=1;
+            @article.save;
+            redirect_to article_path(params[:article_id]);
+          else
+            redirect_to login_path
+          end
+        end
+    else
+      redirect_to login_path
+    end
   end
 
 

@@ -18,7 +18,6 @@
  *= require selectize.default
  *= require redactor-rails
 
-
  */
 
 
@@ -129,4 +128,15 @@
 #paginator
 {
     margin: 0 auto;
+}
+#td-withConstantWidth
+{
+    max-width: 60px;
+}
+#main{
+    text-align:center; /* solution */
+}
+#inline{
+    display:inline-block;
+    overflow:hidden;
 }

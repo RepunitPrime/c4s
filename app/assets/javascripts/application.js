@@ -14,7 +14,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree
+//= require_tree .
 //= require selectize
 //= require redactor-rails
 //= require semantic-ui
+//= require bootstrap-filestyle.min.js

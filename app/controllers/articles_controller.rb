@@ -18,8 +18,6 @@ class ArticlesController < ApplicationController
   # get form page for creating
   def new
     validate_if_user_logged_in
-
-    @topics = Topic.all
   end
 
   # post action to create a new article
@@ -67,13 +65,16 @@ class ArticlesController < ApplicationController
       if !article2_params[:attach_file].nil?
         @article_attahments = ArticleAttachment.new();
         @article_attahments.attach_file = article2_params[:attach_file].tempfile;
+        @article_attahments.attach_file_file_name = article2_params[:attach_file].original_filename;
         @article_attahments.article = @article;
         @article_attahments.save
       end
 
       redirect_to articles_path
     else
-      @topics = Topic.all
+      $text = article_params[:text];
+      $tags = article_params[:Tags];
+      $topic = topic_params[:topic_name];
       render 'articles/new'
     end
   end
@@ -158,6 +159,18 @@ class ArticlesController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def like
+    @article = Article.find(params[:id]);
+    current_user.likes @article
+    redirect_to article_path(@article)
+  end
+
+  def dislike
+    @article = Article.find(params[:id]);
+    current_user.dislikes @article
+    redirect_to article_path(@article)
   end
 
   # delete specific article
