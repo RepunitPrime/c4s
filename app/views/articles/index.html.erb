@@ -8,6 +8,14 @@
 
   <div class="row">
       <div class="col-lg-8 col-xs-8">
+        <ul class="nav nav-tabs">
+          <li role="presentation" <%=if @most_popular.nil?
+                                       "class=active"
+                                       end %> ><a href="<%=articles_path%>">Recent Posts</a></li>
+          <li role="presentation" <%=if !@most_popular.nil?
+                                       "class=active"
+                                     end %> > <a href="/articles?most_popular=true">Most Popular</a></li>
+        </ul>
         <!-- Display Posts By popularity -->
         <% @articles.each do |article| %>
           <table width="100%"  >

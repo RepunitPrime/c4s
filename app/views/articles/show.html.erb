@@ -27,6 +27,7 @@
     <% end %>
     <table>
       <tr>
+        <%if !current_user.nil?%>
         <td>
           <div id="main">
             <div id="inline">
@@ -50,6 +51,7 @@
               </div>
           </div>
         </td>
+        <%end%>
         <td>
           <p> <%= @article.text.html_safe %> </p>
         </td>

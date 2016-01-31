@@ -12,6 +12,9 @@ class ArticlesController < ApplicationController
     elsif !params[:popular_topic].nil?
       @articles = Article.searchByTopic(params[:popular_topic]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
       @selected_topic = params[:popular_topic].to_s.remove('[',']')
+    elsif !params[:most_popular].nil?
+      @articles = Article.paginate(:page => params[:page], :per_page => 5).order("views DESC")
+      @most_popular = true;
     else
       @articles = Article.paginate(:page => params[:page], :per_page => 5).order("created_at DESC")
     end
@@ -87,10 +90,10 @@ class ArticlesController < ApplicationController
 
   # show specific article
   def show
-    article = Article.find(params[:id]);
+    @article = Article.find(params[:id]);
     if($foo.nil?)
-      article.views = @article.views + 1;
-      article.save;
+      @article.views = @article.views + 1;
+      @article.save;
     else
       $foo = nil;
     end
