@@ -1,6 +1,6 @@
 <div class="container">
   <div class="page-header">
-    <span style="font-size: large; font-weight: bold">Buy/Exchange</span>
+
     <button class="ui labeled icon button" id="buttonWithMarginBtm" style="float: right" onclick="RedirectToPostsNew()">
       <i class="add circle icon"></i>Post New Ad
     </button>
@@ -9,8 +9,13 @@
 
   <div class="row">
     <div class="col-lg-8 col-xs-8">
+      
+      <span style="font-size: large; font-weight: bold">Books For Sale</span>
+
 
       <% @posts.each do |post| %>
+
+          <% if post.forSale == "sell"%>
           <table width="100%">
 
             <br><br>
@@ -31,7 +36,6 @@
                 <p>
                   <strong><%=link_to(post.title,post) %></strong>
                 </p>
-
 
 
                 <p style="font-size: 20px;
@@ -64,12 +68,78 @@
                   </tr>
 
                   </table>
-              <% end %>
+              <%end%>
+              <%end%>
+
+
       <!--  pagination links like-->
       <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 
       </div>
     </div>
+
+
+
+
+  <div class="row" style="margin-top: 100px ; position: relative">
+    <div class="col-lg-8 col-xs-8">
+
+      <span style="font-size: large; font-weight: bold">Books for Exchange</span>
+
+
+      <% @posts.each do |post| %>
+
+          <% if post.forSale == "exchange" %>
+              <table width="100%">
+
+                <br><br>
+
+                <tr>
+                  <td style="width: 220px">
+                    <% if post.image_file_name.nil? %>
+                        <%= link_to(image_tag('/no_image.jpg', size: "200x200", class: "img-thumbnail"), post) %>
+                    <% else %>
+                        <%= link_to(image_tag(post.image, size: "200x200", :alt => "No Image", class: "img-thumbnail"), post) %>
+                    <% end %>
+                  </td>
+
+                  <td style="vertical-align: text-top;">
+
+                    <br>
+
+                    <p>
+                      <strong><%=link_to(post.title,post) %></strong>
+                    </p>
+
+
+                    <br><br>
+
+                    <% if (current_user.id == post.user.id) %>
+
+                        <%= link_to 'Edit', edit_post_path(post) %> |
+                        <%= link_to 'Delete', post, method: :delete, data: {confirm: 'Are you sure?'} %>
+
+                    <% end %>
+
+
+                    <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
+                      <a><%= User.find_by(id: post.user_id).name %></a>.</h6>
+
+                  </td>
+                </tr>
+
+              </table>
+          <%end%>
+      <%end%>
+
+
+      <!--  pagination links like-->
+      <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+
+
+    </div>
+  </div>
+
 
   <script type="text/javascript">
 
