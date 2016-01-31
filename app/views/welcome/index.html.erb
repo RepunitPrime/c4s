@@ -16,14 +16,58 @@
         <a class="huge ui teal icon button" href="<%= posts_url %>"?From=ads>Go to Ads</a>
       </div>
     </div>
-
   </header>
-	<p>Find out <%= link_to "About us", welcome_about_us_path %></p>
+  <!-- Add a Grid Example about showing recent articles  -->
+  <div id="grid" class="container-fluid bg-grey">
+    <div class="row" >
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <h2>Recent Articles</h2>
+        <% articles = Article.order("created_at DESC").limit(4) %>
+        <% if !articles.nil? %>
+            <table width="100%">
+              <% articles.each do |article| %>
+                <tr>
+                    <td>
+                      <a href="<%= article_path(article.id)%>"><%= article.title %>  </a>
+                    </td>
+                    <td>
+                      <h6 class="pull-right" >Posted <%= time_ago_in_words(article.created_at)%> ago</h6>
+                    </td>
+                </tr>
+              <% end%>
+            </table>
+        <% end%>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <h2>Recent Offers</h2>
+        <% offers = Post.order("created_at DESC").limit(4) %>
+        <% if !offers.nil? %>
+            <table width="100%">
+              <% offers.each do |offer| %>
+                  <tr>
+                    <td>
+                      <a href="<%= posts_path(offer.id)%>"><%= offer.title %>  </a>
+                    </td>
+                    <td>
+                      <h6 class="pull-right" >Posted <%= time_ago_in_words(offer.created_at)%> ago</h6>
+                    </td>
+                  </tr>
+              <% end%>
+            </table>
+        <% end%>
+      </div>
+    </div>
+  </div>
 
- <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+
+
+  <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
     <div class="container">
       <div class="navbar-text pull-left">
         <p>© 2015 Repunit Prime</p>
+      </div>
+      <div class="navbar-text pull-right">
+        <p>Find out more <%= link_to "About us", welcome_about_us_path %></p>
       </div>
     <!--<div class="navbar-text pull-right">-->
         <!--<a href="#"><i class="fa fa-facebook-square fa-2x"></i></a>-->

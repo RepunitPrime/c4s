@@ -9,12 +9,17 @@
   <div class="row">
       <div class="col-lg-8 col-xs-8">
         <ul class="nav nav-tabs">
-          <li role="presentation" <%=if @most_popular.nil?
+          <li role="presentation" <%=if @most_popular.nil? && @my_posts.nil?
                                        "class=active"
                                        end %> ><a href="<%=articles_path%>">Recent Posts</a></li>
           <li role="presentation" <%=if !@most_popular.nil?
                                        "class=active"
                                      end %> > <a href="/articles?most_popular=true">Most Popular</a></li>
+          <% if current_user %>
+            <li role="presentation" <%=if !@my_posts.nil?
+                                         "class=active"
+                                       end %> > <a href="/articles?my_posts=true">My Posts</a></li>
+          <%end%>
         </ul>
         <!-- Display Posts By popularity -->
         <% @articles.each do |article| %>
