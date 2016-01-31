@@ -13,10 +13,13 @@ class ArticlesController < ApplicationController
       @articles = Article.searchByTopic(params[:popular_topic]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
       @selected_topic = params[:popular_topic].to_s.remove('[',']')
     elsif !params[:most_popular].nil?
-      @articles = Article.paginate(:page => params[:page], :per_page => 5).order("views DESC")
+      @articles = Article.order("views DESC").paginate(:page => params[:page], :per_page => 5)
       @most_popular = true;
+    elsif !params[:my_posts].nil? && !current_user.nil?
+      @articles = Article.where("user_id= "+current_user.id.to_s).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+      @my_posts = true;
     else
-      @articles = Article.paginate(:page => params[:page], :per_page => 5).order("created_at DESC")
+      @articles = Article.order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
     end
 
     @tags = Tag.order("count DESC").limit(10)
