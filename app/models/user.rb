@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :post
   has_many :comments
   has_many :ad_comments
+  has_many :addresses
 
   #Handle Password (Encryption, Decryption)
 

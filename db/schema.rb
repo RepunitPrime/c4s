@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   add_index "ad_comments", ["post_id"], name: "index_ad_comments_on_post_id"
   add_index "ad_comments", ["user_id"], name: "index_ad_comments_on_user_id"
 
+  create_table "addresses", force: :cascade do |t|
+    t.string   "streetname"
+    t.integer  "streetnumber"
+    t.string   "city"
+    t.string   "country"
+    t.integer  "pincode"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
+
   create_table "article_attachments", force: :cascade do |t|
     t.integer  "article_id"
     t.datetime "created_at",               null: false
