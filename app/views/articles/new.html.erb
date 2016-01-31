@@ -1,10 +1,9 @@
 <div class="container">
-
   <h2 class="page-header">New Post</h2>
     <button id="mrg_btm" class="big ui button" onclick="RedirectToArticles()">
       <i class="arrow circle outline left icon"></i>Back</button>
 
-	<%= form_for :article, class:"form form-horizontal",  url:articles_path do |f| %>
+<%= form_for(:article, :url => {:controller => 'articles', :action => 'new'}) do |f| %>
 	<div class="form-group">
     <label>Title <label id="lbl_red">*</label></label>
 		<br>
@@ -20,12 +19,15 @@
 	<div class="form-group">
     <%= f.label :text %>
     <br>
-    <textarea id="text" name="article[text]" class='redactor form-control' rows="10" placeholder="Enter text ..."></textarea>
+    <%= f.text_area :text, class:'redactor form-control', value: if $text
+                                                                    $text.html_safe; end, placeholder: "Enter text...." %>
+    <% if $text
+       $text = nil; end %>
   </div>
   <div class="form-group">
     <%= f.label :Add_Attachment %>
     <br>
-    <%= f.file_field :attach_file, class:'form-control' %>
+    <%= f.file_field :attach_file, class:'filestyle form-control',data: {buttonBefore: "true"} %>
   </div>
 
 
@@ -33,20 +35,28 @@
         <label for="select_topic">Topic</label>
         <select  id="select_topic" name="article[topic_name]" class="demo-default" placeholder="Select a topic...">
           <option value="">Select a topic...</option>
-          <% @topics.each do |topic| %>
+          <% if $topic %>
+              <option value="<%= $topic %>" selected ><%= $topic %></option> <%end%>
+          <% Topic.all.each do |topic| %>
             <option value="<%= topic.topic_name%>"><%= topic.topic_name %></option>
           <% end %>
         </select>
   </div>
   <div class="form-group">
         <label for="input_tags">Tags</label>
-        <input type="text" id="input_tags" name="article[Tags]" class="demo-default">
+        <input type="text" id="input_tags" name="article[Tags]" value="<%= if $tags
+                                                                            $tags
+                                                                           end%>" class="demo-default">
   </div>
 
 	<div class="form-group">
       <button type="submit" name="commit"  class="huge ui positive icon button">
         <i class="save icon"></i>Save</button>
 	</div>
+    <!--clear data            -->
+    <%  $topic = nil;
+        $text = nil;
+        $tags = nil;  %>
 	<% end %>
 </div>
 

@@ -16,6 +16,93 @@
     <% end %>
     </div>
 
+    <hr>
+
+    <!-- Date/Time and posted by who-->
+    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="#"><%= @article.user.username %></a></p>
+    <hr>
+
+    <% if !@article.topic.nil? %>
+      <p><i class="comment outline icon"></i> <%= @article.topic.topic_name %></p>
+    <% end %>
+    <table>
+      <tr>
+        <td>
+          <div id="main">
+            <div id="inline">
+              <% if current_user.voted_up_on? @article %>
+                  <a id="inline" class="ui big disabled positive icon button"  href="<%= articles_path %>/like/<%= @article.id %>"><i class="thumbs outline up icon"></i></a>
+              <% else%>
+                  <a id="inline" class="ui big positive icon button"  href="<%= articles_path %>/like/<%= @article.id %>"><i class="thumbs outline up icon"></i></a>
+              <%end%>
+            </div>
+            <br/>
+            <div id="inline">
+              <a id="inline" class="ui big label"><%=@article.get_upvotes.size - @article.get_downvotes.size %></a>
+            </div>
+            <br/>
+            <div id="inline">
+              <% if current_user.voted_down_on? @article %>
+                  <a id="inline" class="ui big disabled negative icon button" href="<%= articles_path %>/dislike/<%= @article.id %>"><i class="thumbs outline down icon"></i></a>
+              <% else%>
+                  <a id="inline" class="ui big negative icon button" href="<%= articles_path %>/dislike/<%= @article.id %>"><i class="thumbs outline down icon"></i></a>
+              <%end%>
+              </div>
+          </div>
+        </td>
+        <td>
+          <p> <%= @article.text.html_safe %> </p>
+        </td>
+      </tr>
+    </table>
+    <% if !@article.article_attachments.first.nil? %>
+        <p><i class="attach icon"></i> <a href="../files/<%= @article.article_attachments.first.id.to_s %>/<%=@article.article_attachments.first.attach_file_file_name%>" ><%=@article.article_attachments.first.attach_file_file_name%></a> </p>
+    <% end %>
+
+    <hr>
+
+    <!-- Comments Form -->
+    <div class="well">
+      <h3>Leave a Comment:</h3>
+      <%= form_for([@article, @article.comment.build]) do |f| %>
+          <p>
+            <%= f.text_area :comment_body, class:'form-control' %>
+          </p>
+          <p>
+            <button type="submit" name="commit"  class="huge ui positive icon button">
+              <i class="save icon"></i>Add Comment</button>
+          </p>
+      <% end %>
+    </div>
+
+    <!-- Comment -->
+    <% if @article.count_comments != 0 %>
+      <h3 class="page-header">Comments</h3>
+      <% @article.comment.each do |comment| %>
+            <% if !comment.user_id.nil? %>
+                <div class="media">
+                  <% if User.find(comment.user_id).profile_pic_file_name.nil? %>
+                      <a class="pull-left" href="#">
+                        <%= image_tag('/Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
+                      </a>
+                  <%else%>
+                      <a class="pull-left" href="#">
+                        <%= image_tag(User.find(comment.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
+                      </a>
+                  <%end%>
+                  <div class="media-body">
+                    <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
+                      <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
+                      <% if current_user.id == comment.user_id  %>
+                          <button class="big ui button pull-right" id="test" data-toggle="modal" data-comment-id="<%= comment.id  %>" data-target="#myCommentDeleteModal" ><i class="remove icon"></i>Delete</button>
+                      <%end%>
+                    </h2>
+                    <%= comment.comment_body  %>
+                  </div>
+                </div>
+              <%end%>
+          <%end%>
+      <%end%>
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog modal-sm">
@@ -36,69 +123,49 @@
         </div>
       </div>
     </div>
-
-    <hr>
-
-    <!-- Date/Time and posted by who-->
-    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="#"><%= @article.user.username %></a></p>
-    <hr>
-
-    <% if !@article.topic.nil? %>
-      <p><i class="comment outline icon"></i> <%= @article.topic.topic_name %></p>
-    <% end %>
-    <p> <%= @article.text.html_safe %> </p>
-
-    <% if !@article.article_attachments.first.nil? %>
-        <p><i class="attach icon"></i> <a href="../files/<%= @article.article_attachments.first.id.to_s %>/<%=@article.article_attachments.first.attach_file_file_name%>" >Attached File</a> </p>
-    <% end %>
-
-    <!-- Comments Form -->
-    <div class="well">
-      <h3>Leave a Comment:</h3>
-      <%= form_for([@article, @article.comment.build]) do |f| %>
-          <p>
-            <%= f.text_area :comment_body, class:'form-control' %>
-          </p>
-          <p>
-            <button type="submit" name="commit"  class="huge ui positive icon button">
-              <i class="save icon"></i>Add Comment</button>
-          </p>
-      <% end %>
+    <!-- Modal -->
+    <div class="modal fade" id="myCommentDeleteModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete Comment</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this comment?</p>
+          </div>
+          <div class="modal-footer">
+            <a rel="nofollow" data-method="delete" href="">
+              <button class="big ui button"><i class="checkmark icon" ></i>Yes</button>
+            </a>
+            <button type="button" class="big ui button" data-dismiss="modal"><i class="remove icon"></i>No</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <h3 class="page-header">Comments</h3>
-    <!-- Comment -->
-      <% @article.comment.each do |comment| %>
-          <% if !comment.user_id.nil? %>
-              <div class="media">
-                <% if User.find(comment.user_id).profile_pic_file_name.nil? %>
-                    <a class="pull-left" href="#">
-                      <%= image_tag('/Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
-                    </a>
-                <%else%>
-                    <a class="pull-left" href="#">
-                      <%= image_tag(User.find(comment.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
-                    </a>
-                <%end%>
-                <div class="media-body">
-                  <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
-                    <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
-                  </h2>
-                  <%= comment.comment_body  %>
-                </div>
-              </div>
-            <%end%>
-          <%end%>
+
   </div>
 
 
   <script>
+
     function RedirectToArticles() {
       window.location = "<%= articles_url %>"
     }
     function RedirectToEdit() {
       window.location = "<%= edit_article_url %>"
     }
+
+    $('#myCommentDeleteModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var commentId = button.data('comment-id') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-footer a').attr("href", "<%=article_comments_path(@article.id)  %>/"+commentId);
+    })
+
   </script>
 
 </div>

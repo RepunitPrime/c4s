@@ -3,7 +3,11 @@ class User < ActiveRecord::Base
   has_many :post
   has_many :comments
   has_many :ad_comments
+<<<<<<< HEAD
   has_many :addresses
+=======
+  acts_as_voter
+>>>>>>> 2263dd8b68942b54845854d77dab37e74a699460
 
   #Handle Password (Encryption, Decryption)
 

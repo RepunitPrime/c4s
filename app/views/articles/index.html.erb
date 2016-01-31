@@ -13,7 +13,7 @@
           <table width="100%"  >
             <tr>
                  <div class = "ui circular labels">
-                   <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.vote) %></a></td>
+                   <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.get_upvotes.size - article.get_downvotes.size) %></a></td>
                    <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.count_comments) %></a></td>
                    <td id="td_centered"><a class="ui label"><%= number_with_delimiter(article.views) %></a></td>
                  </div>
