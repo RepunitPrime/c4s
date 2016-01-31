@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "username"
     t.string   "encrypted_password"
     t.string   "salt"
-    t.string   "address"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "activation_digest"
