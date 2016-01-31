@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   validates :profile_pic,
             attachment_content_type: { content_type: /\Aimage\/.*\Z/ },
             attachment_size: { less_than: 5.megabytes }
+  validates_format_of :phone, with: /\A[0-9]{11}\Z/, :allow_blank => true, :on => :update, :message => 'Invalid. Enter a valid 11-digit Germany number'
 
   # Attach Profile Pic to User
   has_attached_file :profile_pic
