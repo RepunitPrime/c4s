@@ -7,7 +7,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string   :username
       t.string   :encrypted_password
       t.string   :salt
-      t.string   :address
       t.timestamps null: false
       t.string   :activation_digest
       t.boolean  :activated
