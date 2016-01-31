@@ -54,7 +54,7 @@
               <input type="text" class="form-control" name="search" id="search" onchange="HandleIcon()" onpaste="HandleIcon()" onkeyup="HandleIcon()" onkeydown="RedirectToOnClick()" value="<%= @srch%>" placeholder="Search Posts" />
               <span class="input-group-btn">
                               <button class="btn btn-default" type="input" id="commit" name="commit" onclick="RedirectToArticles()">
-                                <span id="span_icon" class="<%= if(@srch.nil?)
+                                <span id="span_icon" class="<%= if(@srch.nil? || @srch.to_s.empty?)
                                                                  "glyphicon glyphicon-search"
                                                                else "glyphicon glyphicon-remove" end %>"></span>
                               </button>
@@ -86,7 +86,32 @@
               <% end %>
           <% end %>
          </div>
+        </div>
+
+        <div class="well">
+          <h4>Popular Topics</h4>
+          <div class="ui horizontal list">
+            <% if !@PopularTopics.nil?%>
+                <% @PopularTopics.each do |topic| %>
+                    <div class="item">
+                      <div class="ui teal tag labels">
+                        <% if topic.topic_name == @selected_topic %>
+                            <a class="ui label" href="/articles">
+                              <%= topic.topic_name %>
+                              <i class="delete icon"></i>
+                            </a>
+                        <%else %>
+                            <a class="ui label" href="/articles?popular_topic=<%= topic.topic_name %>">
+                              <%= topic.topic_name %>
+                              <i class="detail"><%= topic.count %></i>
+                            </a>
+                        <% end %>
+                      </div>
+                    </div>
+                <% end %>
+            <% end %>
           </div>
+        </div>
 
         <!-- Side Widget Well -->
         <div class="well">

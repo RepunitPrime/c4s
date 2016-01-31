@@ -18,4 +18,16 @@ class Article < ActiveRecord::Base
     # Title is for the above case, the OP incorrectly had 'name'
     where("tags_search LIKE ?","%#{search}%")
   end
+
+  def self.searchByTopic(search)
+    # Title is for the above case, the OP incorrectly had 'name'
+    topic = Topic.find_by_topic_name(search)
+    where("topic_id = "+ topic.id.to_s)
+  end
+
+  def self.selectByTopic()
+    # Title is for the above case, the OP incorrectly had 'name'
+    Topic.joins(:articles).select("topics.topic_name, count(articles.topic_id) as count").group("topics.topic_name")
+  end
+
 end
