@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "attachment"
     t.string   "topic"
     t.boolean  "isDeleted"
+    t.string   "forSale"
+    t.string   "bookexpected"
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
