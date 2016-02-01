@@ -22,9 +22,6 @@ class ArticlesController < ApplicationController
       @articles = Article.order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
     end
 
-    @tags = Tag.order("count DESC").limit(10)
-    @PopularTopics = Article.selectByTopic().order("count DESC").limit(10)
-
   end
 
   # get form page for creating
@@ -41,45 +38,16 @@ class ArticlesController < ApplicationController
 
     if article.save
 
-      topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first
-
-      #Add Topic to the Topic table if new
-      if(topic.nil?)
-        topic = Topic.new(topic_params)
-        topic.save
-        article.topic = topic
-      else
-        article.topic = topic
-      end
-
-      tagsSearch = ''
-      #Add count of tags for statistic purposes
-      if(!article_params[:Tags].nil?)
-        split_tags = article_params[:Tags].to_s.split(',')
-        split_tags.each do |tag|
-          tempTag = Tag.find_by_name(tag)
-          tagsSearch += '['+tag+']'
-          if(tempTag.nil?)
-            tempTag = Tag.new()
-            tempTag.name = tag
-            tempTag.count = 1
-          else
-            tempTag.count += 1;
-          end
-          tempTag.save
-        end
-        article.tags_search= tagsSearch
-        article.save
-      end
-
+      addTopic(topic_params[:topic_name].to_s,article)
+      addTagsAndhandleTagCount(article)
 
       #Add File Attachments
       if !article2_params[:attach_file].nil?
-        article_attahments = ArticleAttachment.new()
-        article_attahments.attach_file = article2_params[:attach_file].tempfile
-        article_attahments.attach_file_file_name = article2_params[:attach_file].original_filename
-        article_attahments.article = article
-        article_attahments.save
+        article_attachments = ArticleAttachment.new()
+        article_attachments.attach_file = article2_params[:attach_file].tempfile
+        article_attachments.attach_file_file_name = article2_params[:attach_file].original_filename
+        article_attachments.article = article
+        article_attachments.save
       end
 
       redirect_to articles_path
@@ -109,53 +77,12 @@ class ArticlesController < ApplicationController
     validate_if_user_logged_in
 
     article = Article.find(params[:id])
-    prevTags = @article.Tags
+    prevTags = article.Tags
     if article.update(article_params)
 
-      topic = Topic.where(:topic_name => topic_params[:topic_name].to_s).first;
-
-      #Add Topic to the Topic table if new
-      if(topic.nil?)
-        topic = Topic.new(topic_params)
-        topic.save
-        article.topic = topic
-      else
-        article.topic = topic
-      end
-
-      if prevTags != article_params[:Tags]
-          split_tags = prevTags.to_s.split(',');
-          split_tags.each do |tag|
-            tempTag = Tag.find_by_name(tag)
-            if(!tempTag.nil?)
-              tempTag.count -= 1;
-              if(tempTag.count == 0)
-                tempTag.destroy
-              else
-                tempTag.save
-              end
-            end
-          end
-
-          tagsSearch = '';
-          #Add count of tags for statistic purposes
-          if(!article_params[:Tags].nil?)
-            split_tags = article_params[:Tags].to_s.split(',');
-            split_tags.each do |tag|
-              tempTag = Tag.find_by_name(tag)
-              tagsSearch += '['+tag+']'
-              if(tempTag.nil?)
-                tempTag = Tag.new();
-                tempTag.name = tag;
-                tempTag.count = 1;
-              else
-                tempTag.count += 1;
-              end
-              tempTag.save
-            end
-            article.tags_search= tagsSearch;
-          end
-      end
+      addTopic(topic_params[:topic_name].to_s,article)
+      handleTagUpdates(prevTags)
+      addTagsAndhandleTagCount(article)
 
       if article.save
         redirect_to articles_path
@@ -167,17 +94,6 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def like
-    article = Article.find(params[:id]);
-    current_user.likes article
-    redirect_to article_path(article)
-  end
-
-  def dislike
-    article = Article.find(params[:id]);
-    current_user.dislikes article
-    redirect_to article_path(article)
-  end
 
   # delete specific article
   def destroy
@@ -203,6 +119,74 @@ class ArticlesController < ApplicationController
 
     article.destroy
     redirect_to articles_path
+  end
+
+  def like
+    article = Article.find(params[:id]);
+    current_user.likes article
+    redirect_to article_path(article)
+  end
+
+  def dislike
+    article = Article.find(params[:id]);
+    current_user.dislikes article
+    redirect_to article_path(article)
+  end
+
+  # Handle Tags
+  def addTagsAndhandleTagCount(article)
+
+    tagsSearch = '';
+    #Add count of tags for statistic purposes
+    if(!article_params[:Tags].nil?)
+      split_tags = article_params[:Tags].to_s.split(',');
+      split_tags.each do |tag|
+        tempTag = Tag.find_by_name(tag)
+        tagsSearch += '['+tag+']'
+        if(tempTag.nil?)
+          tempTag = Tag.new();
+          tempTag.name = tag;
+          tempTag.count = 1;
+        else
+          tempTag.count += 1;
+        end
+        tempTag.save
+      end
+      article.tags_search= tagsSearch;
+      article.save
+    end
+  end
+
+  def handleTagUpdates(prevTags)
+
+    if prevTags != article_params[:Tags]
+      split_tags = prevTags.to_s.split(',');
+      split_tags.each do |tag|
+        tempTag = Tag.find_by_name(tag)
+        if(!tempTag.nil?)
+          tempTag.count -= 1;
+          if(tempTag.count == 0)
+            tempTag.destroy
+          else
+            tempTag.save
+          end
+        end
+      end
+    end
+  end
+
+  #Method to Add a Topic to the Article
+  def addTopic(topic_name,article)
+    topic = Topic.where(:topic_name => topic_name).first;
+    #Add Topic to the Topic table if new
+    if(topic.nil?)
+      topic = Topic.new(topic_params)
+      topic.save
+      article.topic = topic
+    else
+      article.topic = topic
+    end
+    article.save
   end
 
   private

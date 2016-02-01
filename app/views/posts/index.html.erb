@@ -6,8 +6,8 @@
 
   <!-- Tabs -->
   <ul class="nav nav-tabs" id="tabs">
-    <li class="active"><a href="#Repository" data-toggle="tab">For Sale</a></li>
-    <li><a href="#User" data-toggle="tab">For Exchange</a></li>
+    <li class="active"><a href="#OffersForSale" data-toggle="tab">For Sale</a></li>
+    <li><a id="tab2" href="#OffersForExchange" data-toggle="tab">For Exchange</a></li>
   </ul>
   <!-- Tabs -->
 
@@ -15,7 +15,7 @@
   <div class="tab-content">
 
     <!-- Repo -->
-    <div class="tab-pane active" id="Repository">
+    <div class="tab-pane active" id="OffersForSale">
 
       <h2 id="h1_margin_modified" >List of offers for sale</h2>
 
@@ -43,6 +43,19 @@
                               <%= post.cost %>
                           <% end %>
                         </p>
+                        <div class="pull-right">
+                          <% if !post.tags.nil?%>
+                              <% tags = post.tags.split(',')  %>
+                              <% tags.take(5).each do |tag| %>
+                                  <a id="a_small" class="ui teal label"><%= tag %></a>
+                              <% end %>
+                          <% end %>
+                          <% if tags.count > 5 %>
+                              <a id="a_small" class="ui teal label">. . . </a>
+                          <%end%>
+                        </div>
+                        <br/>
+                        <br/>
 
                         <% if !current_user.nil? && current_user.id == post.user.id %>
                             <div class="ui buttons">
@@ -59,15 +72,61 @@
 
                       </td>
                     </tr>
-                    <hr>
+                    <hr id="mgSmall">
                   </table>
           <%end%>
           <!--  pagination links like-->
           <%= will_paginate @Offers, renderer: BootstrapPagination::Rails %>
         </div>
+        <!-- Blog Sidebar Widgets Column -->
+        <div class="col-lg-4 col-xs-4">
+          <!-- Blog Search Well -->
+          <div class="well">
+            <h4>Offer Search</h4>
+            <div class="input-group">
+              <input type="text" class="form-control" name="search" id="search" onchange="HandleIcon()" onpaste="HandleIcon()" onkeyup="HandleIcon()" onkeydown="RedirectToOnClick()" value="<%= @srch%>" placeholder="Search Offers" />
+              <span class="input-group-btn">
+                              <button class="btn btn-default" type="input" id="commit" name="commit" onclick="RedirectToPosts()">
+                                <span id="span_icon" class="<%= if(@srch.nil? || @srch.to_s.empty?)
+                                                                  "glyphicon glyphicon-search"
+                                                                else "glyphicon glyphicon-remove" end %>"></span>
+                              </button>
+                          </span>
+            </div>
+            <!-- /.input-group -->
+          </div>
+          <!-- Blog Categories Well -->
+          <div class="well">
+            <h4>Popular Tags</h4>
+            <div class="ui horizontal list">
+              <% tags = OfferTagForSale.order("count DESC").limit(10) %>
+              <% if !tags.nil?%>
+                  <% tags.each do |tag| %>
+                      <div class="item">
+                        <div class="ui teal tag labels">
+                          <% if tag.name == @selected_tag %>
+                              <a class="ui label" href="/posts">
+                                <%= tag.name %>
+                                <i class="delete icon"></i>
+                              </a>
+                          <%else %>
+                              <a class="ui label" href="/posts?popular_tag=[<%= tag.name %>]&ComingFrom=Sale">
+                                <%= tag.name %>
+                                <i class="detail"><%= tag.count %></i>
+                              </a>
+                          <% end %>
+                        </div>
+                      </div>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="tab-pane" id="User">
+
+
+    <div class="tab-pane" id="OffersForExchange">
 
       <h2 id="h1_margin_modified" >List of offers for exchange</h2>
 
@@ -97,6 +156,19 @@
                               <%= post.cost %>
                           <% end %>
                         </p>
+                        <div class="pull-right">
+                          <% if !post.tags.nil?%>
+                              <% tags = post.tags.split(',')  %>
+                              <% tags.take(5).each do |tag| %>
+                                  <a id="a_small" class="ui teal label"><%= tag %></a>
+                              <% end %>
+                          <% end %>
+                          <% if tags.count > 5 %>
+                              <a id="a_small" class="ui teal label">. . . </a>
+                          <%end%>
+                        </div>
+                        <br/>
+                        <br/>
 
                         <% if !current_user.nil? && current_user.id == post.user.id %>
                             <div class="ui buttons">
@@ -118,6 +190,50 @@
               <%end%>
           <!--  pagination links like-->
           <%= will_paginate @OfferExchanges, renderer: BootstrapPagination::Rails %>
+        </div>
+        <!-- Blog Sidebar Widgets Column -->
+        <div class="col-lg-4 col-xs-4">
+          <!-- Blog Search Well -->
+          <div class="well">
+            <h4>Offer Search</h4>
+            <div class="input-group">
+              <input type="text" class="form-control" name="search" id="search" onchange="HandleIcon()" onpaste="HandleIcon()" onkeyup="HandleIcon()" onkeydown="RedirectToOnClick()" value="<%= @srch%>" placeholder="Search Offers" />
+              <span class="input-group-btn">
+                              <button class="btn btn-default" type="input" id="commit" name="commit" onclick="RedirectToPosts()">
+                                <span id="span_icon" class="<%= if(@srch.nil? || @srch.to_s.empty?)
+                                                                  "glyphicon glyphicon-search"
+                                                                else "glyphicon glyphicon-remove" end %>"></span>
+                              </button>
+                          </span>
+            </div>
+            <!-- /.input-group -->
+          </div>
+          <!-- Blog Categories Well -->
+          <div class="well">
+            <h4>Popular Tags</h4>
+            <div class="ui horizontal list">
+              <% tags = OfferTagForExchange.order("count DESC").limit(10) %>
+              <% if !tags.nil?%>
+                  <% tags.each do |tag| %>
+                      <div class="item">
+                        <div class="ui teal tag labels">
+                          <% if tag.name == @selected_tag1 %>
+                              <a class="ui label" href="/posts?ComingFrom=Exchange">
+                                <%= tag.name %>
+                                <i class="delete icon"></i>
+                              </a>
+                          <%else %>
+                              <a class="ui label" href="/posts?popular_tag=[<%= tag.name %>]&ComingFrom=Exchange">
+                                <%= tag.name %>
+                                <i class="detail"><%= tag.count %></i>
+                              </a>
+                          <% end %>
+                        </div>
+                      </div>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -153,6 +269,13 @@
       window.location = "<%= new_post_url %>";
     }
 
+    $( document ).ready(function() {
+       <%if !@selected_tag1.nil? || !@ComingFromExchange.nil? %>
+          $("#tab2").trigger("click"); //when you need in the function
+       <% end%>
+
+    });
+
     $('#myModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var postId = button.data('post-id') // Extract info from data-* attributes
@@ -161,6 +284,31 @@
       var modal = $(this)
       modal.find('.modal-footer a').attr("href", "<%=posts_path %>/"+postId);
     });
+
+
+    function RedirectToPosts() {
+      if(document.getElementById('span_icon').className == "glyphicon glyphicon-remove"){
+        document.getElementById('search').value = "";
+        document.getElementById('span_icon').className = "glyphicon glyphicon-search"
+        window.location = "<%= posts_path %>";
+      }
+      else
+        window.location = "<%= posts_path %>?search="+document.getElementById('search').value;
+    }
+    function RedirectToOnClick() {
+      if (event.keyCode == 13)
+        window.location = "<%= posts_path %>?search="+document.getElementById('search').value;
+    }
+    function HandleIcon() {
+      if(document.getElementById('search').value.toString().length > 0)
+      {
+        document.getElementById('span_icon').className = "glyphicon glyphicon-remove";
+      }
+      else
+      {
+        document.getElementById('span_icon').className = "glyphicon glyphicon-search"
+      }
+    }
 
   </script>
 

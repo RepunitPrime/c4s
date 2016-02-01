@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201601197051563) do
+ActiveRecord::Schema.define(version: 201601197051564) do
+
+  create_table "Offer_Tags_For_Sale", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "ad_comments", force: :cascade do |t|
     t.text     "comment_body"
@@ -63,6 +70,13 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "offer_tag_for_exchanges", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "detail"
@@ -79,6 +93,8 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "cost"
+    t.string   "tags"
+    t.string   "tags_search"
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
