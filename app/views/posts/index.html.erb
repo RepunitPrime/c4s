@@ -33,7 +33,7 @@
                       </td>
                       <td style="vertical-align: text-top;">
                         <p style="margin-top: 5px">
-                          <strong><%=link_to(post.title,post) %></strong>
+                          <strong style="font-size: 18px"><%=link_to(post.title,post) %></strong>
                         </p>
                         <p id="p_Modified_Teal">
                           <spanp>&#8364;  </spanp>
@@ -87,17 +87,25 @@
                       </td>
                       <td style="vertical-align: text-top;">
                         <p style="margin-top: 5px">
-                          <strong><%=link_to(post.title,post) %></strong>
-                        </p>
-                        <p id="p_Modified_Teal">
-                          <spanp>&#8364;  </spanp>
-                          <% if post.cost.nil? %>
-                              0
-                          <% else %>
-                              <%= post.cost %>
-                          <% end %>
+                          <strong style="font-size: 18px"><%=link_to(post.title,post) %></strong>
                         </p>
 
+
+
+                        <br/>
+                       <!-- <p >
+
+                          <% if post.bookexpected.empty?%>
+                              <p id="p_Modified_Grey">
+                                Preferable book for exchange : &#45;&#45;&#45;&#45;
+                            </p>
+                          <% else %>
+                            <p id="p_Modified_TealExch">
+                              <%= 'Preferable book for Exchange : ' + post.bookexpected %>
+                            </p>
+                          <% end %>
+                        </p>
+-->
                         <% if !current_user.nil? && current_user.id == post.user.id %>
                             <div class="ui buttons">
                               <a href="<%= edit_post_path(post)%>"><button class="big ui button">

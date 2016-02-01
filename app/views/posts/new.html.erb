@@ -1,7 +1,7 @@
 <div class="container">
 <div class="page-header">
-  <span style="font-size: large; font-weight: bold">New Ad</span>
-  <span class="btn btn-link" style="float:right"><%= link_to 'Back to Ads', posts_path %></span>
+  <span style="font-size: large; font-weight: bold">New Offer</span>
+  <span class="btn btn-link" style="float:right"><%= link_to 'Back to Offers', posts_path %></span>
 </div>
 
   <%= form_for @post ,html: { multipart: true } do |f|%>
@@ -27,7 +27,7 @@
       <div class="form-group">
         <%= f.label :Description %>
         <br>
-        <textarea id="desc" name="post[desc]" class='redactor form-control' rows="10" placeholder="Enter Description (Min 20 words)"></textarea>
+        <textarea id="desc" name="post[desc]" class='redactor form-control' rows="10"></textarea>
       </div>
 
 
@@ -59,13 +59,13 @@
 
 
       <div class=" form-group" id="cost">
-        <label>Cost <label id="cost">*</label></label>
-        <%= f.text_field :cost, class:'form-control' %>
+        <label>Cost <label>*</label></label>
+        <%= f.text_field :cost, id:'costfld', class:'form-control', required:true %>
       </div>
 
 
       <div class=" form-group" id="exch">
-        <label>Which book would you like in return? <label id="exch">*</label></label>
+        <label>Which book would you like in return? </label>
         <%= f.text_field :bookexpected, class:'form-control' %>
       </div>
 
@@ -89,7 +89,7 @@
 
 
       <div class="actions">
-        <%= f.submit "Create Ad", class: 'btn btn-primary'  %>
+        <%= f.submit "Publish", class: 'btn btn-primary'  %>
       </div>
   <% end %>
 
@@ -110,9 +110,11 @@ $(document).ready(function(){
 
     if(this.value == 'exchange' && this.checked){
       $("#cost").hide();
+      $("#costfld").prop("required", false);
       $("#exch").show();
     }else{
       $("#cost").show();
+      $("#costfld").prop("required", true);
       $("#exch").hide();
     }
 
