@@ -1,10 +1,10 @@
 <div class="container">
-<div class="page-header">
-  <span style="font-size: large; font-weight: bold">New Offer</span>
-  <span class="btn btn-link" style="float:right"><%= link_to 'Back to Offers', posts_path %></span>
-</div>
+  <div class="page-header">
+    <span style="font-size: large; font-weight: bold">New Offer</span>
+    <span class="btn btn-link" style="float:right"><%= link_to 'Back to Offers', posts_path %></span>
+  </div>
 
-  <%= form_for @post ,html: { multipart: true } do |f|%>
+  <%= form_for @post, html: {multipart: true} do |f| %>
       <% if @post.errors.any? %>
           <div class="alert alert-danger" id="error_explanation">
             <h2><%= pluralize(@post.errors.count, "error") %> : </h2>
@@ -19,33 +19,33 @@
 
       <div class=" form-group">
         <label>Title <label id="title">*</label></label>
-        <%= f.text_field :title, class:'form-control', required: true %>
+        <%= f.text_field :title, class: 'form-control', required: true %>
       </div>
 
-<br />
+      <br/>
 
       <div class="form-group">
         <%= f.label :Description %>
         <br>
-        <textarea id="desc" name="post[desc]" class='redactor form-control' rows="10"></textarea>
+        <textarea id="desc" name="post[desc]" ,placeholder="Description here" , class='redactor form-control' rows="10"></textarea>
       </div>
 
 
-      <br />
+      <br/>
       <div class=" form-group">
         <%= f.label :Image %>
-        <%= f.file_field :image, class:'' %>
+        <%= f.file_field :image, class: '' %>
       </div>
 
 
-      <br /> <br />
+      <br/> <br/>
       <div class="field">
 
 
         <%= f.radio_button :forSale, "sell", :checked => true %>
         <%= f.label :Sell %>
 
-        <br />
+        <br/>
 
         <%= f.radio_button :forSale, "exchange" %>
         <%= f.label :Exchange %>
@@ -54,32 +54,30 @@
       </div>
 
 
-
-      <br /><br />
+      <br/><br/>
 
 
       <div class=" form-group" id="cost">
         <label>Cost <label>*</label></label>
-        <%= f.text_field :cost, id:'costfld', class:'form-control', required:true %>
+        <%= f.text_field :cost, id: 'costfld', class: 'form-control', required: true %>
       </div>
 
 
       <div class=" form-group" id="exch">
         <label>Which book would you like in return? </label>
-        <%= f.text_field :bookexpected, class:'form-control' %>
+        <%= f.text_field :bookexpected, class: 'form-control' %>
       </div>
 
 
+      <br/>
 
-      <br />
-
-     <!-- <div class=" form-group">
+      <!-- <div class=" form-group">
         <%= f.label :topic %>
-        <%= f.text_field :topic, class:'form-control' %>
+        <%= f.text_field :topic, class: 'form-control' %>
       </div>-->
 
 
-      <br />
+      <br/>
 
 
       <div class="field">
@@ -87,9 +85,8 @@
       </div>
 
 
-
       <div class="actions">
-        <%= f.submit "Publish", class: 'btn btn-primary'  %>
+        <%= f.submit "Publish", class: 'btn btn-primary' %>
       </div>
   <% end %>
 
@@ -100,30 +97,26 @@
 <script type="text/javascript">
 
 
+  $(document).ready(function () {
 
-$(document).ready(function(){
 
+    $("#exch").hide();
 
-  $("#exch").hide();
+    $("input:radio[name='post[forSale]']").change(function () {
 
-  $("input:radio[name='post[forSale]']").change(function(){
+      if (this.value == 'exchange' && this.checked) {
+        $("#cost").hide();
+        $("#costfld").prop("required", false);
+        $("#exch").show();
+      } else {
+        $("#cost").show();
+        $("#costfld").prop("required", true);
+        $("#exch").hide();
+      }
 
-    if(this.value == 'exchange' && this.checked){
-      $("#cost").hide();
-      $("#costfld").prop("required", false);
-      $("#exch").show();
-    }else{
-      $("#cost").show();
-      $("#costfld").prop("required", true);
-      $("#exch").hide();
-    }
+    });
 
   });
-
-});
-
-
-
 
 
 </script>
