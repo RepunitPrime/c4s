@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   create_table "articles", force: :cascade do |t|
     t.string   "title"
     t.text     "text",           default: ""
+    t.integer  "vote",           default: 0
     t.integer  "views",          default: 0
     t.integer  "count_comments", default: 0
     t.integer  "topic_id"
@@ -52,15 +53,35 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   add_index "articles", ["topic_id"], name: "index_articles_on_topic_id"
   add_index "articles", ["user_id"], name: "index_articles_on_user_id"
 
+  create_table "buy_sell_books", force: :cascade do |t|
+    t.string   "title"
+    t.string   "author"
+    t.string   "edition"
+    t.string   "detail"
+    t.string   "attachment"
+    t.string   "topic"
+    t.boolean  "isDeleted"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_Size"
+    t.datetime "image_update_at"
+    t.float    "cost"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.text     "comment_body"
     t.integer  "user_id"
     t.integer  "article_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "post_id"
   end
 
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "posts", force: :cascade do |t|
@@ -69,8 +90,6 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "attachment"
     t.string   "topic"
     t.boolean  "isDeleted"
-    t.string   "forSale"
-    t.string   "bookexpected"
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
@@ -118,6 +137,7 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "username"
     t.string   "encrypted_password"
     t.string   "salt"
+    t.string   "address"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "activation_digest"
@@ -125,7 +145,6 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.datetime "activated_at"
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
-    t.string   "phone"
     t.string   "profile_pic_file_name"
     t.string   "profile_pic_content_type"
     t.integer  "profile_pic_file_size"
