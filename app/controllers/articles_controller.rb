@@ -43,14 +43,7 @@ class ArticlesController < ApplicationController
       addTopic(topic_params[:topic_name].to_s,article)
       addTagsAndhandleTagCount(article)
 
-      #Add File Attachments
-      if !article2_params[:attach_file].nil?
-        article_attachments = ArticleAttachment.new()
-        article_attachments.attach_file = article2_params[:attach_file].tempfile
-        article_attachments.attach_file_file_name = article2_params[:attach_file].original_filename
-        article_attachments.article = article
-        article_attachments.save
-      end
+      addAttachment(article,false)
 
       redirect_to articles_path
     else
@@ -90,6 +83,8 @@ class ArticlesController < ApplicationController
       addTopic(topic_params[:topic_name].to_s,article)
       handleTagUpdates(prevTags)
       addTagsAndhandleTagCount(article)
+
+      addAttachment(article,true)
 
       if article.save
         redirect_to articles_path
@@ -198,6 +193,27 @@ class ArticlesController < ApplicationController
     article.save
   end
 
+  #Add File Attachment
+  def addAttachment(article, isUpdate)
+    if !attach_params[:attach_file].nil?
+      #Delete PreviousAttachment
+      if isUpdate
+        _attachments = ArticleAttachment.where("article_id = "+article.id.to_s)
+        if _attachments.any?
+          _attachments.each do |attachment|
+            attachment.destroy
+          end
+        end
+      end
+      # Add new Attachment
+      article_attachments = ArticleAttachment.new()
+      article_attachments.attach_file = attach_params[:attach_file].tempfile
+      article_attachments.attach_file_file_name = attach_params[:attach_file].original_filename
+      article_attachments.article = article
+      article_attachments.save
+    end
+  end
+
   private
   def validate_if_user_logged_in
     if !check_login_state
@@ -217,7 +233,7 @@ class ArticlesController < ApplicationController
   def article1_params
     params.require(:article).permit(:search)
   end
-  def article2_params
+  def attach_params
     params.require(:article).permit(:attach_file)
   end
 
