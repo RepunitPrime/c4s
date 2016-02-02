@@ -18,62 +18,84 @@
     <div class="tab-pane active" id="OffersForSale">
 
       <h2 id="h1_margin_modified" >List of offers for sale</h2>
+      <hr id="h1_margin_modified">
+
 
       <div class="row">
         <div class="col-lg-8 col-xs-8">
           <% @Offers.each do |post| %>
-                  <table width="100%">
-                    <tr>
-                      <td width="110px">
-                        <% if post.image_file_name.nil? %>
-                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), post) %>
-                        <% else %>
-                            <%= link_to(image_tag(post.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), post) %>
-                        <% end %>
-                      </td>
-                      <td style="vertical-align: text-top;">
-                        <p style="margin-top: 5px">
-                          <strong><%=link_to(post.title,post) %></strong>
-                        </p>
-                        <p id="p_Modified_Teal">
-                          <spanp>&#8364;  </spanp>
-                          <% if post.cost.nil? %>
-                              0
-                          <% else %>
-                              <%= post.cost %>
-                          <% end %>
-                        </p>
-                        <div class="pull-right">
-                          <% if !post.tags.nil?%>
-                              <% tags = post.tags.split(',')  %>
-                              <% tags.take(5).each do |tag| %>
-                                  <a id="a_small" class="ui teal label"><%= tag %></a>
-                              <% end %>
-                          <% end %>
-                          <% if tags.count > 5 %>
-                              <a id="a_small" class="ui teal label">. . . </a>
-                          <%end%>
-                        </div>
-                        <br/>
-                        <br/>
 
-                        <% if !current_user.nil? && current_user.id == post.user.id %>
-                            <div class="ui buttons">
-                              <a href="<%= edit_post_path(post)%>"><button class="big ui button">
-                                <i class="edit left icon"></i>Edit</button>
-                              </a>
-                              <div class="or"></div>
-                              <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
-                            </div>
-                        <% end %>
+          <!-- div for each product starts here -->
+          <div class="product_grid">
 
-                        <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                          <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></h6>
+            <!-- product image -->
+          <% if post.image_file_name.nil? %>
+            <%= link_to(image_tag('/No_Image.png', size: "170x170", class: "product_image"), post) %>
+          <% else %>
+            <%= link_to(image_tag(post.image, size: "170x170", :alt => "No Image", class: "product_image"), post) %>
+          <% end %>
 
-                      </td>
-                    </tr>
-                    <hr id="mgSmall">
-                  </table>
+          <!-- product title -->
+          <h1 class="product_title"><%=link_to(post.title,post) %></h1>
+
+          <!-- subtitle : posted by -->
+          <p class="product_subtitle">Posted by : <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></p>
+          
+          <!-- product price -->
+          <h2 class="product_price">
+            <spanp>&#8364;  </spanp>
+            <% if post.cost.nil? %>
+              0
+            <% else %>
+              <%= post.cost %>
+            <% end %>
+          </h2>
+
+          <!--checking for user to select button : either show/Edit|delete-->  
+          <% if !current_user.nil? && current_user.id == post.user.id %>
+            <div class="ui buttons" style="margin-top:2px;">
+                <a href="<%= edit_post_path(post)%>"><button class="big ui button">
+                  <i class="edit left icon"></i>Edit</button>
+                </a>
+            <div class="or"></div>
+                <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+            </div>
+          <% else %>                
+                <button class="product_details_button"><span>Details </span></button>
+          <% end %>
+        
+        </div>
+         
+         <!-- product div ends here -->         
+                        
+                        
+        <!-- <div class="pull-right">
+        <% if !post.tags.nil?%>
+        <% tags = post.tags.split(',')  %>
+        <% tags.take(5).each do |tag| %>
+         <a id="a_small" class="ui teal label"><%= tag %></a>
+        <% end %>
+        <% end %>
+        <% if tags.count > 5 %>
+        <a id="a_small" class="ui teal label">. . . </a>
+        <%end%>
+        </div> -->
+
+
+        <!--  <% if !current_user.nil? && current_user.id == post.user.id %>
+        <div class="ui buttons">
+        <a href="<%= edit_post_path(post)%>"><button class="big ui button">
+        <i class="edit left icon"></i>Edit</button>
+        </a>
+        <div class="or"></div>
+        <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+        </div>
+        <% end %> -->
+
+        <!-- <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
+        <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></h6> -->
+
+                    
           <%end%>
           <!--  pagination links like-->
           <%= will_paginate @Offers, renderer: BootstrapPagination::Rails %>
