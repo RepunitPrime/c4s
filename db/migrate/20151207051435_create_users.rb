@@ -14,6 +14,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string   :reset_digest
       t.datetime :reset_sent_at
       t.string  :phone
+      t.boolean :getEmailNotified, default: true
     end
   end
 

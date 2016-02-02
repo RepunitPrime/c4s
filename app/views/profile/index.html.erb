@@ -12,86 +12,88 @@
     </div>
     <hr>
 
-<div class="col-sm-12">
+  <div class="col-xs-12">
+    <br/>
+      <% if @user != nil && @user.errors.any? %>
+          <div class="ui icon negative message">
+            <i class="remove circle icon"></i>
+            <div class="content">
+              <div class="header">
+                Please check the issues below:
+              </div>
+              <p>
+              <ul>
+                <% for message_error in @user.errors.full_messages %>
+                    <li> <%= message_error %></li>
+                <% end %>
+              </ul>
+              </p>
+            </div>
+          </div>
+      <% end %>
   <br/><br/>
-    <% if @user != nil && @user.errors.any? %>
-        <div class="ui icon negative message">
-          <i class="remove circle icon"></i>
-          <div class="content">
-            <div class="header">
-              Please check the issues below:
-            </div>
-            <p>
-            <ul>
-              <% for message_error in @user.errors.full_messages %>
-                  <li> <%= message_error %></li>
-              <% end %>
-            </ul>
-            </p>
+    <div class="text-center">
+      <% if flash[:color]== "invalid"%>
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> <%=flash[:notice]%>
           </div>
-        </div>
-    <% end %>
-<br/><br/>
-  <div class="text-center">
-    <% if flash[:color]== "invalid"%>
-        <div class="alert alert-danger alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-          <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> <%=flash[:notice]%>
-        </div>
-    <%elsif flash[:color]== "valid" %>
-        <div class="alert alert-success alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-          <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> <%=flash[:notice]%>
-        </div>
-    <%end%>
-    <% if current_user.profile_pic_file_name.nil? %>
-        <%= image_tag('/default_profile_pic.png', :id =>"Image_Tag", :alt => "No Image", class:'img-circle')%>
-    <%else%>
-        <%= image_tag(current_user.profile_pic,:id =>"Image_Tag",  :alt => "No Image", class:'img-circle') %>
-    <%end%>
+      <%elsif flash[:color]== "valid" %>
+          <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> <%=flash[:notice]%>
+          </div>
+      <%end%>
+      <% if current_user.profile_pic_file_name.nil? %>
+          <%= image_tag('/default_profile_pic.png', :id =>"Image_Tag", :alt => "No Image", class:'img-circle')%>
+      <%else%>
+          <%= image_tag(current_user.profile_pic,:id =>"Image_Tag",  :alt => "No Image", class:'img-circle') %>
+      <%end%>
+  </div>
+    <div class="col-xs-push-2 col-xs-8">
+    <div class="form-group">
+        <%= form_for :user, class:"form form-horizontal", method: :patch do |f| %>
+            <div class="form-group">
+              <%= f.label :Full_Name %>
+              <br>
+              <%= f.text_field :name,id:"name", disabled:'disabled', class: 'form-control', placeholder: current_user.name%>
+            </div>
+            <div class="form-group">
+              <%= f.label :Username %>
+              <br>
+              <%= f.text_field :username,id:"username", disabled:'disabled',class: 'form-control', placeholder: current_user.username%>
+            </div>
+            <div class="form-group">
+              <%= f.label :Email %>
+              <br>
+              <%= f.text_field :email,id:"email", disabled:'disabled', class: 'form-control', placeholder: current_user.email%>
+            </div>
+          <div class="form-group">
+            <%= f.label :Phone_number %>
+            <br>
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 10%"> <input type="text" id="code" style="width: 50px; margin-right: 20px" disabled="disabled" value="+49" class="form-control"/></td>
+                <td>
+                  <%if current_user.phone.nil?%>
+                      <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control'%>
+                  <%else%>
+                      <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control', placeholder: current_user.phone%>
+                  <%end%>
+                </td>
+              </tr>
+            </table>
+          </div>
+      <% end %>
+    </div>
+    </div>
+  </div>
+ </div>
 </div>
-  <div class="col-sm-push-2 col-sm-8">
-  <div class="form-group">
-      <%= form_for :user, class:"form form-horizontal", method: :patch do |f| %>
-          <div class="form-group">
-            <%= f.label :Full_Name %>
-            <br>
-            <%= f.text_field :name,id:"name", disabled:'disabled', class: 'form-control', placeholder: current_user.name%>
-          </div>
-          <div class="form-group">
-            <%= f.label :Username %>
-            <br>
-            <%= f.text_field :username,id:"username", disabled:'disabled',class: 'form-control', placeholder: current_user.username%>
-          </div>
-          <div class="form-group">
-            <%= f.label :Email %>
-            <br>
-            <%= f.text_field :email,id:"email", disabled:'disabled', class: 'form-control', placeholder: current_user.email%>
-          </div>
-        <div class="form-group">
-          <%= f.label :Phone_number %>
-          <br>
-          <div class="col-sm-2">
-              <input type="text" id="code" disabled="disabled" value="+49" class="form-control"/>
-            </div>
-          <div class="col-sm-6">
-          <%if current_user.phone.nil?%>
-          <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control'%>
-          <%else%>
-              <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control', placeholder: current_user.phone%>
-          <%end%>
-            <br/>
-            </div>
-        </div>
-    <% end %>
-    </div>
-    </div>
-  </div>
-  </div>
 
-  </div>
+
 <script>
   function RedirectToEditProfiles() {
     window.location = "<%= profile_edit_path %>"

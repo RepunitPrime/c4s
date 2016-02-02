@@ -1,19 +1,29 @@
 class ProfileController < ApplicationController
 
   # add authentication for all actions
-  before_filter :authorize
+  before_filter :validate_if_user_logged_in
 
   def index
   end
 
+  # show specific article
+  def show
+    @user = User.find_by_id(params[:id])
+    if !@user
+      redirect_to welcome_index_path
+    elsif @user == current_user
+        redirect_to profile_index_path
+    end
+  end
+
   # get user for edit
   def edit
-    @user=  User.find(current_user.id)
+    @user=  User.find_by_id(current_user.id)
   end
 
   # post action for editing user
   def update
-    @user = User.find(current_user.id)
+    @user = User.find_by_id(current_user.id)
     if @user.update(user_params)
       redirect_to profile_index_path
     else
@@ -23,7 +33,7 @@ class ProfileController < ApplicationController
 
   # post action for editing user's password
   def update_password
-    @user = User.find(current_user.id)
+    @user = User.find_by_id(current_user.id)
 
     if User.authenticate(@user.username,pwd_params[:current_password])
       if(User.check_password_validity(pwd_params1[:password]))
@@ -46,9 +56,15 @@ class ProfileController < ApplicationController
     end
   end
 
+  def validate_if_user_logged_in
+    if !check_login_state
+      redirect_to (login_path + '?From='+ request.fullpath)
+    end
+  end
 
   # get user object from http params
   def user_params
+
       params.require(:user).permit(:name,:username,:email,:address,:profile_pic, :phone)
   end
 

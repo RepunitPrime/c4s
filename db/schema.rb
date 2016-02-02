@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201601197051563) do
+ActiveRecord::Schema.define(version: 201601197051564) do
+
+  create_table "Offer_Tag_For_Sales", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "ad_comments", force: :cascade do |t|
     t.text     "comment_body"
@@ -84,20 +91,29 @@ ActiveRecord::Schema.define(version: 201601197051563) do
   add_index "comments", ["post_id"], name: "index_comments_on_post_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "offer_tag_for_exchanges", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
-    t.text     "detail"
+    t.text     "detail",             default: ""
     t.string   "attachment"
     t.string   "topic"
     t.boolean  "isDeleted"
     t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "cost"
+    t.string   "tags"
+    t.string   "tags_search"
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
@@ -137,14 +153,24 @@ ActiveRecord::Schema.define(version: 201601197051563) do
     t.string   "username"
     t.string   "encrypted_password"
     t.string   "salt"
+<<<<<<< HEAD
     t.string   "address"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+=======
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+>>>>>>> 75dac8cb1755a78b27f02d259ac4c99f6d8766fe
     t.string   "activation_digest"
     t.boolean  "activated"
     t.datetime "activated_at"
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
+<<<<<<< HEAD
+=======
+    t.string   "phone"
+    t.boolean  "getEmailNotified",         default: true
+>>>>>>> 75dac8cb1755a78b27f02d259ac4c99f6d8766fe
     t.string   "profile_pic_file_name"
     t.string   "profile_pic_content_type"
     t.integer  "profile_pic_file_size"

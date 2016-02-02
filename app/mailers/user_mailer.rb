@@ -18,9 +18,9 @@ class UserMailer < ApplicationMailer
       mail(to: @user.email, subject: 'Your post received a new comment')
    end
 
-  def user_notify_Posted(user)
+  def user_notify_Posted(user,postId)
     @user = user
-    @url = 'http://localhost:3000/posts'
+    @url = 'http://localhost:3000/posts/'+postId
     mail(to: @user.email, subject: 'Post Created Successfully')
   end
 

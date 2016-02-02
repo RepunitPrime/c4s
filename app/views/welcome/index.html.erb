@@ -46,7 +46,7 @@
               <% offers.each do |offer| %>
                   <tr>
                     <td>
-                      <a href="<%= posts_path(offer.id)%>"><%= offer.title %>  </a>
+                      <a href="<%= posts_path(offer.id) %>"><%= offer.title %>  </a>
                     </td>
                     <td>
                       <h6 class="pull-right" >Posted <%= time_ago_in_words(offer.created_at)%> ago</h6>

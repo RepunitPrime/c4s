@@ -43,7 +43,7 @@
                      <% if tags.count > 5 %>
                          <a id="a_small" class="ui teal label">. . . </a>
                      <%end%>
-                     <h6 class="pull-right">Posted <%= time_ago_in_words(article.created_at)%> ago by <a><%= User.find_by(id: article.user_id).name  %></a>.</h6>
+                     <h6 class="pull-right">Posted <%= time_ago_in_words(article.created_at)%> ago by <a href="<%= profile_path(article.user_id) %>"><%= User.find_by(id: article.user_id).name  %></a>.</h6>
                    </div>
                  </td>
             </tr>
@@ -79,8 +79,9 @@
         <div class="well">
           <h4>Popular Tags</h4>
           <div class="ui horizontal list">
-          <% if !@tags.nil?%>
-              <% @tags.each do |tag| %>
+          <% tags =  Tag.order("count DESC").limit(10)%>
+          <% if !tags.nil?%>
+              <% tags.each do |tag| %>
                   <div class="item">
                     <div class="ui teal tag labels">
                         <% if tag.name == @selected_tag %>
@@ -104,8 +105,9 @@
         <div class="well">
           <h4>Popular Topics</h4>
           <div class="ui horizontal list">
-            <% if !@PopularTopics.nil?%>
-                <% @PopularTopics.each do |topic| %>
+            <% popularTopics = Article.selectByTopic().order("count DESC").limit(10) %>
+            <% if !popularTopics.nil?%>
+                <% popularTopics.each do |topic| %>
                     <div class="item">
                       <div class="ui teal tag labels">
                         <% if topic.topic_name == @selected_topic %>
