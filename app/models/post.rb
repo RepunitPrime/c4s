@@ -16,7 +16,7 @@ class Post < ActiveRecord::Base
 
   # Method used to Search for offers
   def self.searchOffersForExchange(search)
-    where("title LIKE ? OR detail LIKE ? OR tags LIKE ? AND forSale = 'exchange'", "%#{search}%","%#{search}%","%#{search}%")
+    where("(title LIKE ? OR detail LIKE ? OR tags LIKE ? OR bookexpected LIKE ? ) AND forSale = 'exchange'", "%#{search}%","%#{search}%","%#{search}%","%#{search}%")
   end
 
   def self.searchByTagForSale(search)

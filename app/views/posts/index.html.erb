@@ -68,7 +68,7 @@
                         <% end %>
 
                         <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                          <a><%= User.find_by(id: post.user_id).name %></a></h6>
+                          <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></h6>
 
                       </td>
                     </tr>
@@ -148,12 +148,11 @@
                         <p style="margin-top: 5px">
                           <strong><%=link_to(post.title,post) %></strong>
                         </p>
-                        <p id="p_Modified_Teal">
-                          <spanp>&#8364;  </spanp>
-                          <% if post.cost.nil? %>
-                              0
+                        <p>
+                          <% if post.bookexpected.empty?%>
+                           Preferable book for exchange: <label id="p_Modified_Grey">&#45;&#45;&#45;&#45;</label>
                           <% else %>
-                              <%= post.cost %>
+                           Preferable book for exchange: <label id="p_Modified_TealExch"><%= post.bookexpected %></label>
                           <% end %>
                         </p>
                         <div class="pull-right">
@@ -181,11 +180,11 @@
                         <% end %>
 
                         <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                          <a><%= User.find_by(id: post.user_id).name %></a></h6>
+                          <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></h6>
 
                       </td>
                     </tr>
-                    <hr>
+                    <hr id="mgSmall">
                   </table>
               <%end%>
           <!--  pagination links like-->
@@ -197,10 +196,10 @@
           <div class="well">
             <h4>Offer Search</h4>
             <div class="input-group">
-              <input type="text" class="form-control" name="search" id="search" onchange="HandleIcon()" onpaste="HandleIcon()" onkeyup="HandleIcon()" onkeydown="RedirectToOnClick()" value="<%= @srch%>" placeholder="Search Offers" />
+              <input type="text" class="form-control" name="search1" id="search1" onchange="HandleIconExchange()" onpaste="HandleIconExchange()" onkeyup="HandleIconExchange()" onkeydown="RedirectToExchangeOnClick()" value="<%= @srch1%>" placeholder="Search Offers" />
               <span class="input-group-btn">
-                              <button class="btn btn-default" type="input" id="commit" name="commit" onclick="RedirectToPosts()">
-                                <span id="span_icon" class="<%= if(@srch.nil? || @srch.to_s.empty?)
+                              <button class="btn btn-default" type="input" id="commit1" name="commit1" onclick="RedirectToPostsExchange()">
+                                <span id="span_icon1" class="<%= if(@srch1.nil? || @srch1.to_s.empty?)
                                                                   "glyphicon glyphicon-search"
                                                                 else "glyphicon glyphicon-remove" end %>"></span>
                               </button>
@@ -299,6 +298,21 @@
       if (event.keyCode == 13)
         window.location = "<%= posts_path %>?search="+document.getElementById('search').value;
     }
+
+    function RedirectToPostsExchange() {
+      if(document.getElementById('span_icon1').className == "glyphicon glyphicon-remove"){
+        document.getElementById('search1').value = "";
+        document.getElementById('span_icon1').className = "glyphicon glyphicon-search"
+        window.location = "<%= posts_path %>?ComingFrom=Exchange";
+      }
+      else
+        window.location = "<%= posts_path %>?search="+document.getElementById('search1').value+"&ComingFrom=Exchange";
+    }
+    function RedirectToExchangeOnClick() {
+      if (event.keyCode == 13)
+        window.location = "<%= posts_path %>?search="+document.getElementById('search1').value+"&ComingFrom=Exchange";
+    }
+
     function HandleIcon() {
       if(document.getElementById('search').value.toString().length > 0)
       {
@@ -307,6 +321,16 @@
       else
       {
         document.getElementById('span_icon').className = "glyphicon glyphicon-search"
+      }
+    }
+    function HandleIconExchange() {
+      if(document.getElementById('search1').value.toString().length > 0)
+      {
+        document.getElementById('span_icon1').className = "glyphicon glyphicon-remove";
+      }
+      else
+      {
+        document.getElementById('span_icon1').className = "glyphicon glyphicon-search"
       }
     }
 

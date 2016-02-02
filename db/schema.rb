@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 201601197051564) do
 
-  create_table "Offer_Tags_For_Sale", force: :cascade do |t|
+  create_table "Offer_Tag_For_Sales", force: :cascade do |t|
     t.string   "name"
     t.integer  "count"
     t.datetime "created_at", null: false
@@ -79,15 +79,15 @@ ActiveRecord::Schema.define(version: 201601197051564) do
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
-    t.text     "detail"
+    t.text     "detail",             default: ""
     t.string   "attachment"
     t.string   "topic"
     t.boolean  "isDeleted"
     t.string   "forSale"
     t.string   "bookexpected"
     t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
@@ -134,14 +134,15 @@ ActiveRecord::Schema.define(version: 201601197051564) do
     t.string   "username"
     t.string   "encrypted_password"
     t.string   "salt"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "activation_digest"
     t.boolean  "activated"
     t.datetime "activated_at"
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
     t.string   "phone"
+    t.boolean  "getEmailNotified",         default: true
     t.string   "profile_pic_file_name"
     t.string   "profile_pic_content_type"
     t.integer  "profile_pic_file_size"

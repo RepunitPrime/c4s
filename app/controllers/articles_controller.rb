@@ -1,5 +1,8 @@
 class ArticlesController < ApplicationController
 
+  # add authentication for all actions
+  before_filter :validate_if_user_logged_in, only: [:new ,:create ,:edit, :update, :destroy]
+
   # show all articles
   def index
 
@@ -26,12 +29,11 @@ class ArticlesController < ApplicationController
 
   # get form page for creating
   def new
-    validate_if_user_logged_in
+
   end
 
   # post action to create a new article
   def create
-    validate_if_user_logged_in
 
     article = Article.new(article_params)
     article.user = current_user
@@ -61,20 +63,25 @@ class ArticlesController < ApplicationController
 
   # show specific article
   def show
-    @article = Article.find(params[:id]);
-    @article.views = @article.views + 1;
-    @article.save;
+    @article = Article.find_by_id(params[:id]);
+    if @article
+      @article.views = @article.views + 1;
+      @article.save;
+    else
+      redirect_to welcome_index_path
+    end
   end
 
   # get article for edit
   def edit
-    validate_if_user_logged_in
-    @article = Article.find(params[:id])
+    @article = Article.find_by_id(params[:id]);
+    if !@article
+      redirect_to welcome_index_path
+    end
   end
 
   # post action for editing article
   def update
-    validate_if_user_logged_in
 
     article = Article.find(params[:id])
     prevTags = article.Tags
@@ -97,8 +104,6 @@ class ArticlesController < ApplicationController
 
   # delete specific article
   def destroy
-
-    validate_if_user_logged_in
 
     article = Article.find(params[:id])
 
@@ -124,12 +129,16 @@ class ArticlesController < ApplicationController
   def like
     article = Article.find(params[:id]);
     current_user.likes article
+    article.views -= 1
+    article.save
     redirect_to article_path(article)
   end
 
   def dislike
     article = Article.find(params[:id]);
     current_user.dislikes article
+    article.views -= 1
+    article.save
     redirect_to article_path(article)
   end
 

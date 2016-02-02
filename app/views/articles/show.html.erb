@@ -19,7 +19,7 @@
     <hr>
 
     <!-- Date/Time and posted by who-->
-    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="#"><%= @article.user.username %></a></p>
+    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @article.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="<%= profile_path(@article.user_id) %>"><%= @article.user.username %></a></p>
     <hr>
 
     <% if !@article.topic.nil? %>
@@ -117,7 +117,7 @@
             <p>Are you sure you want to delete the article?</p>
           </div>
           <div class="modal-footer">
-            <a rel="nofollow" data-method="delete" href="<%= articles_path %>/ <%= @article.id %>">
+            <a rel="nofollow" data-method="delete" href="<%= articles_path %>/<%= @article.id %>">
               <button class="big ui button"><i class="checkmark icon" ></i>Yes</button>
             </a>
             <button type="button" class="big ui button" data-dismiss="modal"><i class="remove icon"></i>No</button>

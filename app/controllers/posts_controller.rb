@@ -1,5 +1,8 @@
 class PostsController < ApplicationController
 
+  # add authentication for all actions
+  before_filter :validate_if_user_logged_in, only: [:new ,:create ,:edit, :update, :destroy]
+
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   # GET /posts
@@ -7,9 +10,15 @@ class PostsController < ApplicationController
   def index
 
     if params[:search]
-      @Offers = Post.searchOffersForSale(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
-      @OfferExchanges = Post.where("forSale = 'exchange' ").order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
-      @srch = params[:search]
+      if params[:ComingFrom] == 'Exchange'
+        @Offers = Post.where("forSale = 'sale' ").order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+        @OfferExchanges = Post.searchOffersForExchange(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+        @srch1 = params[:search]
+      else
+        @Offers = Post.searchOffersForSale(params[:search]).order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+        @OfferExchanges = Post.where("forSale = 'exchange' ").order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
+        @srch = params[:search]
+      end
     elsif !params[:popular_tag].nil?
       if params[:ComingFrom].nil?
         redirect_to posts_path
@@ -29,7 +38,7 @@ class PostsController < ApplicationController
       @OfferExchanges = Post.where("forSale = 'exchange' ").order("created_at DESC").paginate(:page => params[:page], :per_page => 5)
     end
 
-    if !params[:ComingFrom].nil?
+    if params[:ComingFrom] == 'Exchange'
       @ComingFromExchange = true
     end
 
@@ -42,19 +51,16 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    validate_if_user_logged_in
     @post = Post.new
   end
 
   # GET /posts/1/edit
   def edit
-    validate_if_user_logged_in
   end
 
   # POST /posts
   # POST /posts.json
   def create
-    validate_if_user_logged_in
     @post = Post.new(post_params)
     @post.user = current_user
 
@@ -62,7 +68,7 @@ class PostsController < ApplicationController
       if @post.save
         addTagsAndhandleTagCount(@post)
         format.html { redirect_to @post }
-        UserMailer.user_notify_Posted(current_user).deliver
+        UserMailer.user_notify_Posted(current_user,@post.id.to_s).deliver
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
@@ -75,7 +81,6 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
 
-    validate_if_user_logged_in
     prevTags = @post.tags
 
     respond_to do |format|
@@ -96,12 +101,41 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    validate_if_user_logged_in
-    @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url}
-      format.json { head :no_content }
+
+    if @post.tags_search
+      split_tags = @post.tags_search.to_s.remove('[').to_s.split(']');
+      split_tags.each do |tag|
+        if @post.forSale == 'Sale'
+          tempTag = OfferTagForSale.find_by_name(tag)
+        else
+          tempTag = OfferTagForExchange.find_by_name(tag)
+        end
+        if(!tempTag.nil?)
+          tempTag.count -= 1;
+          if(tempTag.count == 0)
+            tempTag.destroy
+          else
+            tempTag.save
+          end
+        end
+      end
     end
+
+    forSale = @post.forSale
+
+    @post.destroy
+    if forSale =='sale'
+      respond_to do |format|
+        format.html { redirect_to posts_url}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to posts_url+'?ComingFrom=Exchange'}
+        format.json { head :no_content }
+      end
+    end
+
   end
 
   private
@@ -176,6 +210,6 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :detail, :image, :topic, :isDeleted, :forSale, :cost, :bookexpected,:tags)
+    params.require(:post).permit(:title, :detail, :image, :isDeleted, :forSale, :cost, :bookexpected,:tags)
   end
 end

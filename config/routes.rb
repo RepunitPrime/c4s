@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :posts
   mount RedactorRails::Engine => '/redactor_rails'
   #Add routing to the profile page
   get 'profile/index'
@@ -12,6 +11,8 @@ Rails.application.routes.draw do
   put 'profile/update_password'
 
   post 'comments/delete'
+
+  resources :profile
 
   resources :articles do
     resources :comments

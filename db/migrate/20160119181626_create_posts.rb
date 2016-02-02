@@ -2,7 +2,7 @@ class CreatePosts < ActiveRecord::Migration
   def change
     create_table :posts do |t|
       t.string :title
-      t.text :detail
+      t.text :detail, default: ''
       t.string :attachment
       t.string :topic
       t.boolean :isDeleted

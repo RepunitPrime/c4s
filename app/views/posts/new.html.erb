@@ -22,7 +22,7 @@
       </div>
       <div class="form-group">
         <%= f.label :Description %><br/>
-        <textarea id="desc" name="post[desc]" class='redactor form-control' rows="10" placeholder="Enter a description for your offer..."></textarea>
+        <textarea id="desc" name="post[detail]" class='redactor form-control' rows="10" placeholder="Enter a description for your offer..."></textarea>
       </div>
       <div class="form-group">
         <%= f.label :Image %>
@@ -40,7 +40,7 @@
         <label>Cost</label>
         <div class="input-group">
           <span class="input-group-addon" id="basic-addon1">€</span>
-          <%= f.text_field :cost, class:'form-control', aria: {describedBy: "basic-addon1"},value:"0",type: "number",step:"0.01" %>
+          <%= f.text_field :cost,id: 'costfld', class:'form-control',required: 'true', aria: {describedBy: "basic-addon1"},value:"0",type: "number",step:"0.01" %>
         </div>
       </div>
       <div class=" form-group" id="exch">
@@ -91,9 +91,11 @@
 
       if(this.value == 'exchange' && this.checked){
         $("#cost").hide();
+        $("#costfld").prop("required", false);
         $("#exch").show();
       }else{
         $("#cost").show();
+        $("#costfld").prop("required", true);
         $("#exch").hide();
       }
 

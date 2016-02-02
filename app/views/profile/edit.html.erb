@@ -77,17 +77,19 @@
       <div class="form-group">
         <%= f.label :Phone_number %>
         <br>
-        <div class="col-sm-2">
-          <input type="text" id="code" disabled="disabled" value="+49" class="form-control"/>
-        </div>
-        <div class="col-sm-6">
-          <%if current_user.phone.nil?%>
-              <%= f.text_field :phone,id:"phone", class: 'form-control', maxlength: '11'%>
-          <%else%>
-              <%= f.text_field :phone,id:"phone", class: 'form-control', value: current_user.phone, maxlength: '11'%>
-          <%end%>
-        </div>
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 10%"> <input type="text" id="code" style="width: 50px; margin-right: 20px" disabled="disabled" value="+49" class="form-control"/></td>
+            <td>
+              <%if current_user.phone.nil?%>
+                  <%= f.text_field :phone,id:"phone", class: 'form-control', maxlength: '11'%>
+              <%else%>
+                  <%= f.text_field :phone,id:"phone", class: 'form-control', value: current_user.phone, maxlength: '11'%>
+              <%end%>
+          </tr>
+        </table>
       </div>
+
       <br/> <br/>
       <div class="form-group">
         <button type="submit" name="commit"  class="huge ui teal icon button">
