@@ -28,6 +28,11 @@
 		<%= f.text_area :text, class:'redactor form-control', value: @article.text.html_safe, placeholder: "Enter text...." %>
  	</div>
   <div class="form-group">
+    <%= f.label :Add_Attachment %>
+    <br>
+    <%= f.file_field :attach_file, class:'filestyle form-control',data: {buttonBefore: "true"} %>
+  </div>
+  <div class="form-group">
     <label for="select_topic">Topic</label>
     <select  id="select_topic" name="article[topic_name]" class="demo-default" placeholder="Select a topic...">
       <option value="">Select a topic...</option>
