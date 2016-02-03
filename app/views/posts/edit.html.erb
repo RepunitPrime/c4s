@@ -35,10 +35,11 @@
             <%= f.text_area :detail, class:'redactor form-control', value: @post.detail.to_s.html_safe, placeholder: "Enter a description for your offer..." %>
           </div>
 
-          <div class=" form-group">
-            <%= f.label :image %>
+          <div class="form-group">
+            <%= f.label :Image %>
             <%= f.file_field :image, class:'filestyle form-control',data: {buttonBefore: "true"} %>
           </div>
+
 
           <div class=" form-group" id="cost">
             <label>Cost</label>
@@ -67,8 +68,8 @@
             <%= f.text_area :detail, class:'redactor form-control', value: @post.detail.to_s.html_safe, placeholder: "Enter a description for your offer..." %>
           </div>
 
-          <div class=" form-group">
-            <%= f.label :image %>
+          <div class="form-group">
+            <%= f.label :Image %>
             <%= f.file_field :image, class:'filestyle form-control',data: {buttonBefore: "true"} %>
           </div>
 

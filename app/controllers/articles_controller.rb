@@ -81,8 +81,11 @@ class ArticlesController < ApplicationController
     if article.update(article_params)
 
       addTopic(topic_params[:topic_name].to_s,article)
-      handleTagUpdates(prevTags)
-      addTagsAndhandleTagCount(article)
+
+      if prevTags != article_params[:Tags]
+        handleTagUpdates(prevTags)
+        addTagsAndhandleTagCount(article)
+      end
 
       addAttachment(article,true)
 
@@ -163,7 +166,6 @@ class ArticlesController < ApplicationController
 
   def handleTagUpdates(prevTags)
 
-    if prevTags != article_params[:Tags]
       split_tags = prevTags.to_s.split(',');
       split_tags.each do |tag|
         tempTag = Tag.find_by_name(tag)
@@ -176,7 +178,6 @@ class ArticlesController < ApplicationController
           end
         end
       end
-    end
   end
 
   #Method to Add a Topic to the Article

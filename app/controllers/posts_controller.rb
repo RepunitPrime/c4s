@@ -86,8 +86,10 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update(post_params)
 
-        handleTagUpdates(prevTags,@post.forSale)
-        addTagsAndhandleTagCount(@post)
+        if prevTags != post_params[:tags]
+          handleTagUpdates(prevTags,@post.forSale)
+          addTagsAndhandleTagCount(@post)
+        end
 
         format.html { redirect_to @post }
         format.json { render :show, status: :ok, location: @post }
@@ -175,7 +177,6 @@ class PostsController < ApplicationController
 
   def handleTagUpdates(prevTags, isForSale)
 
-    if prevTags != post_params[:tags]
       split_tags = prevTags.to_s.split(',');
       split_tags.each do |tag|
         if isForSale = 'sale'
@@ -194,7 +195,6 @@ class PostsController < ApplicationController
         end
 
       end
-    end
   end
 
   def validate_if_user_logged_in
