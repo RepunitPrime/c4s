@@ -62,7 +62,9 @@
                 <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
             </div>
           <% else %>                
-                <button class="product_details_button"><span>Details </span></button>
+
+                <%= link_to "<button class='product_details_button'><span>Details</span></button>".html_safe, post %>
+
           <% end %>
         
         </div>

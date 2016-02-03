@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <!-- Title -->
-    <h2 class="page-header"><%= @post.title %></h2>
-    <!-- Blog Post Content Column -->
+<!--     <h2 class="page-header"><%= @post.title %></h2> -->    <!-- Blog Post Content Column -->
+    <h2 class="page-header">Product Description</h2>
     <div class="ui buttons">
       <button class="big ui button" onclick="RedirectToPosts()">
         <i class="arrow circle outline left icon"></i>Back</button>
@@ -15,34 +15,33 @@
       <% end %>
     </div>
 
-    <hr>
-
+    
     <!-- Date/Time and posted by who-->
-    <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @post.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="<%= profile_path(@post.user_id) %>"><%= @post.user.username %></a></p>
-    <hr>
+    <!-- <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @post.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="<%= profile_path(@post.user_id) %>"><%= @post.user.username %></a></p>
+    <hr> -->
 
-  <table style="width:100%; height: 100%">
+  <table align="center" style="width:70%; height: 100%; align-text:center; margin-top:30px; background-color:;" class="tablepadding">
     <tr>
       <% if @post.forSale == "sale" %>
           <!--along with td image is also responsive now-->
-          <td style="width: 250px">
+          <td style="width: 250px; margin-left:20%;" >
             <% if @post.image_file_name.nil? %>
                 <span style="margin-right: 20px">  <%= image_tag('/No_Image.png', width: '92%', class: "img-rounded") %> </span>
+
             <% else %>
                 <span style="margin-right: 20px"><%= image_tag(@post.image, :alt => "No Image", width: '92%', class: "img-rounded") %></span>
             <% end %>
+
           </td>
-          <td style="vertical-align: text-top;">
-            <p>
-              <strong>Description:</strong>
-              <%= @post.detail.html_safe %>
-            </p>
-          </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <strong>Cost:
+          <td style="vertical-align: text-top;padding-left:20px;">
+            <span class="product_description_title">
+                <%= @post.title%>
+             <hr class="hr_description">
+             </span> 
+
+          
+              
+              <strong>Cost:
         <label id="p_Modified_Teal">
           <spanp>&#8364;  </spanp>
           <% if @post.cost.nil? %>
@@ -52,6 +51,37 @@
           <% end %>
         </label>
         </strong>
+        <br>
+
+        <strong>Description:</strong>
+        <% if @post.detail.empty? %>
+        Sorry No description provided by the User.
+        <% else %>
+              <%= @post.detail.html_safe %>
+        <% end %>
+
+
+
+      
+      <% if @post.user == current_user %>
+      <br>
+    <% else %>
+<br>
+    <div style="margin-top:30px;">
+
+      <button class="product_details_button" data-toggle="modal" data-target="#Contact"><span>Contact Seller </span></button>
+    </div>
+    <% end %>
+              <br>
+        <div style="margin-top:30px;">
+        <!-- Date/Time and posted by who-->
+     <p><span class="glyphicon glyphicon-time"></span> Posted on <%= @post.created_at.to_datetime.strftime("%b %d, %Y") %> by <a href="<%= profile_path(@post.user_id) %>"><%= @post.user.username %></a></p> </div>
+
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        
       </td>
     </tr>
     <% elsif @post.forSale == "exchange" %>
@@ -132,6 +162,44 @@
       <% end %>
   <% end %>
 
+
+    <!-- Modal for requesting product --> 
+
+  <div class="modal fade" id="Contact" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div id="form-main">
+
+  <div id="form-div">
+    <form class="form" id="form1">
+      <h1 style="color:white;"> Contact Seller </h1>
+      <hr>
+
+      <p class="name">
+        <input name="name" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Your Name" id="name" />
+      </p>
+      
+      <p class="email">
+        <input name="email" type="text" class="validate[required,custom[email]] feedback-input" id="email" placeholder="Email" />
+      </p>
+      
+      <p class="text">
+        <textarea name="text" class="validate[required,length[6,300]] feedback-input" id="comment" placeholder="If you would like to add some comments.."></textarea>
+      </p>
+      
+      
+      <div class="submit">
+        <input type="submit" value="SEND" id="button-blue"/>
+        <div class="ease"></div>
+      </div>
+    </form>
+  </div>
+              
+    </div>
+  </div>
+  
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
