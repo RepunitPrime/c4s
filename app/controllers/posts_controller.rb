@@ -107,7 +107,7 @@ class PostsController < ApplicationController
     if @post.tags_search
       split_tags = @post.tags_search.to_s.remove('[').to_s.split(']');
       split_tags.each do |tag|
-        if @post.forSale == 'Sale'
+        if @post.forSale == 'sale'
           tempTag = OfferTagForSale.find_by_name(tag)
         else
           tempTag = OfferTagForExchange.find_by_name(tag)
