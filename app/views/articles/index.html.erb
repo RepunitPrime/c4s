@@ -55,8 +55,9 @@
             <div class="ui fitted divider"></div>
           </table>
         <% end %>
-        <div class="ui fitted divider"></div>
-        <%= will_paginate @article, renderer: BootstrapPagination::Rails %>
+        <div class="ui fitted divider">
+          <%= will_paginate @article, renderer: BootstrapPagination::Rails %>
+        </div>
       </div>
       <!-- Blog Sidebar Widgets Column -->
       <div class="col-lg-4 col-xs-4">

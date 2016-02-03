@@ -102,8 +102,8 @@ class ArticlesController < ApplicationController
 
     article = Article.find(params[:id])
 
-    if article.tags_search
-      split_tags = @article.tags_search.to_s.remove('[').to_s.split(']');
+    if !article.tags_search.nil?
+      split_tags = article.tags_search.to_s.remove('[').to_s.split(']');
       split_tags.each do |tag|
         tempTag = Tag.find_by_name(tag)
         if(!tempTag.nil?)

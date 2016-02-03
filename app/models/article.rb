@@ -1,6 +1,10 @@
 class Article < ActiveRecord::Base
-  #Articles can have many comments
+
+  #With this line you can add votes on each article
   acts_as_votable
+
+
+  #Articles can have many comments
   has_many :comment, :dependent => :destroy
   has_many :article_attachments, :dependent => :destroy
   belongs_to :user
