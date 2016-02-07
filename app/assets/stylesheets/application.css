@@ -306,10 +306,7 @@
 
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
-html{    background:url(http://thekitemap.com/images/feedback-img.jpg) no-repeat;
-  background-size: cover;
-  height:100%;
-}
+
 
 #feedback-page{
   text-align:center;
@@ -370,14 +367,14 @@ html{    background:url(http://thekitemap.com/images/feedback-img.jpg) no-repeat
 }
 
 /* Icons ---------------------------------- */
-#name{
+#product_name{
   background-image: url(http://rexkirby.com/kirbyandson/images/name.svg);
   background-size: 30px 30px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#name:focus{
+#product_name:focus{
   background-image: url(http://rexkirby.com/kirbyandson/images/name.svg);
   background-size: 30px 30px;
   background-position: 8px 5px;
@@ -385,21 +382,21 @@ html{    background:url(http://thekitemap.com/images/feedback-img.jpg) no-repeat
   background-repeat: no-repeat;
 }
 
-#email{
+#product_email{
   background-image: url(http://rexkirby.com/kirbyandson/images/email.svg);
   background-size: 30px 30px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#email:focus{
+#product_email:focus{
   background-image: url(http://rexkirby.com/kirbyandson/images/email.svg);
   background-size: 30px 30px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#comment{
+#product_comment{
   background-image: url(http://rexkirby.com/kirbyandson/images/comment.svg);
   background-size: 30px 30px;
   background-position: 11px 8px;
