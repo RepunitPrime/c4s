@@ -20,17 +20,6 @@ ActiveRecord::Schema.define(version: 201601197051564) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ad_comments", force: :cascade do |t|
-    t.text     "comment_body"
-    t.integer  "user_id"
-    t.integer  "post_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "ad_comments", ["post_id"], name: "index_ad_comments_on_post_id"
-  add_index "ad_comments", ["user_id"], name: "index_ad_comments_on_user_id"
-
   create_table "article_attachments", force: :cascade do |t|
     t.integer  "article_id"
     t.datetime "created_at",               null: false
@@ -45,13 +34,14 @@ ActiveRecord::Schema.define(version: 201601197051564) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
-    t.text     "text",           default: ""
-    t.integer  "views",          default: 0
-    t.integer  "count_comments", default: 0
+    t.text     "text",                default: ""
+    t.integer  "views",               default: 0
+    t.integer  "count_comments",      default: 0
+    t.integer  "accepted_comment_id"
     t.integer  "topic_id"
     t.integer  "user_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "Tags"
     t.string   "tags_search"
   end
@@ -70,6 +60,17 @@ ActiveRecord::Schema.define(version: 201601197051564) do
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "offer_comments", force: :cascade do |t|
+    t.text     "comment_body"
+    t.integer  "user_id"
+    t.integer  "offer_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "offer_comments", ["offer_id"], name: "index_offer_comments_on_offer_id"
+  add_index "offer_comments", ["user_id"], name: "index_offer_comments_on_user_id"
+
   create_table "offer_tag_for_exchanges", force: :cascade do |t|
     t.string   "name"
     t.integer  "count"
@@ -77,7 +78,7 @@ ActiveRecord::Schema.define(version: 201601197051564) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "posts", force: :cascade do |t|
+  create_table "offers", force: :cascade do |t|
     t.string   "title"
     t.text     "detail",             default: ""
     t.string   "attachment"
@@ -97,7 +98,7 @@ ActiveRecord::Schema.define(version: 201601197051564) do
     t.string   "tags_search"
   end
 
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+  add_index "offers", ["user_id"], name: "index_offers_on_user_id"
 
   create_table "redactor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false

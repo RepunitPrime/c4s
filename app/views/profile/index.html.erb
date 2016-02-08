@@ -71,22 +71,28 @@
               <br>
               <%= f.text_field :email,id:"email", disabled:'disabled', class: 'form-control', placeholder: current_user.email%>
             </div>
-          <div class="form-group">
-            <%= f.label :Phone_number %>
-            <br>
-            <table style="width: 100%">
-              <tr>
-                <td style="width: 10%"> <input type="text" id="code" style="width: 50px; margin-right: 20px" disabled="disabled" value="+49" class="form-control"/></td>
-                <td>
-                  <%if current_user.phone.nil?%>
-                      <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control'%>
-                  <%else%>
-                      <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control', placeholder: current_user.phone%>
-                  <%end%>
-                </td>
-              </tr>
-            </table>
-          </div>
+            <div class="form-group">
+              <%= f.label :Phone_number %>
+              <br>
+              <table style="width: 100%">
+                <tr>
+                  <td style="width: 10%"> <input type="text" id="code" style="width: 50px; margin-right: 20px" disabled="disabled" value="+49" class="form-control"/></td>
+                  <td>
+                    <%if current_user.phone.nil?%>
+                        <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control'%>
+                    <%else%>
+                        <%= f.text_field :phone,id:"phone", disabled:'disabled', class: 'form-control', placeholder: current_user.phone%>
+                    <%end%>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="form-group">
+              <%= f.label :Email_Notify %>
+              <br>
+              <%= f.check_box :getEmailNotified,id:"getEmailNotified", disabled:'disabled', checked: current_user.getEmailNotified %>
+              <label id="normalTxt" for="getEmailNotified">Receive Notification when Posting Offers and Receiving Comments.</label>
+            </div>
       <% end %>
     </div>
     </div>

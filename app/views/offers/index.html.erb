@@ -1,6 +1,6 @@
 <div class="container">
   <h2 class="page-header">Offers</h2>
-    <button class="ui labeled icon button" id="buttonWithMarginBtm"  onclick="RedirectToPostsNew()">
+    <button class="ui labeled icon button" id="buttonWithMarginBtm"  onclick="RedirectToOffersNew()">
       <i class="add circle icon"></i>New Offer
     </button>
 
@@ -21,31 +21,31 @@
 
       <div class="row">
         <div class="col-lg-8 col-xs-8">
-          <% @Offers.each do |post| %>
+          <% @Offers.each do |offer| %>
                   <table width="100%">
                     <tr>
                       <td width="110px">
-                        <% if post.image_file_name.nil? %>
-                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), post) %>
+                        <% if offer.image_file_name.nil? %>
+                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), offer) %>
                         <% else %>
-                            <%= link_to(image_tag(post.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), post) %>
+                            <%= link_to(image_tag(offer.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), offer) %>
                         <% end %>
                       </td>
                       <td style="vertical-align: text-top;">
                         <p style="margin-top: 5px">
-                          <strong><%=link_to(post.title,post) %></strong>
+                          <strong><%=link_to(offer.title, offer) %></strong>
                         </p>
                         <p id="p_Modified_Teal">
                           <spanp>&#8364;  </spanp>
-                          <% if post.cost.nil? %>
+                          <% if offer.cost.nil? %>
                               0
                           <% else %>
-                              <%= post.cost %>
+                              <%= offer.cost %>
                           <% end %>
                         </p>
                         <div class="pull-right">
-                          <% if !post.tags.nil?%>
-                              <% tags = post.tags.split(',')  %>
+                          <% if !offer.tags.nil?%>
+                              <% tags = offer.tags.split(',')  %>
                               <% tags.take(5).each do |tag| %>
                                   <a id="a_small" class="ui teal label"><%= tag %></a>
                               <% end %>
@@ -57,18 +57,22 @@
                         <br/>
                         <br/>
 
-                        <% if !current_user.nil? && current_user.id == post.user.id %>
+                        <% if !current_user.nil? && current_user.id == offer.user.id %>
                             <div class="ui buttons">
-                              <a href="<%= edit_post_path(post)%>"><button class="big ui button">
+                              <a href="<%= edit_offer_path(offer)%>"><button class="big ui button">
                                 <i class="edit left icon"></i>Edit</button>
                               </a>
                               <div class="or"></div>
-                              <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+                              <button class="big ui button" data-toggle="modal" data-offer-id="<%= offer.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+                            </div>
+                        <% else %>
+                            <div class=" ui buttons">
+                              <%= link_to "<button class='offer_details_button'><span>Details</span></button>".html_safe, offer %>
                             </div>
                         <% end %>
 
-                        <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                          <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></h6>
+                        <h6 class="pull-right">Posted <%= time_ago_in_words(offer.created_at) %> ago by
+                          <a href="<%= profile_path(offer.user_id) %>"><%= User.find_by(id: offer.user_id).name %></a></h6>
 
                       </td>
                     </tr>
@@ -86,7 +90,7 @@
             <div class="input-group">
               <input type="text" class="form-control" name="search" id="search" onchange="HandleIcon()" onpaste="HandleIcon()" onkeyup="HandleIcon()" onkeydown="RedirectToOnClick()" value="<%= @srch%>" placeholder="Search Offers" />
               <span class="input-group-btn">
-                              <button class="btn btn-default" type="input" id="commit" name="commit" onclick="RedirectToPosts()">
+                              <button class="btn btn-default" type="input" id="commit" name="commit" onclick="RedirectToOffers()">
                                 <span id="span_icon" class="<%= if(@srch.nil? || @srch.to_s.empty?)
                                                                   "glyphicon glyphicon-search"
                                                                 else "glyphicon glyphicon-remove" end %>"></span>
@@ -105,12 +109,12 @@
                       <div class="item">
                         <div class="ui teal tag labels">
                           <% if tag.name == @selected_tag %>
-                              <a class="ui label" href="/posts">
+                              <a class="ui label" href="/offers">
                                 <%= tag.name %>
                                 <i class="delete icon"></i>
                               </a>
                           <%else %>
-                              <a class="ui label" href="/posts?popular_tag=[<%= tag.name %>]&ComingFrom=Sale">
+                              <a class="ui label" href="/offers?popular_tag=[<%= tag.name %>]&ComingFrom=Sale">
                                 <%= tag.name %>
                                 <i class="detail"><%= tag.count %></i>
                               </a>
@@ -133,31 +137,31 @@
       <div class="row">
         <div class="col-lg-8 col-xs-8">
 
-          <% @OfferExchanges.each do |post| %>
+          <% @OfferExchanges.each do |offer| %>
 
                   <table width="100%">
                     <tr>
                       <td width="110px">
-                        <% if post.image_file_name.nil? %>
-                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), post) %>
+                        <% if offer.image_file_name.nil? %>
+                            <%= link_to(image_tag('/No_Image.png', size: "100x100", class: "img-thumbnail"), offer) %>
                         <% else %>
-                            <%= link_to(image_tag(post.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), post) %>
+                            <%= link_to(image_tag(offer.image, size: "100x100", :alt => "No Image", class: "img-thumbnail"), offer) %>
                         <% end %>
                       </td>
                       <td style="vertical-align: text-top;">
                         <p style="margin-top: 5px">
-                          <strong><%=link_to(post.title,post) %></strong>
+                          <strong><%=link_to(offer.title, offer) %></strong>
                         </p>
                         <p>
-                          <% if post.bookexpected.empty?%>
+                          <% if offer.bookexpected.empty?%>
                            Preferable book for exchange: <label id="p_Modified_Grey">&#45;&#45;&#45;&#45;</label>
                           <% else %>
-                           Preferable book for exchange: <label id="p_Modified_TealExch"><%= post.bookexpected %></label>
+                           Preferable book for exchange: <label id="p_Modified_TealExch"><%= offer.bookexpected %></label>
                           <% end %>
                         </p>
                         <div class="pull-right">
-                          <% if !post.tags.nil?%>
-                              <% tags = post.tags.split(',')  %>
+                          <% if !offer.tags.nil?%>
+                              <% tags = offer.tags.split(',')  %>
                               <% tags.take(5).each do |tag| %>
                                   <a id="a_small" class="ui teal label"><%= tag %></a>
                               <% end %>
@@ -169,18 +173,22 @@
                         <br/>
                         <br/>
 
-                        <% if !current_user.nil? && current_user.id == post.user.id %>
+                        <% if !current_user.nil? && current_user.id == offer.user.id %>
                             <div class="ui buttons">
-                              <a href="<%= edit_post_path(post)%>"><button class="big ui button">
+                              <a href="<%= edit_offer_path(offer)%>"><button class="big ui button">
                                 <i class="edit left icon"></i>Edit</button>
                               </a>
                               <div class="or"></div>
-                              <button class="big ui button" data-toggle="modal" data-post-id="<%= post.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+                              <button class="big ui button" data-toggle="modal" data-offer-id="<%= offer.id  %>" data-target="#myModal" ><i class="remove icon"></i>Delete</button>
+                            </div>
+                        <% else %>
+                            <div class=" ui buttons">
+                              <%= link_to "<button class='offer_details_button'><span>Details</span></button>".html_safe, offer %>
                             </div>
                         <% end %>
 
-                        <h6 class="pull-right">Posted <%= time_ago_in_words(post.created_at) %> ago by
-                          <a href="<%= profile_path(post.user_id) %>"><%= User.find_by(id: post.user_id).name %></a></h6>
+                        <h6 class="pull-right">Posted <%= time_ago_in_words(offer.created_at) %> ago by
+                          <a href="<%= profile_path(offer.user_id) %>"><%= User.find_by(id: offer.user_id).name %></a></h6>
 
                       </td>
                     </tr>
@@ -198,7 +206,7 @@
             <div class="input-group">
               <input type="text" class="form-control" name="search1" id="search1" onchange="HandleIconExchange()" onpaste="HandleIconExchange()" onkeyup="HandleIconExchange()" onkeydown="RedirectToExchangeOnClick()" value="<%= @srch1%>" placeholder="Search Offers" />
               <span class="input-group-btn">
-                              <button class="btn btn-default" type="input" id="commit1" name="commit1" onclick="RedirectToPostsExchange()">
+                              <button class="btn btn-default" type="input" id="commit1" name="commit1" onclick="RedirectToOffersExchange()">
                                 <span id="span_icon1" class="<%= if(@srch1.nil? || @srch1.to_s.empty?)
                                                                   "glyphicon glyphicon-search"
                                                                 else "glyphicon glyphicon-remove" end %>"></span>
@@ -217,12 +225,12 @@
                       <div class="item">
                         <div class="ui teal tag labels">
                           <% if tag.name == @selected_tag1 %>
-                              <a class="ui label" href="/posts?ComingFrom=Exchange">
+                              <a class="ui label" href="/offers?ComingFrom=Exchange">
                                 <%= tag.name %>
                                 <i class="delete icon"></i>
                               </a>
                           <%else %>
-                              <a class="ui label" href="/posts?popular_tag=[<%= tag.name %>]&ComingFrom=Exchange">
+                              <a class="ui label" href="/offers?popular_tag=[<%= tag.name %>]&ComingFrom=Exchange">
                                 <%= tag.name %>
                                 <i class="detail"><%= tag.count %></i>
                               </a>
@@ -253,7 +261,7 @@
           <p>Are you sure you want to delete the article?</p>
         </div>
         <div class="modal-footer">
-          <a rel="nofollow" data-method="delete" href="<%= posts_path %>/ 0">
+          <a rel="nofollow" data-method="delete" href="<%= offers_path %>/ 0">
             <button class="big ui button"><i class="checkmark icon" ></i>Yes</button>
           </a>
           <button type="button" class="big ui button" data-dismiss="modal"><i class="remove icon"></i>No</button>
@@ -264,8 +272,8 @@
 
   <script type="text/javascript">
 
-    function RedirectToPostsNew() {
-      window.location = "<%= new_post_url %>";
+    function RedirectToOffersNew() {
+      window.location = "<%= new_offer_url %>";
     }
 
     $( document ).ready(function() {
@@ -277,40 +285,40 @@
 
     $('#myModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
-      var postId = button.data('post-id') // Extract info from data-* attributes
+      var offerId = button.data('offer-id') // Extract info from data-* attributes
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
-      modal.find('.modal-footer a').attr("href", "<%=posts_path %>/"+postId);
+      modal.find('.modal-footer a').attr("href", "<%=offers_path %>/"+offerId);
     });
 
 
-    function RedirectToPosts() {
+    function RedirectToOffers() {
       if(document.getElementById('span_icon').className == "glyphicon glyphicon-remove"){
         document.getElementById('search').value = "";
         document.getElementById('span_icon').className = "glyphicon glyphicon-search"
-        window.location = "<%= posts_path %>";
+        window.location = "<%= offers_path %>";
       }
       else
-        window.location = "<%= posts_path %>?search="+document.getElementById('search').value;
+        window.location = "<%= offers_path %>?search="+document.getElementById('search').value;
     }
     function RedirectToOnClick() {
       if (event.keyCode == 13)
-        window.location = "<%= posts_path %>?search="+document.getElementById('search').value;
+        window.location = "<%= offers_path %>?search="+document.getElementById('search').value;
     }
 
-    function RedirectToPostsExchange() {
+    function RedirectToOffersExchange() {
       if(document.getElementById('span_icon1').className == "glyphicon glyphicon-remove"){
         document.getElementById('search1').value = "";
         document.getElementById('span_icon1').className = "glyphicon glyphicon-search"
-        window.location = "<%= posts_path %>?ComingFrom=Exchange";
+        window.location = "<%= offers_path %>?ComingFrom=Exchange";
       }
       else
-        window.location = "<%= posts_path %>?search="+document.getElementById('search1').value+"&ComingFrom=Exchange";
+        window.location = "<%= offers_path %>?search="+document.getElementById('search1').value+"&ComingFrom=Exchange";
     }
     function RedirectToExchangeOnClick() {
       if (event.keyCode == 13)
-        window.location = "<%= posts_path %>?search="+document.getElementById('search1').value+"&ComingFrom=Exchange";
+        window.location = "<%= offers_path %>?search="+document.getElementById('search1').value+"&ComingFrom=Exchange";
     }
 
     function HandleIcon() {

@@ -1,0 +1,17 @@
+<h1>C4S</h1>
+
+<p>Dear <%= @user.name %>,</p>
+
+<p>
+  Your <a href="<%= @url %>">Post</a> has received the message below:
+  <br/><br/>
+  <strong>Message From: </strong> <%= @username %> <br/><br/>
+  <pre style="font-size: medium"><%= @message.html_safe %></pre><br/><br/>
+  Please contact me at <a href="mailto:<%= @email %>"><%=@email%></a>
+</p>
+<p>
+  Thanks and Regards,
+</p>
+<p>
+  C4S Team
+</p>

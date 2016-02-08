@@ -11,9 +11,9 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <p>Here you can find a community that will help you with your university topics since you will be able to post a question on anything in mind, as well as you can buy, sell and exchange books</p>
+        <p>Here you can find a community that will help you with your university topics since you will be able to post a question on anything in mind, as well as you can buy, sell offers and exchange books.</p>
         <a class="huge ui teal icon button" href=" <%= articles_url %>">Go to Forum</a></h2>
-        <a class="huge ui teal icon button" href="<%= posts_url %>"?From=ads>Go to Ads</a>
+        <a class="huge ui teal icon button" href="<%= offers_url %>"?From=ads>Go to Ads</a>
       </div>
     </div>
   </header>
@@ -40,13 +40,13 @@
       </div>
       <div class="col-md-6 col-sm-6 col-xs-12">
         <h2>Recent Offers</h2>
-        <% offers = Post.order("created_at DESC").limit(4) %>
+        <% offers = Offer.order("created_at DESC").limit(4) %>
         <% if !offers.nil? %>
             <table width="100%">
               <% offers.each do |offer| %>
                   <tr>
                     <td>
-                      <a href="<%= posts_path(offer.id) %>"><%= offer.title %>  </a>
+                      <a href="<%= offer_path(offer.id) %>"><%= offer.title %>  </a>
                     </td>
                     <td>
                       <h6 class="pull-right" >Posted <%= time_ago_in_words(offer.created_at)%> ago</h6>

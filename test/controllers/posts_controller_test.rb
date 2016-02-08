@@ -1,14 +1,14 @@
 require 'test_helper'
 
-class PostsControllerTest < ActionController::TestCase
+class OffersControllerTest < ActionController::TestCase
   setup do
-    @post = posts(:one)
+    @offer = offers(:one)
   end
 
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:posts)
+    assert_not_nil assigns(:offers)
   end
 
   test "should get new" do
@@ -17,33 +17,33 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test "should create post" do
-    assert_difference('Post.count') do
-      post :create, post: { attachment: @post.attachment, detail: @post.detail, isDeleted: @post.isDeleted, title: @post.title, topic: @post.topic, user_id: @post.user_id }
+    assert_difference('Offer.count') do
+      post :create, offer: { attachment: @offer.attachment, detail: @offer.detail, isDeleted: @offer.isDeleted, title: @offer.title, topic: @offer.topic, user_id: @offer.user_id }
     end
 
-    assert_redirected_to post_path(assigns(:post))
+    assert_redirected_to post_path(assigns(:offer))
   end
 
   test "should show post" do
-    get :show, id: @post
+    get :show, id: @offer
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @post
+    get :edit, id: @offer
     assert_response :success
   end
 
   test "should update post" do
-    patch :update, id: @post, post: { attachment: @post.attachment, detail: @post.detail, isDeleted: @post.isDeleted, title: @post.title, topic: @post.topic, user_id: @post.user_id }
-    assert_redirected_to post_path(assigns(:post))
+    patch :update, id: @offer, offer: { attachment: @offer.attachment, detail: @offer.detail, isDeleted: @offer.isDeleted, title: @offer.title, topic: @offer.topic, user_id: @offer.user_id }
+    assert_redirected_to post_path(assigns(:offer))
   end
 
   test "should destroy post" do
-    assert_difference('Post.count', -1) do
-      delete :destroy, id: @post
+    assert_difference('Offer.count', -1) do
+      delete :destroy, id: @offer
     end
 
-    assert_redirected_to posts_path
+    assert_redirected_to offers_path
   end
 end

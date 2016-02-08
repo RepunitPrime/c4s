@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
 
   # add authentication for all actions
-  before_filter :validate_if_user_logged_in, only: [:new ,:create ,:edit, :update, :destroy]
+  before_filter :validate_if_user_logged_in, only: [:new ,:create ,:edit, :update, :destroy,:AddBestComment]
 
   # show all articles
   def index
@@ -96,6 +96,18 @@ class ArticlesController < ApplicationController
       end
     else
       render 'edit'
+    end
+  end
+
+  def AddBestComment
+    article = Article.find(params[:id])
+    if article
+      article.accepted_comment_id = params[:commentId]
+      if article.save
+        redirect_to article_path(article)
+      else
+        redirect_to login_url()
+      end
     end
   end
 

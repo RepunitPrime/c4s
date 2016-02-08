@@ -89,8 +89,13 @@
           </tr>
         </table>
       </div>
-
-      <br/> <br/>
+      <div class="form-group">
+        <%= f.label :Email_Notify %>
+        <br>
+        <%= f.check_box :getEmailNotified,id:"getEmailNotified"%>
+        <label id="normalTxt" for="getEmailNotified">Receive Notification when Posting Offers and Receiving Comments.</label>
+      </div>
+      <br/>
       <div class="form-group">
         <button type="submit" name="commit"  class="huge ui teal icon button">
           <i class="save icon"></i>Save</button>

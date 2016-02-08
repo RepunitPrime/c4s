@@ -2,19 +2,19 @@
   <h2 class="page-header">Edit Offer</h2>
 
   <div class="ui buttons">
-    <button class="big ui button" onclick="RedirectToPost()">
+    <button class="big ui button" onclick="RedirectToOffer()">
       <i class="arrow circle outline left icon"></i>Back</button>
   </div>
 
     <hr>
 
-  <%= form_for @post, html: {multipart: true} do |f| %>
-      <% if @post.errors.any? %>
+  <%= form_for @offer, html: {multipart: true} do |f| %>
+      <% if @offer.errors.any? %>
           <div class="alert alert-danger" id="error_explanation">
-            <h2><%= pluralize(@post.errors.count, "error") %> : </h2>
+            <h2><%= pluralize(@offer.errors.count, "error") %> : </h2>
 
             <ul>
-              <% @post.errors.full_messages.each do |message| %>
+              <% @offer.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
               <% end %>
             </ul>
@@ -22,7 +22,7 @@
       <% end %>
 
 
-      <% if @post.forSale == "sale" %>
+      <% if @offer.forSale == "sale" %>
 
           <div class=" form-group">
             <label>Title <label id="lbl_red">*</label></label>
@@ -32,7 +32,7 @@
           <div class="form-group">
             <%= f.label :Description %>
             <br>
-            <%= f.text_area :detail, class:'redactor form-control', value: @post.detail.to_s.html_safe, placeholder: "Enter a description for your offer..." %>
+            <%= f.text_area :detail, class:'redactor form-control', value: @offer.detail.to_s.html_safe, placeholder: "Enter a description for your offer..." %>
           </div>
 
           <div class="form-group">
@@ -45,17 +45,17 @@
             <label>Cost</label>
             <div class="input-group">
               <span class="input-group-addon" id="basic-addon1">€</span>
-              <%= f.text_field :cost,id: 'costfld', class:'form-control',required: 'true', aria: {describedBy: "basic-addon1"},value: @post.cost,type: "number",step:"0.01" %>
+              <%= f.text_field :cost, id: 'costfld', class:'form-control', required: 'true', aria: {describedBy: "basic-addon1"}, value: @offer.cost, type: "number", step:"0.01" %>
             </div>
           </div>
 
           <div class="form-group">
             <label for="input_tags">Tags</label>
-            <input type="text" id="input_tags" name="post[tags]" class="demo-default" value="<%= @post.tags%>">
+            <input type="text" id="input_tags" name="offer[tags]" class="demo-default" value="<%= @offer.tags%>">
           </div>
 
 
-      <% elsif @post.forSale == "exchange" %>
+      <% elsif @offer.forSale == "exchange" %>
 
           <div class=" form-group">
             <label>Title <label id="lbl_red">*</label></label>
@@ -65,7 +65,7 @@
           <div class="form-group">
             <%= f.label :Description %>
             <br>
-            <%= f.text_area :detail, class:'redactor form-control', value: @post.detail.to_s.html_safe, placeholder: "Enter a description for your offer..." %>
+            <%= f.text_area :detail, class:'redactor form-control', value: @offer.detail.to_s.html_safe, placeholder: "Enter a description for your offer..." %>
           </div>
 
           <div class="form-group">
@@ -75,12 +75,12 @@
 
           <div class=" form-group">
             <label>Which book would you like in return? </label>
-            <%= f.text_field :bookexpected, class: 'form-control', value: @post.bookexpected %>
+            <%= f.text_field :bookexpected, class: 'form-control', value: @offer.bookexpected %>
           </div>
 
           <div class="form-group">
             <label for="input_tags">Tags</label>
-            <input type="text" id="input_tags" name="post[tags]" class="demo-default" value="<%= @post.tags%>">
+            <input type="text" id="input_tags" name="offer[tags]" class="demo-default" value="<%= @offer.tags%>">
           </div>
 
       <% end %>
@@ -94,8 +94,8 @@
 
   <script>
 
-    function RedirectToPost() {
-      window.location = "<%= posts_path %>/<%= @post.id %>"
+    function RedirectToOffer() {
+      window.location = "<%= offers_path %>/<%= @offer.id %>"
     }
 
     $('#input_tags').selectize({

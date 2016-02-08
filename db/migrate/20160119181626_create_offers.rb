@@ -1,6 +1,6 @@
-class CreatePosts < ActiveRecord::Migration
+class CreateOffers < ActiveRecord::Migration
   def change
-    create_table :posts do |t|
+    create_table :offers do |t|
       t.string :title
       t.text :detail, default: ''
       t.string :attachment

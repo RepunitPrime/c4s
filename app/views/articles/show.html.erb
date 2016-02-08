@@ -3,7 +3,7 @@
     <!-- Title -->
     <h2 class="page-header"><%= @article.title %></h2>
 
-    <!-- Blog Post Content Column -->
+    <!-- Blog Offer Content Column -->
     <div class="ui buttons">
     <button class="big ui button" onclick="RedirectToArticles()">
     <i class="arrow circle outline left icon"></i>Back</button>
@@ -61,14 +61,88 @@
         <p><i class="attach icon"></i> <a href="../files/<%= @article.article_attachments.first.id.to_s %>/<%=@article.article_attachments.first.attach_file_file_name%>" ><%=@article.article_attachments.first.attach_file_file_name%></a> </p>
     <% end %>
 
-    <hr>
+    <% if !@article.accepted_comment_id.nil? %>
+        <div class="ui positive icon message">
+          <i class="thumbs outline up icon"></i>
+          <div class="content">
+            <div class="header">
+              Best Contribution
+              <hr id="mgSmall">
+            </div>
+            <p>
+            <% cmmt = Comment.find(@article.accepted_comment_id) %>
+            <div class="media">
+              <% if User.find(cmmt.user_id).profile_pic_file_name.nil? %>
+                  <a class="pull-left" href="<%= profile_path(cmmt.user_id)%>">
+                    <%= image_tag('/Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
+                  </a>
+              <%else%>
+                  <a class="pull-left" href="<%= profile_path(cmmt.user_id)%>">
+                    <%= image_tag(User.find(cmmt.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
+                  </a>
+              <%end%>
+
+              <div class="media-body">
+                <h2 class="media-heading"><%= User.find(cmmt.user_id).username  %>
+                  <small><%= cmmt.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
+                </h2>
+                <%= cmmt.comment_body.html_safe  %>
+              </div>
+            </div>
+            </p>
+          </div>
+        </div>
+    <% end %>
+
+
+    <!-- Comment -->
+    <% if @article.count_comments != 0 %>
+      <h3 class="page-header">Comments</h3>
+      <% @article.comment.each do |comment| %>
+            <% if !comment.user_id.nil? %>
+                <% if comment.id != @article.accepted_comment_id %>
+                    <div class="media">
+                    <% if User.find(comment.user_id).profile_pic_file_name.nil? %>
+                        <a class="pull-left" href="<%= profile_path(comment.user_id)%>">
+                          <%= image_tag('/Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
+                        </a>
+                    <%else%>
+                        <a class="pull-left" href="<%= profile_path(comment.user_id)%>">
+                          <%= image_tag(User.find(comment.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
+                        </a>
+                    <%end%>
+                    <div class="media-body">
+                      <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
+                        <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
+                          <% if !current_user.nil? && current_user.id == @article.user_id && current_user.id == comment.user_id  %>
+                            <div class="ui buttons pull-right">
+                              <a href="<%= article_path(@article.id) %>/chooseComment/<%=comment.id%> "><button class="big ui positive button"><i class="check circle outline icon"></i>Best Contribution </button></a>
+                              <div class="or"></div>
+                              <button class="big ui button" data-toggle="modal" data-comment-id="<%= comment.id  %>" data-target="#myCommentDeleteModal" ><i class="remove icon"></i>Delete</button>
+                            </div>
+                          <% elsif !current_user.nil? && current_user.id == @article.user_id %>
+                            <button class="big ui positive button" ><i class="check circle outline icon"></i>Best Contribution </button>
+                          <% elsif !current_user.nil? && current_user.id == comment.user_id  %>
+                            <button class="big ui button pull-right" data-toggle="modal" data-comment-id="<%= comment.id  %>" data-target="#myCommentDeleteModal" ><i class="remove icon"></i>Delete</button>
+                          <%end%>
+                      </h2>
+                      <%= comment.comment_body.html_safe  %>
+                    </div>
+                  </div>
+                  <hr id="mgSmall">
+                <%end%>
+              <%end%>
+          <%end%>
+      <%end%>
+
+    <br/>
 
     <!-- Comments Form -->
     <div class="well">
       <h3>Leave a Comment:</h3>
       <%= form_for([@article, @article.comment.build]) do |f| %>
           <p>
-            <%= f.text_area :comment_body, class:'form-control' %>
+            <%= f.text_area :comment_body, class:'redactor form-control' %>
           </p>
           <p>
             <button type="submit" name="commit"  class="huge ui positive icon button">
@@ -77,34 +151,6 @@
       <% end %>
     </div>
 
-    <!-- Comment -->
-    <% if @article.count_comments != 0 %>
-      <h3 class="page-header">Comments</h3>
-      <% @article.comment.each do |comment| %>
-            <% if !comment.user_id.nil? %>
-                <div class="media">
-                  <% if User.find(comment.user_id).profile_pic_file_name.nil? %>
-                      <a class="pull-left" href="#">
-                        <%= image_tag('/Profile_Avatar.png', :id =>"Image_Tag_Thumbnail", :class =>"media-object", :alt => "No Image") %>
-                      </a>
-                  <%else%>
-                      <a class="pull-left" href="#">
-                        <%= image_tag(User.find(comment.user_id).profile_pic,:id =>"Image_Tag_Thumbnail", :alt => "No Image") %>
-                      </a>
-                  <%end%>
-                  <div class="media-body">
-                    <h2 class="media-heading"><%= User.find(comment.user_id).username  %>
-                      <small><%= comment.created_at.to_datetime.strftime("%b %d, %Y at %r")  %></small>
-                      <% if !current_user.nil? && current_user.id == comment.user_id  %>
-                          <button class="big ui button pull-right" id="test" data-toggle="modal" data-comment-id="<%= comment.id  %>" data-target="#myCommentDeleteModal" ><i class="remove icon"></i>Delete</button>
-                      <%end%>
-                    </h2>
-                    <%= comment.comment_body  %>
-                  </div>
-                </div>
-              <%end%>
-          <%end%>
-      <%end%>
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog modal-sm">

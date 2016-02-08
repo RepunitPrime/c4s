@@ -6,6 +6,7 @@ class CreateArticles < ActiveRecord::Migration
       t.text :text, default: ''
       t.integer :views, default: 0
       t.integer :count_comments, default: 0
+      t.integer :accepted_comment_id, null: true
       t.references :topic, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
       t.timestamps null: false

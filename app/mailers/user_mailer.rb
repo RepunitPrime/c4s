@@ -12,16 +12,25 @@ class UserMailer < ApplicationMailer
 
 
    def user_notify(post)
-   @post = post
+   @offer = post
    @user = post.user
 
       mail(to: @user.email, subject: 'Your post received a new comment')
    end
 
-  def user_notify_Posted(user,postId)
+  def user_notify_Posted(user,offerId)
     @user = user
-    @url = 'http://localhost:3000/posts/'+postId
-    mail(to: @user.email, subject: 'Post Created Successfully')
+    @url = offer_url(offerId)
+    mail(to: @user.email, subject: 'Offer Created Successfully')
+  end
+
+  def contact_seller(user,username,email,message,offerId)
+    @user = user
+    @username = username
+    @email = email
+    @message = message
+    @url = offer_url(offerId)
+    mail(to: user.email, subject: 'New Message about your offer')
   end
 
 end

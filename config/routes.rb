@@ -18,8 +18,8 @@ Rails.application.routes.draw do
     resources :comments
   end
 
-  resources :posts do
-    resources :ad_comments
+  resources :offers do
+    resources :offer_comments
   end
 
   get 'welcome/index'
@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
   get 'articles/new' => 'articles#index'
   post 'articles/new' => 'articles#create'
+
+  get 'articles/:id/chooseComment/:commentId' => 'articles#AddBestComment'
 
   get 'login' => 'sessions#index'
   post 'login' => 'sessions#login'
@@ -101,7 +103,7 @@ Rails.application.routes.draw do
 #   concern :toggleable do
 #     post 'toggle'
 #   end
-#   resources :posts, concerns: :toggleable
+#   resources :postss, concerns: :toggleable
 #   resources :photos, concerns: :toggleable
 
 # Example resource route within a namespace:

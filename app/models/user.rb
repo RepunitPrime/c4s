@@ -3,9 +3,9 @@ class User < ActiveRecord::Base
   #With this line you can make the user act as a voter
   acts_as_voter
 
-  has_many :post
+  has_many :offers
   has_many :comments
-  has_many :ad_comments
+  has_many :offer_comments
 
 
 
